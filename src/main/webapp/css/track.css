@@ -1,0 +1,78 @@
+.tracks {
+    list-style: none;
+}
+
+.track-status-BAD {
+    background-image: linear-gradient(bottom, rgb(172,61,79) 38%, rgb(207,92,111) 69%);
+    background-image: -o-linear-gradient(bottom, rgb(172,61,79) 38%, rgb(207,92,111) 69%);
+    background-image: -moz-linear-gradient(bottom, rgb(172,61,79) 38%, rgb(207,92,111) 69%);
+    background-image: -webkit-linear-gradient(bottom, rgb(172,61,79) 38%, rgb(207,92,111) 69%);
+    background-image: -ms-linear-gradient(bottom, rgb(172,61,79) 38%, rgb(207,92,111) 69%);
+
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.38, rgb(172,61,79)),
+        color-stop(0.69, rgb(207,92,111))
+    );
+}
+
+.track-status-GOOD {
+    background-image: linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
+    background-image: -o-linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
+    background-image: -moz-linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
+    background-image: -webkit-linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
+    background-image: -ms-linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
+
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.03, rgb(45,173,60)),
+        color-stop(0.52, rgb(72,208,90)),
+        color-stop(0.76, rgb(101,250,117))
+    );
+}
+
+.track-title {
+    padding-top: 15px;
+    font-size: 32pt;
+    text-shadow: 0px 0px 9px #777;
+}
+
+.tracks li {
+    clear: both;
+    height: 100px;
+    margin-bottom: 10px;
+    border-color: black;
+    color: white;
+}
+
+.track-task-box {
+    color: black;
+    padding-top:15px;
+    height: 85px;
+    border-color: black;
+    border-left: solid;
+    float:right;
+    padding-right: 20px;
+    min-width: 380px;
+}
+
+.track-task-box ul {
+    font-size: 30pt;
+    list-style-type: none;
+}
+
+.track-task-box li {
+    height: 36px;
+}
+
+.track-blacklog-style {
+    color: green;
+}
+
+.track-icebox-style {
+    color: #4433ff;
+}

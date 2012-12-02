@@ -1,0 +1,77 @@
+.metric-status-danger {
+    background-image: linear-gradient(bottom, rgb(172,61,79) 38%, rgb(207,92,111) 69%);
+    background-image: -o-linear-gradient(bottom, rgb(172,61,79) 38%, rgb(207,92,111) 69%);
+    background-image: -moz-linear-gradient(bottom, rgb(172,61,79) 38%, rgb(207,92,111) 69%);
+    background-image: -webkit-linear-gradient(bottom, rgb(172,61,79) 38%, rgb(207,92,111) 69%);
+    background-image: -ms-linear-gradient(bottom, rgb(172,61,79) 38%, rgb(207,92,111) 69%);
+
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.38, rgb(172,61,79)),
+        color-stop(0.69, rgb(207,92,111))
+    );
+}
+
+.metric-status-ok {
+    background-image: linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
+    background-image: -o-linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
+    background-image: -moz-linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
+    background-image: -webkit-linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
+    background-image: -ms-linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
+
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.03, rgb(45,173,60)),
+        color-stop(0.52, rgb(72,208,90)),
+        color-stop(0.76, rgb(101,250,117))
+    );
+}
+
+.metric-values-box {
+    color: black;
+    height: 85px;
+    border-color: black;
+    border-left: solid;
+    float:right;
+    padding-top: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    min-width: 50%;
+}
+
+.metric-values-box li {
+    color:white;
+    font-size: 16pt;
+    height: 20px;
+}
+
+.metric-project-box {
+    min-width: 30%;
+    padding-top: 15px;
+    padding-left: 15px;
+}
+
+.metric-values-box ul {
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    -o-column-count: 2;
+    column-count: 2;
+    margin: 0;
+    padding: 0;
+}
+
+.metrics li {
+    clear: both;
+    height: 100px;
+    margin-bottom: 10px;
+    border-color: black;
+    color: white;
+}
+
+.metric-values-box li {
+    height: 20px;
+}

@@ -1,0 +1,173 @@
+.tests-box li {
+    height: 28px;
+    display: inline-block;
+    font-size: 32pt;
+    margin-right: 5px;
+}
+
+.tests-box ul {
+    list-style-type: none;
+    display: block;
+    padding-top: 30px;
+}
+
+.status-box {
+    height: 100px;
+    width: 80px;
+    vertical-align: top;
+}
+
+.info-box {
+    vertical-align: top;
+    padding-left: 5px;
+    margin-top: 7px;
+}
+
+.tests-box {
+    color: black;
+    padding-top:5px;
+    height: 95px;
+    border-color: black;
+    border-left: solid;
+    float:right;
+    line-height:26px;
+    padding-right: 10px;
+    margin: 0px 0px 0px 0px;
+}
+
+.tests {
+    float: right;
+    list-style: none;
+}
+
+.tests li {
+    clear: both;
+    height: 28px;
+    padding-top: 0px;
+    font-size: 16pt;
+}
+
+.test {
+    width: 55px;
+    text-align: right;
+}
+
+.successful-test {
+    color: green;
+}
+
+.failed-test {
+    color: red;
+}
+
+.skipped-test {
+    color: #ffac1f;
+}
+
+.test-type-label {
+    text-align: right;
+    font-size: 16pt;
+}
+
+.test-value-label {
+    text-align: right;
+    font-size: 16pt;
+}
+
+.status {
+    margin-top: 10px;
+}
+
+.status-SUCCESS {
+    background-image: linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
+    background-image: -o-linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
+    background-image: -moz-linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
+    background-image: -webkit-linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
+    background-image: -ms-linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
+
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.03, rgb(45,173,60)),
+        color-stop(0.52, rgb(72,208,90)),
+        color-stop(0.76, rgb(101,250,117))
+    );
+}
+
+.status-FAILURE {
+    background-image: linear-gradient(bottom, rgb(172,61,79) 38%, rgb(207,92,111) 69%);
+    background-image: -o-linear-gradient(bottom, rgb(172,61,79) 38%, rgb(207,92,111) 69%);
+    background-image: -moz-linear-gradient(bottom, rgb(172,61,79) 38%, rgb(207,92,111) 69%);
+    background-image: -webkit-linear-gradient(bottom, rgb(172,61,79) 38%, rgb(207,92,111) 69%);
+    background-image: -ms-linear-gradient(bottom, rgb(172,61,79) 38%, rgb(207,92,111) 69%);
+
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.38, rgb(172,61,79)),
+        color-stop(0.69, rgb(207,92,111))
+    );
+}
+
+.status-UNSTABLE {
+    background: #ffaf4b; /* Old browsers */
+    background: -moz-linear-gradient(top,  #ffaf4b 0%, #ff920a 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffaf4b), color-stop(100%,#ff920a)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #ffaf4b 0%,#ff920a 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #ffaf4b 0%,#ff920a 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #ffaf4b 0%,#ff920a 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #ffaf4b 0%,#ff920a 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffaf4b', endColorstr='#ff920a',GradientType=0 ); /* IE6-9 */
+}
+
+.status-BUILDING {
+    background: #fcfff4; /* Old browsers */
+    background: -moz-linear-gradient(top,  #fcfff4 0%, #dfe5d7 40%, #b3bead 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fcfff4), color-stop(40%,#dfe5d7), color-stop(100%,#b3bead)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #fcfff4 0%,#dfe5d7 40%,#b3bead 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #fcfff4 0%,#dfe5d7 40%,#b3bead 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #fcfff4 0%,#dfe5d7 40%,#b3bead 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #fcfff4 0%,#dfe5d7 40%,#b3bead 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 ); /* IE6-9 */
+
+    -webkit-animation-direction: normal;
+    -webkit-animation-duration: 5s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-name: blink;
+    -webkit-animation-timing-function: ease;
+}
+
+@-webkit-keyframes 'blink' {
+    0% { background: rgba(255,255,255,1); }
+    50% { background: rgba(0,0,0,0); }
+    100% { background: rgba(255,255,255,1); }
+}
+
+.status-label {
+    font-weight: bold;
+    font-size: 18pt;
+}
+
+.status-label-SUCCESS {
+    color: green;
+}
+
+.status-label-FAILURE {
+    color: red;
+}
+
+.status-label-UNSTABLE {
+    color: #FFAC1F;
+}
+
+.status-label-BUILDING {
+    color: white;
+}
+
+.project-times {
+    font-style: italic;
+    margin: 5px 0px 5px 0px;
+    font-size: 15pt;
+}

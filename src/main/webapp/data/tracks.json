@@ -1,0 +1,16 @@
+[
+    {
+        "status": "GOOD",
+        "name": "Struts",
+        "current_tasks_count": "12",
+        "backlog_tasks_count": "23",
+        "icebox_tasks_count": "45"
+    },
+    {
+        "status": "BAD",
+        "name": "Apache MINA",
+        "current_tasks_count": "23",
+        "backlog_tasks_count": "8",
+        "icebox_tasks_count": "3"
+    }
+]

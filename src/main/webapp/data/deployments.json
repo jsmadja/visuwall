@@ -1,0 +1,27 @@
+[
+    {
+        "name": "FX'ent",
+        "version": "2.2.11",
+        "environment": "Production"
+    },
+    {
+        "name": "Koseio",
+        "version": "1.11.0",
+        "environment": "Production"
+    },
+    {
+        "name": "FX'ent",
+        "version": "2.3.2",
+        "environment": "Preproduction"
+    },
+    {
+        "name": "Koesio",
+        "version": "1.12.0",
+        "environment": "Recette"
+    },
+    {
+        "name": "FX'ent",
+        "version": "2.4.3",
+        "environment": "Recette"
+    }
+]

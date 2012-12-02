@@ -1,0 +1,25 @@
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <ul class="metrics">
+                <li ng-repeat="metric in metrics | orderBy:name" class="thumbnail project">
+                    <div style="display: block">
+                        <div style="display:inline-block" class="status-box metric-status-{{metric.status}}"></div>
+                        <div style="display:inline-block;" class="metric-project-box">
+                            <span class="project-title">
+                                {{metric.name}}
+                            </span>
+                        </div>
+                        <div style="display:inline-block;" class="metric-values-box">
+                            <ul>
+                                <li ng-repeat="data in metric.data">
+                                    {{data}}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

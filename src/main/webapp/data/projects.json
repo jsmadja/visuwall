@@ -1,0 +1,49 @@
+[
+    {
+        "status": "SUCCESS",
+        "name": "Struts",
+        "duration": "1min",
+        "last_build_date": "1h ago",
+        "successful_test_count": "120",
+        "failed_test_count": "0",
+        "skipped_test_count": "0",
+        "gravatar_url": "http://www.gravatar.com/avatar/69ea701098399011a6b791d5971b22de.png"
+    },
+    {
+        "status": "SUCCESS",
+        "name": "Apache MINA",
+        "duration": "10min45s",
+        "last_build_date": "5h ago",
+        "successful_test_count": "1232",
+        "failed_test_count": "0",
+        "skipped_test_count": "0",
+        "gravatar_url": "http://www.gravatar.com/avatar/69ea701098399011a6b791d5971b22de.png"
+    },
+    {
+        "status": "FAIL",
+        "name": "Struts 2",
+        "duration": "6min45s",
+        "last_build_date": "7h ago",
+        "successful_test_count": "0",
+        "failed_test_count": "127",
+        "skipped_test_count": "0"
+    },
+    {
+        "status": "UNSTABLE",
+        "name": "Struts 3",
+        "duration": "8min23s",
+        "last_build_date": "1d ago",
+        "successful_test_count": "120",
+        "failed_test_count": "1",
+        "skipped_test_count": "5"
+    },
+    {
+        "status": "UNSTABLE",
+        "name": "Struts 4",
+        "duration": "< 1min",
+        "last_build_date": "1h ago",
+        "successful_test_count": "~",
+        "failed_test_count": "~",
+        "skipped_test_count": "~"
+    }
+]

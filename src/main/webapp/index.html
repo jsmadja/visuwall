@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" ng-app="visuwall">
+    <head>
+      <meta charset="utf-8">
+      <title>Visuwall</title>
+      <link rel="stylesheet" href="css/bootstrap.css">
+      <link rel="stylesheet" href="css/app.css">
+      <link rel="stylesheet" href="css/deployment.css">
+      <link rel="stylesheet" href="css/track.css">
+      <link rel="stylesheet" href="css/metric.css">
+      <link rel="stylesheet" href="css/build.css">
+
+      <script src="lib/angular/angular.js"></script>
+      <script src="lib/angular/angular-resource.js"></script>
+      <script src="js/app.js"></script>
+      <script src="js/controllers.js"></script>
+      <script src="js/filters.js"></script>
+      <script src="js/services.js"></script>
+    </head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container" style="width:100%;margin-left:45px;">
+                    <a class="brand" href="#"><img width="15" src="http://visuwall.awired.net/img/logo-large.png"/> visuwall</a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li><a href="#/tracks">Track</a></li>
+                            <li><a href="#/projects">Build</a></li>
+                            <li><a href="#/metrics">Analyze</a></li>
+                            <li><a href="#/deployments">Deploy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-view style="min-height: 768px;margin-top:25px;"></div>
+    </body>
+</html>

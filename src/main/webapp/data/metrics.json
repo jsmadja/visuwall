@@ -1,0 +1,24 @@
+[
+    {
+        "status": "ok",
+        "name": "Struts",
+        "data": {
+            "coverage":"coverage: 34.7%",
+            "line_of_code":"lines of code: 212 900",
+            "tests":"tests: 43",
+            "commiters":"commiters: 8",
+            "complexity_by_class":"complexity/class: 12.2%",
+            "duplications":"duplications: 9.8%"
+        }
+    },
+    {
+        "status": "danger",
+        "name": "Apache MINA",
+        "data": {
+            "coverage":"coverage: 34.7%",
+            "line_of_code":"line of code: 212 900",
+            "tests":"tests: 43",
+            "commiters":"commiters: 8"
+        }
+    }
+]

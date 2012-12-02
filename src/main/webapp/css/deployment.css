@@ -1,0 +1,64 @@
+.deployment-project-box {
+    min-width: 30%;
+    padding-top: 15px;
+    padding-left: 15px;
+}
+
+.deployment-version-box {
+    color: black;
+    height: 95px;
+    border-color: black;
+    border-left: solid;
+    float:right;
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    min-width: 150px;
+    text-align: right;
+}
+
+.deployment-version-box span {
+    color:white;
+    font-size: 32pt;
+}
+
+.deployment-environment-box {
+    vertical-align: top;
+    padding-top: 15px;
+    padding-left: 20px;
+    border-color: black;
+    border-right: solid;
+    color: black;
+    height: 85px;
+    min-width: 300px;
+}
+
+.deployment-environment-box span {
+    color:white;
+    font-size: 32pt;
+}
+
+.deployments li {
+    clear: both;
+    height: 100px;
+    margin-bottom: 10px;
+    border-color: black;
+    color: white;
+}
+
+.environment-color-Production {
+    background-image: linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
+    background-image: -o-linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
+    background-image: -moz-linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
+    background-image: -webkit-linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
+    background-image: -ms-linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
+
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.03, rgb(45,173,60)),
+        color-stop(0.52, rgb(72,208,90)),
+        color-stop(0.76, rgb(101,250,117))
+    );
+}

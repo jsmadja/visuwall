@@ -1,0 +1,31 @@
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div id="projects" class="span12">
+            <ul class="projects {{column_count}}-columns-list" style="-webkit-column-count:2;">
+                <li ng-repeat="project in projects" class="thumbnail project">
+                    <div style="display: block">
+                        <div id="status" style="display:inline-block" class="status-box status-{{project.status}}"></div>
+                        <div style="display:inline-block;" class="info-box">
+                            <p class="project-title">
+                                {{project.name}}
+                            </p>
+                            <p class="project-times">
+                                {{project.duration}} ~ {{project.lastBuildDate}}
+                            </p>
+                            <p style="margin-top:8px;">
+                               <span class="status status-label status-label-{{project.status}}">{{project.status}}</span>
+                            </p>
+                        </div>
+                        <div class="tests-box" ng-show="project.successfulTestCount != 0 || project.failedTestCount != 0 || project.skippedTestCount != 0">
+                            <ul>
+                                <li ng-hide="project.successfulTestCount == 0" class="test successful-test">{{project.successfulTestCount}}</li>
+                                <li ng-hide="project.failedTestCount == 0" class="test failed-test">{{project.failedTestCount}}</li>
+                                <li ng-hide="project.skippedTestCount == 0" class="test skipped-test">{{project.skippedTestCount}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
