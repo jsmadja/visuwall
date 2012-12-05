@@ -79,7 +79,7 @@ public class Build implements Comparable<Build>{
     }
 
     public void refresh() throws Exception {
-        LOG.info("Refreshing build "+projectId);
+        LOG.info("Refreshing build " + projectId);
         refreshInfos();
         refreshTimes();
         refreshTests();
@@ -131,5 +131,9 @@ public class Build implements Comparable<Build>{
 
     public boolean is(SoftwareProjectId projectId) {
         return this.projectId.equals(projectId);
+    }
+
+    public boolean hasName(String name) {
+        return this.name.equalsIgnoreCase(name);
     }
 }

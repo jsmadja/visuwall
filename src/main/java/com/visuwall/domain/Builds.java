@@ -2,8 +2,6 @@ package com.visuwall.domain;
 
 import com.visuwall.api.domain.SoftwareProjectId;
 import com.visuwall.api.plugin.capability.BasicCapability;
-import com.visuwall.api.domain.SoftwareProjectId;
-import com.visuwall.api.plugin.capability.BasicCapability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +52,7 @@ public class Builds implements Iterable<Build>{
 
     private void addNewBuild(BasicCapability connection, SoftwareProjectId projectId) {
         try {
-            LOG.info("Add a new build "+projectId);
+            LOG.info("Add a new build " + projectId);
             Build build = new Build(connection, projectId);
             build.refresh();
             builds.add(build);
@@ -79,5 +77,14 @@ public class Builds implements Iterable<Build>{
 
     public Set<Build> all() {
         return Collections.unmodifiableSet(builds);
+    }
+
+    public Build getBuild(String name) {
+        for (Build build : builds) {
+            if(build.hasName(name)) {
+                return build;
+            }
+        }
+        throw new NoSuchElementException(name);
     }
 }

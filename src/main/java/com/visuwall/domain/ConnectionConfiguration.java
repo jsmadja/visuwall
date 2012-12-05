@@ -1,9 +1,14 @@
 package com.visuwall.domain;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class ConnectionConfiguration {
 
     private String name;
     private String url;
+    private String login;
+    private String password;
 
     public String getName() {
         return name;
@@ -19,5 +24,21 @@ public class ConnectionConfiguration {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public URL asUrl() {
+        try {
+            return new URL(url);
+        } catch (MalformedURLException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

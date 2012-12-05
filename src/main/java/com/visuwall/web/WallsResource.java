@@ -1,5 +1,6 @@
 package com.visuwall.web;
 
+import com.visuwall.domain.Build;
 import com.visuwall.domain.ConnectionConfiguration;
 import com.visuwall.domain.Wall;
 import com.visuwall.domain.Walls;
@@ -31,6 +32,14 @@ public class WallsResource {
     public Response getConfiguration() {
         Wall wall = Walls.get("wall");
         return ok().entity(wall.getConfiguration()).build();
+    }
+
+    @GET
+    @Path("/builds/{id}")
+    public Response getConfiguration(@PathParam("id") buildId) {
+        Wall wall = Walls.get("wall");
+        Build build = wall.getBuild(buildId);
+        return ok().entity(build).build();
     }
 
 }

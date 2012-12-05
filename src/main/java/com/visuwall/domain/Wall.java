@@ -23,15 +23,20 @@ public class Wall implements Runnable {
         start();
     }
 
-    public void addConnection(URL url) {
-        LOG.info("Trying to identify a compatible plugin for url:" + url.toString());
+    public void addConnection(ConnectionConfiguration connectionConfiguration) {
+        String url = connectionConfiguration.getUrl();
+        LOG.info("Trying to identify a compatible plugin for url:" + url);
+        PluginConfiguration pluginConfiguration = new PluginConfiguration();
+        pluginConfiguration.put("login", connectionConfiguration.getLogin());
+        pluginConfiguration.put("password", connectionConfiguration.getPassword());
         for (VisuwallPlugin plugin : plugins) {
-            PluginConfiguration pluginConfiguration = PluginConfiguration.noConfiguration;
-            if(plugin.accept(url, pluginConfiguration)) {
-                LOG.info(plugin.getName() + " is compatible with url:" + url.toString());
-                BasicCapability connection = plugin.getConnection(url, pluginConfiguration);
+            URL softwareUrl = connectionConfiguration.asUrl();
+            if(plugin.accept(softwareUrl, pluginConfiguration)) {
+                LOG.info(plugin.getName() + " is compatible with url:" + url);
+                BasicCapability connection = plugin.getConnection(softwareUrl, pluginConfiguration);
                 builds.addConnection(connection);
-                configuration.addUrl(url);
+                configuration.addUrl(connectionConfiguration);
+                break;
             }
         }
     }
@@ -42,6 +47,10 @@ public class Wall implements Runnable {
 
     public Builds getBuilds() {
         return builds;
+    }
+
+    public Build getBuild(String name) {
+        return builds.getBuild(name);
     }
 
     @Override
