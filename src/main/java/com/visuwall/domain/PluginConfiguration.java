@@ -16,4 +16,12 @@ public class PluginConfiguration {
     public String get(String key) {
         return values.get(key);
     }
+
+    public void put(String key, String value) {
+        values.put(key, value);
+    }
+
+    public boolean hasValueFor(String key) {
+        return values.containsKey(key);
+    }
 }
