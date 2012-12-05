@@ -1,20 +1,21 @@
 package com.visuwall.domain;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
+import static java.util.Collections.unmodifiableList;
 
 public class Configuration {
 
-    public Collection<URL> getUrls() {
-        try {
-            //return Arrays.asList(new URL("http://ci.awired.net/jenkins/"));
-            return Arrays.asList(new URL("http://jenkins-master"));
+    private List<ConnectionConfiguration> connectionConfigurations = new ArrayList<ConnectionConfiguration>();
 
-            //return Arrays.asList(new URL("http://demo.visuwall.ci"));
-        } catch (MalformedURLException e) {
-            return Arrays.asList();
-        }
+    public Collection<ConnectionConfiguration> getConnectionConfigurations() {
+        return unmodifiableList(connectionConfigurations);
+    }
+
+    public void addUrl(ConnectionConfiguration connectionConfiguration) {
+        this.connectionConfigurations.add(connectionConfiguration);
     }
 }

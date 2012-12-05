@@ -59,7 +59,7 @@ public class SonarPlugin implements VisuwallPlugin<SonarConnection> {
     }
 
     @Override
-    public SonarConnection getConnection(URL url, PluginConfiguration pluginConfiguration) throws ConnectionException {
+    public SonarConnection getConnection(URL url, PluginConfiguration pluginConfiguration) {
         checkNotNull(url, "url is mandatory");
         String login = pluginConfiguration.get("login");
         String password = pluginConfiguration.get("password");

@@ -11,7 +11,7 @@ function BuildsCtrl($scope,Build,$timeout) {
         $timeout(function() {
             updateTime();
             updateLater();
-            timeout = 60*1000;
+            timeout = 10*1000;
         }, timeout);
     }
     updateLater();
@@ -27,4 +27,20 @@ function MetricsCtrl($scope, Metric) {
 
 function DeploymentsCtrl($scope, Deployment) {
     $scope.deployments = Deployment.query();
+}
+
+function ConfigurationCtrl($scope, $location, Wall) {
+
+    $scope.connections = [
+        {url:'http://ci.awired.net/jenkins/'}
+    ];
+
+       // $scope.connections.push({url:$scope.connectionUrl});
+    $scope.addConnection = function() {
+        Wall.save($scope.connection, function(connection) {
+            $location.path('/builds');
+        });
+        $scope.connectionUrl = '';
+    };
+
 }

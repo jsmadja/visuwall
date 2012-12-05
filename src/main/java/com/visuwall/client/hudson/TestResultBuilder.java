@@ -38,28 +38,10 @@ public class TestResultBuilder {
         return unitTestResult;
     }
 
-    public HudsonTestResult buildIntegrationTestResult(SurefireAggregatedReport surefireReport) {
-        HudsonTestResult integrationTestResult = new HudsonTestResult();
-        List<ChildReport> tests = surefireReport.getChildReports();
-        countIntegrationTests(integrationTestResult, tests);
-        return integrationTestResult;
-    }
-
     private void countUnitTests(HudsonTestResult unitTestsResult, List<ChildReport> testReport) {
         List<HudsonTest> tests = createTestsFrom(testReport);
         for (HudsonTest test : tests) {
-            if (test.isUnitTest()) {
-                updateTestResult(unitTestsResult, test);
-            }
-        }
-    }
-
-    private void countIntegrationTests(HudsonTestResult integrationTestsResult, List<ChildReport> testReport) {
-        List<HudsonTest> tests = createTestsFrom(testReport);
-        for (HudsonTest test : tests) {
-            if (test.isIntegrationTest()) {
-                updateTestResult(integrationTestsResult, test);
-            }
+            updateTestResult(unitTestsResult, test);
         }
     }
 

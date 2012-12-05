@@ -11,11 +11,15 @@ import com.visuwall.api.plugin.capability.BuildCapability;
 import com.visuwall.api.plugin.capability.TestCapability;
 import com.visuwall.formatter.DurationFormatter;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.Locale;
 
 public class Build implements Comparable<Build>{
+
+    private static final Logger LOG = LoggerFactory.getLogger(Build.class);
 
     private BuildState status = BuildState.UNKNOWN;
     private String name;
@@ -75,6 +79,7 @@ public class Build implements Comparable<Build>{
     }
 
     public void refresh() throws Exception {
+        LOG.info("Refreshing build "+projectId);
         refreshInfos();
         refreshTimes();
         refreshTests();

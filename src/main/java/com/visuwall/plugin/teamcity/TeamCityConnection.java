@@ -370,13 +370,7 @@ public class TeamCityConnection implements BuildCapability, TestCapability, View
         return result;
     }
 
-    @Override
-    public TestResult analyzeIntegrationTests(SoftwareProjectId softwareProjectId) {
-        checkConnected();
-        return new TestResult();
-    }
-
-    private void addBuildIds(Set<String> numbers, TeamCityBuildType buildType) {
+   private void addBuildIds(Set<String> numbers, TeamCityBuildType buildType) {
         try {
             String buildTypeId = buildType.getId();
             TeamCityBuilds buildList = teamCity.findBuildList(buildTypeId);
@@ -392,7 +386,7 @@ public class TeamCityConnection implements BuildCapability, TestCapability, View
     }
 
     private void checkBuildId(String buildId) {
-        checkNotNull("buildId is mandatory");
+        checkNotNull(buildId, "buildId is mandatory");
     }
 
     private void checkConnected() {

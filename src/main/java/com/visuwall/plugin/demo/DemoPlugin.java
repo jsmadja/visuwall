@@ -15,10 +15,7 @@ public class DemoPlugin implements VisuwallPlugin<DemoConnection> {
     private static final String DEMO_VISUWALL_CI = "http://demo.visuwall.ci";
 
     @Override
-    public DemoConnection getConnection(URL url, PluginConfiguration pluginConfiguration) throws ConnectionException {
-        if (url == null || !DEMO_VISUWALL_CI.equals(url.toString())) {
-            throw new ConnectionException(getName() + " is not compatible with url : " + url);
-        }
+    public DemoConnection getConnection(URL url, PluginConfiguration pluginConfiguration) {
         DemoConnection connection = new DemoConnection();
         connection.connect(url.toString(), null, null);
         return connection;

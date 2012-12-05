@@ -25,4 +25,13 @@ angular.module('visuwallServices', ['ngResource']).
     factory('Deployment',
     function($resource){
         return $resource('data/:deploymentId.json', {}, { query: {method:'GET', params:{deploymentId:'deployments'}, isArray:true}});
+    }).
+    factory('Wall', function($resource) {
+        var Wall = $resource('rest/walls',
+            {  }, {
+                update: { method: 'PUT' }
+            }
+        );
+        return Wall;
     });
+;

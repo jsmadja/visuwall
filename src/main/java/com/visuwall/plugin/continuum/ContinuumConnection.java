@@ -60,14 +60,14 @@ public class ContinuumConnection implements BuildCapability, ViewCapability {
     }
 
     @Override
-    public void connect(String url, String login, String password) throws ConnectionException {
+    public void connect(String url, String login, String password) {
         ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
         try {
             client = new ContinuumXmlRpcClient(new URL(url + "/xmlrpc"));
             connected = true;
         } catch (MalformedURLException e) {
-            throw new ConnectionException("Cannot open a connection to " + url, e);
+            throw new IllegalStateException("Cannot open a connection to " + url, e);
         } finally {
             Thread.currentThread().setContextClassLoader(contextClassLoader);
         }

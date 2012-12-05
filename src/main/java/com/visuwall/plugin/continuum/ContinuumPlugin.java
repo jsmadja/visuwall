@@ -22,7 +22,7 @@ public class ContinuumPlugin implements VisuwallPlugin<ContinuumConnection> {
     }
 
     @Override
-    public ContinuumConnection getConnection(URL url, PluginConfiguration pluginConfiguration) throws ConnectionException {
+    public ContinuumConnection getConnection(URL url, PluginConfiguration pluginConfiguration) {
         ContinuumConnection continuumConnection = new ContinuumConnection();
         continuumConnection.connect(url.toString(), "", "");
         return continuumConnection;

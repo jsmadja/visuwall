@@ -29,12 +29,4 @@ public interface TestCapability extends BasicCapability {
      */
     TestResult analyzeUnitTests(SoftwareProjectId projectId);
 
-    /**
-     * Generate the integration tests reporting
-     * 
-     * @param projectId
-     * @return
-     */
-    TestResult analyzeIntegrationTests(SoftwareProjectId projectId);
-
 }

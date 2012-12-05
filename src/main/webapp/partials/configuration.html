@@ -1,0 +1,36 @@
+<h2>Configuration</h2>
+<div ng-controller="ConfigurationCtrl">
+    <ul class="unstyled">
+        <li ng-repeat="connection in connections">
+            {{connection.url}}
+        </li>
+    </ul>
+
+    <form name="myForm">
+        <div class="control-group" ng-class="{error: myForm.name.$invalid}">
+            <label>
+                Name
+            </label>
+            <input type="text" name="name" ng-model="connection.name" required>
+            <span ng-show="myForm.name.$error.required" class="help-inline">
+                Required
+            </span>
+        </div>
+        <div class="control-group" ng-class="{error: myForm.site.$invalid}">
+            <label>
+                URL
+            </label>
+            <input type="url" name="site" ng-model="connection.url" required>
+            <span ng-show="myForm.site.$error.required" class="help-inline">
+                Required
+            </span>
+            <span ng-show="myForm.site.$error.url" class="help-inline">
+                Not an URL
+            </span>
+        </div>
+        <br>
+        <button ng-click="addConnection()" class="btn btn-primary">
+            Add
+        </button>
+    </form>
+</div>

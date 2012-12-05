@@ -365,28 +365,6 @@ public class HudsonConnection implements BuildCapability, ViewCapability, TestCa
         }
     }
 
-    @Override
-    public TestResult analyzeIntegrationTests(SoftwareProjectId softwareProjectId) {
-        checkConnected();
-        checkSoftwareProjectId(softwareProjectId);
-        try {
-            String jobName = softwareProjectId.getProjectId();
-            int lastBuildId = hudson.getLastBuildNumber(jobName);
-            HudsonTestResult integrationTestResult = hudson.findIntegrationTestResult(jobName, lastBuildId);
-            return TestResults.createFrom(integrationTestResult);
-        } catch (HudsonJobNotFoundException e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Can't analyze integration test of project: " + softwareProjectId, e);
-            }
-            return new TestResult();
-        } catch (HudsonBuildNotFoundException e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Can't analyze integration test of project: " + softwareProjectId, e);
-            }
-            return new TestResult();
-        }
-    }
-
     private String jobName(SoftwareProjectId softwareProjectId) throws HudsonJobNotFoundException {
         String jobName = softwareProjectId.getProjectId();
         if (jobName == null) {

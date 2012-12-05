@@ -324,14 +324,4 @@ class HudsonFinder {
         return new HudsonTestResult();
     }
 
-    public HudsonTestResult findIntegrationTestResult(String jobName, int buildNumber)
-            throws HudsonBuildNotFoundException {
-        Build build = findBuildByJobNameAndBuildNumber(jobName, buildNumber);
-        SurefireAggregatedReport surefireReport = findSurefireReport(jobName, build);
-        if (surefireReport != null) {
-            return testResultBuilder.buildIntegrationTestResult(surefireReport);
-        }
-        return new HudsonTestResult();
-    }
-
 }

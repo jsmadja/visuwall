@@ -289,10 +289,4 @@ public class BambooConnection implements BuildCapability, TestCapability {
         return result;
     }
 
-    @Override
-    public TestResult analyzeIntegrationTests(SoftwareProjectId projectId) {
-        checkConnected();
-        return new TestResult();
-    }
-
 }

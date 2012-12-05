@@ -55,8 +55,8 @@ public class Hudson {
         this.url = hudsonUrl;
         hudsonUrlBuilder = new HudsonUrlBuilder(hudsonUrl);
         hudsonFinder = new HudsonFinder(hudsonUrlBuilder);
-        if (LOG.isInfoEnabled()) {
-            LOG.info("Initialize hudson with url " + hudsonUrl);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Initialize hudson with url " + hudsonUrl);
         }
     }
 
@@ -273,11 +273,6 @@ public class Hudson {
     public HudsonTestResult findUnitTestResult(String jobName, int lastBuildNumber) throws HudsonJobNotFoundException,
             HudsonBuildNotFoundException {
         return hudsonFinder.findUnitTestResult(jobName, lastBuildNumber);
-    }
-
-    public HudsonTestResult findIntegrationTestResult(String jobName, int lastBuildNumber)
-            throws HudsonJobNotFoundException, HudsonBuildNotFoundException {
-        return hudsonFinder.findIntegrationTestResult(jobName, lastBuildNumber);
     }
 
     public String getUrl() {

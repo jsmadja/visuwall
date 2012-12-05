@@ -1,36 +1,19 @@
 package com.visuwall.plugin.deployit;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.visuwall.api.domain.*;
+import com.visuwall.api.exception.*;
+import com.visuwall.api.plugin.capability.BuildCapability;
+import com.visuwall.api.plugin.capability.TestCapability;
+import com.visuwall.api.plugin.capability.ViewCapability;
 import com.visuwall.client.common.ResourceNotFoundException;
 import com.visuwall.client.deployit.DeployIt;
 import com.visuwall.client.deployit.resource.ArchivedTasks;
 import com.visuwall.client.deployit.resource.Step;
 import com.visuwall.client.deployit.resource.Task;
-import com.visuwall.api.domain.BuildState;
-import com.visuwall.api.domain.BuildTime;
-import com.visuwall.api.domain.Commiter;
-import com.visuwall.api.domain.ProjectKey;
-import com.visuwall.api.domain.SoftwareProjectId;
-import com.visuwall.api.domain.TestResult;
-import com.visuwall.api.exception.BuildIdNotFoundException;
-import com.visuwall.api.exception.BuildNotFoundException;
-import com.visuwall.api.exception.ConnectionException;
-import com.visuwall.api.exception.MavenIdNotFoundException;
-import com.visuwall.api.exception.ProjectNotFoundException;
-import com.visuwall.api.exception.ViewNotFoundException;
-import com.visuwall.api.plugin.capability.BuildCapability;
-import com.visuwall.api.plugin.capability.TestCapability;
-import com.visuwall.api.plugin.capability.ViewCapability;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 public class DeployItConnection implements BuildCapability, TestCapability, ViewCapability {
 
@@ -46,7 +29,7 @@ public class DeployItConnection implements BuildCapability, TestCapability, View
     }
 
     @Override
-    public void connect(String url, String login, String password) throws ConnectionException {
+    public void connect(String url, String login, String password) {
         deployIt = new DeployIt(url, login, password);
         connected = true;
     }
@@ -281,11 +264,6 @@ public class DeployItConnection implements BuildCapability, TestCapability, View
             LOG.warn("Cannot retrieve steps for " + projectId, e);
         }
         return testResult;
-    }
-
-    @Override
-    public TestResult analyzeIntegrationTests(SoftwareProjectId projectId) {
-        return new TestResult();
     }
 
     @Override

@@ -115,7 +115,7 @@ public class DemoConnection implements BuildCapability, TestCapability, ViewCapa
     }
 
     @Override
-    public void connect(String url, String login, String password) throws ConnectionException {
+    public void connect(String url, String login, String password) {
         connected = true;
     }
 
@@ -216,15 +216,6 @@ public class DemoConnection implements BuildCapability, TestCapability, ViewCapa
     @Override
     public TestResult analyzeUnitTests(SoftwareProjectId projectId) {
         TestResult testResult = unitTestResults.get(projectId);
-        if (testResult == null) {
-            testResult = new TestResult();
-        }
-        return testResult;
-    }
-
-    @Override
-    public TestResult analyzeIntegrationTests(SoftwareProjectId projectId) {
-        TestResult testResult = integrationTestResults.get(projectId);
         if (testResult == null) {
             testResult = new TestResult();
         }

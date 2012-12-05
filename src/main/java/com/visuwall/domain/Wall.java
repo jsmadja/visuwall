@@ -1,23 +1,15 @@
 package com.visuwall.domain;
 
-import com.visuwall.api.exception.ConnectionException;
 import com.visuwall.api.plugin.VisuwallPlugin;
 import com.visuwall.api.plugin.capability.BasicCapability;
-import com.visuwall.plugin.demo.DemoConnection;
-import com.visuwall.plugin.demo.DemoPlugin;
-import com.visuwall.plugin.jenkins.JenkinsConnection;
-import com.visuwall.plugin.jenkins.JenkinsPlugin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
-public class Wall {
+public class Wall implements Runnable {
 
     private Builds builds = new Builds();
 
@@ -25,47 +17,48 @@ public class Wall {
 
     private Plugins plugins = new Plugins();
 
+    private Logger LOG = LoggerFactory.getLogger(Wall.class);
+
     public Wall() {
-        Collection<URL> urls = configuration.getUrls();
-        for (URL url : urls) {
-            addConnection(url);
-        }
         start();
     }
 
-    private void addConnection(URL url) {
+    public void addConnection(URL url) {
+        LOG.info("Trying to identify a compatible plugin for url:" + url.toString());
         for (VisuwallPlugin plugin : plugins) {
             PluginConfiguration pluginConfiguration = PluginConfiguration.noConfiguration;
             if(plugin.accept(url, pluginConfiguration)) {
-                try {
-                    BasicCapability connection = plugin.getConnection(url, pluginConfiguration);
-                    builds.addConnection(connection);
-                } catch (ConnectionException e) {
-                }
+                LOG.info(plugin.getName() + " is compatible with url:" + url.toString());
+                BasicCapability connection = plugin.getConnection(url, pluginConfiguration);
+                builds.addConnection(connection);
+                configuration.addUrl(url);
             }
         }
     }
 
     private void start() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        builds.refresh();
-                        MINUTES.sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
+        new Thread(this).start();
     }
 
     public Builds getBuilds() {
         return builds;
     }
 
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                builds.refresh();
+                MINUTES.sleep(1);
+            } catch (InterruptedException e) {
+                LOG.error("Error in main loop", e);
+            }
+        }
+    }
+
+    public Configuration getConfiguration() {
+        return configuration;
+    }
 }
 
 

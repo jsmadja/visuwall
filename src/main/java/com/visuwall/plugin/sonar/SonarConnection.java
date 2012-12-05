@@ -192,33 +192,6 @@ public class SonarConnection implements MetricCapability, TestCapability {
     }
 
     @Override
-    public TestResult analyzeIntegrationTests(SoftwareProjectId projectId) {
-        checkConnected();
-        checkSoftwareProjectId(projectId);
-        TestResult integrationTestResult = new TestResult();
-        try {
-            String artifactId = projectId.getProjectId();
-            if (Strings.isNullOrEmpty(artifactId)) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("can't analyze project " + projectId + " without artifactId. Is it a maven project ?");
-                }
-            } else {
-                Measure itCoverageMeasure = sonarClient.findMeasure(artifactId, "it_coverage");
-                if (itCoverageMeasure != null) {
-                    Double itCoverage = itCoverageMeasure.getValue();
-                    integrationTestResult.setCoverage(itCoverage);
-                }
-            }
-        } catch (SonarMeasureNotFoundException e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Integration tests informations are not available for project " + projectId + ", cause "
-                        + e.getMessage());
-            }
-        }
-        return integrationTestResult;
-    }
-
-    @Override
     public QualityResult analyzeQuality(SoftwareProjectId projectId, String... metrics) {
         checkConnected();
         checkSoftwareProjectId(projectId);

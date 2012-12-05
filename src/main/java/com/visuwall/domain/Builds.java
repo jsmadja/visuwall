@@ -54,6 +54,7 @@ public class Builds implements Iterable<Build>{
 
     private void addNewBuild(BasicCapability connection, SoftwareProjectId projectId) {
         try {
+            LOG.info("Add a new build "+projectId);
             Build build = new Build(connection, projectId);
             build.refresh();
             builds.add(build);
@@ -64,19 +65,11 @@ public class Builds implements Iterable<Build>{
 
     private boolean isAddable(SoftwareProjectId projectId) {
         for (Build build : builds) {
-            if(build.is(projectId) || isNotValidName(projectId)) {
+            if(build.is(projectId)) {
                 return false;
             }
         }
         return true;
-    }
-
-    private boolean isNotValidName(SoftwareProjectId projectId) {
-        String name = projectId.getProjectId();
-        if(name.startsWith("canvas")) {
-            return true;
-        }
-        return !(name.startsWith("Fx")||name.startsWith("fx")||name.startsWith("caution")||name.startsWith("hermes")||name.startsWith("Hermes"));
     }
 
     @Override

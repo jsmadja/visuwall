@@ -31,7 +31,7 @@ public class DeployItPlugin implements VisuwallPlugin<DeployItConnection> {
     }
 
     @Override
-    public DeployItConnection getConnection(URL url, PluginConfiguration pluginConfiguration) throws ConnectionException {
+    public DeployItConnection getConnection(URL url, PluginConfiguration pluginConfiguration) {
         DeployItConnection connectionPlugin = new DeployItConnection();
         connectionPlugin.connect(url.toString(), pluginConfiguration.get("login"), pluginConfiguration.get("password"));
         return connectionPlugin;

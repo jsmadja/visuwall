@@ -27,7 +27,7 @@ import java.util.Map;
 
 public interface VisuwallPlugin<T extends BasicCapability> {
 
-    T getConnection(URL url, PluginConfiguration pluginConfiguration) throws ConnectionException;
+    T getConnection(URL url, PluginConfiguration pluginConfiguration);
 
     /** login, password, ... */
     PluginConfiguration getDefaultPluginConfiguration();
