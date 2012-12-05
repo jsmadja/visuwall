@@ -3,9 +3,9 @@
 /* Services */
 
 angular.module('visuwallServices', ['ngResource']).
-    factory('Project',
+    factory('Build',
     function($resource) {
-        return $resource('rest/projects',
+        return $resource('rest/builds',
             {
                 port: ":8080"
             },

@@ -2,16 +2,16 @@
 
 /* Controllers */
 
-function ProjectsCtrl($scope,Project,$timeout) {
+function BuildsCtrl($scope,Build,$timeout) {
     var timeout = 1;
     function updateTime() {
-        $scope.projects = Project.query();
+        $scope.builds = Build.query();
     }
     function updateLater() {
         $timeout(function() {
             updateTime();
             updateLater();
-            timeout = 600*1000;
+            timeout = 60*1000;
         }, timeout);
     }
     updateLater();
