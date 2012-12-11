@@ -29,6 +29,7 @@ public class Builds implements Iterable<Build>{
         for (Build build : builds) {
             try {
                 if(build.isRefreshable()) {
+                    LOG.info(build+" is refreshing ...");
                     build.refresh();
                 }
             } catch(Throwable t) {
@@ -54,6 +55,7 @@ public class Builds implements Iterable<Build>{
         try {
             LOG.info("Add a new build " + projectId);
             Build build = new Build(connection, projectId);
+            build.refresh();
             builds.add(build);
         } catch(Exception e) {
             LOG.error(projectId+" is unbuildable", e);
@@ -89,5 +91,14 @@ public class Builds implements Iterable<Build>{
 
     public int count() {
         return builds.size();
+    }
+
+    public boolean contains(String name) {
+        for (Build build : builds) {
+            if(build.hasName(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

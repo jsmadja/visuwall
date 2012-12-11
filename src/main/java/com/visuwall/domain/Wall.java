@@ -77,7 +77,7 @@ public class Wall implements Runnable {
             try {
                 LOG.debug("Wall is refreshing ...");
                 builds.refresh();
-                SECONDS.sleep(60);
+                SECONDS.sleep(30);
             } catch (InterruptedException e) {
                 LOG.error("Error in main loop", e);
             }

@@ -88,7 +88,6 @@ public class Build implements Comparable<Build>{
     }
 
     public void refresh() throws Exception {
-        LOG.trace("Refreshing build " + projectId);
         refreshInfos();
         refreshTimes();
         refreshTests();
@@ -143,6 +142,18 @@ public class Build implements Comparable<Build>{
     }
 
     public boolean hasName(String name) {
+        if(this.name == null) {
+            return false;
+        }
         return this.name.equalsIgnoreCase(name);
+    }
+
+    public boolean isBuilding() {
+        return status == BuildState.BUILDING;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

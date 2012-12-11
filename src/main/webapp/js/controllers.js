@@ -2,6 +2,13 @@
 
 /* Controllers */
 
+function BuildCtrl($scope) {
+    $scope.setBuild = function(build, builds) {
+        $scope.build = build;
+        $scope.builds = builds;
+    }
+}
+
 function BuildsCtrl($scope,Build,$timeout) {
     var timeout = 1;
     function updateTime() {
@@ -11,7 +18,11 @@ function BuildsCtrl($scope,Build,$timeout) {
         $timeout(function() {
             updateTime();
             updateLater();
-            timeout = 10*1000;
+            if($scope.builds == null) {
+                timeout = 5*1000;
+            } else {
+                timeout = 300*1000;
+            }
         }, timeout);
     }
     updateLater();
@@ -32,7 +43,7 @@ function DeploymentsCtrl($scope, Deployment) {
 function ConfigurationCtrl($scope, $location, Wall) {
 
     $scope.connections = [
-        {url:'http://ci.awired.net/jenkins/'}
+        {url:'http://demo.visuwall.ci'}
     ];
 
     $scope.addConnection = function() {

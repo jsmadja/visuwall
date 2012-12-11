@@ -5,14 +5,11 @@
 angular.module('visuwallServices', ['ngResource']).
     factory('Build',
     function($resource) {
-        return $resource('rest/builds',
-            {
-                port: ":8080"
-            },
-            {
-                query: { method: 'JSONP', params: { _jsonp:'JSON_CALLBACK'}, isArray:true }
-            }
-        );
+        return $resource('rest/builds/:buildName', {}, {query: {method:'GET', params:{buildName:''}, isArray:true} });
+    }).
+    factory('Builds',
+    function($resource) {
+        return $resource('rest/builds', {}, {query: {method:'GET', params:{buildName:''}, isArray:true} });
     }).
     factory('Track',
     function($resource){
@@ -34,4 +31,3 @@ angular.module('visuwallServices', ['ngResource']).
         );
         return Wall;
     });
-;

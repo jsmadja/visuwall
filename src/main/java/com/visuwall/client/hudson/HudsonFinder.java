@@ -109,9 +109,7 @@ class HudsonFinder {
     @VisibleForTesting
     Build findBuildByJobNameAndBuildNumber(String jobName, int buildNumber) throws HudsonBuildNotFoundException {
         String buildUrl = hudsonUrlBuilder.getBuildUrl(jobName, buildNumber);
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(buildUrl);
-        }
+        LOG.trace(buildUrl);
         Build setBuild = null;
         try {
             setBuild = client.resource(buildUrl, MavenModuleSetBuild.class);
@@ -139,9 +137,7 @@ class HudsonFinder {
                 jobNames.add(name);
             }
         } catch (ResourceNotFoundException e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
+            LOG.trace(e.getMessage(), e);
         }
         return jobNames;
     }
@@ -169,9 +165,7 @@ class HudsonFinder {
                 views.add(view.getName());
             }
         } catch (ResourceNotFoundException e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage(), e);
-            }
+            LOG.trace(e.getMessage(), e);
         }
         return views;
     }
@@ -206,9 +200,7 @@ class HudsonFinder {
                 commiter.setEmail(hudsonUser.getEmail());
                 commiters.add(commiter);
             } catch (ResourceNotFoundException e) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Can't find user " + commiterName, e);
-                }
+                LOG.trace("Can't find user " + commiterName, e);
             }
         }
         return commiters;

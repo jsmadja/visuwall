@@ -8,6 +8,6 @@
         <appender-ref ref="STDOUT" />
     </root>
 
-    <logger name="com.visuwall" level="DEBUG" />
+    <logger name="com.visuwall" level="INFO" />
 
 </configuration>
