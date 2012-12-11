@@ -8,9 +8,6 @@ import com.visuwall.domain.Walls;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import static javax.ws.rs.core.Response.ok;
 
 @Path("/walls")
@@ -20,10 +17,9 @@ public class WallsResource {
 
     @POST
     @Path("/")
-    public Response addConnection(ConnectionConfiguration connectionConfiguration) throws MalformedURLException {
-        URL url = new URL(connectionConfiguration.getUrl());
+    public Response addConnection(ConnectionConfiguration connectionConfiguration) {
         Wall wall = Walls.get("wall");
-        wall.addConnection(url);
+        wall.addConnection(connectionConfiguration);
         return ok().build();
     }
 
@@ -35,10 +31,10 @@ public class WallsResource {
     }
 
     @GET
-    @Path("/builds/{id}")
-    public Response getConfiguration(@PathParam("id") buildId) {
+    @Path("/builds/{name}")
+    public Response getConfiguration(@PathParam("name") String name) {
         Wall wall = Walls.get("wall");
-        Build build = wall.getBuild(buildId);
+        Build build = wall.getBuild(name);
         return ok().entity(build).build();
     }
 

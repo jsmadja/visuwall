@@ -35,7 +35,6 @@ function ConfigurationCtrl($scope, $location, Wall) {
         {url:'http://ci.awired.net/jenkins/'}
     ];
 
-       // $scope.connections.push({url:$scope.connectionUrl});
     $scope.addConnection = function() {
         Wall.save($scope.connection, function(connection) {
             $location.path('/builds');

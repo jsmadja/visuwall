@@ -72,14 +72,23 @@ public class Build implements Comparable<Build>{
 
     @Override
     public int compareTo(Build build2) {
+        if(build2 == null) {
+            return -1;
+        }
         if (this.status == build2.status) {
+            if(build2.lastBuildDate == null) {
+                return -1;
+            }
             return build2.lastBuildDate.compareTo(this.lastBuildDate);
+        }
+        if(build2.status == null  || this.status == null) {
+            return -1;
         }
         return build2.status.ordinal() - this.status.ordinal();
     }
 
     public void refresh() throws Exception {
-        LOG.info("Refreshing build " + projectId);
+        LOG.trace("Refreshing build " + projectId);
         refreshInfos();
         refreshTimes();
         refreshTests();

@@ -11,7 +11,7 @@
             <label>
                 Name
             </label>
-            <input type="text" name="name" ng-model="connection.name" required>
+            <input type="text" name="name" ng-model="connection.name" value="demo" required>
             <span ng-show="myForm.name.$error.required" class="help-inline">
                 Required
             </span>
@@ -20,7 +20,7 @@
             <label>
                 URL
             </label>
-            <input type="url" name="site" ng-model="connection.url" required>
+            <input type="url" name="site" ng-model="connection.url" value="http://demo.visuwall.ci" required>
             <span ng-show="myForm.site.$error.required" class="help-inline">
                 Required
             </span>

@@ -54,10 +54,9 @@ public class Builds implements Iterable<Build>{
         try {
             LOG.info("Add a new build " + projectId);
             Build build = new Build(connection, projectId);
-            build.refresh();
             builds.add(build);
         } catch(Exception e) {
-            LOG.warn(projectId+" is unbuildable, cause: "+e.getMessage());
+            LOG.error(projectId+" is unbuildable", e);
         }
     }
 
@@ -86,5 +85,9 @@ public class Builds implements Iterable<Build>{
             }
         }
         throw new NoSuchElementException(name);
+    }
+
+    public int count() {
+        return builds.size();
     }
 }
