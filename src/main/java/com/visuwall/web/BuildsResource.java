@@ -1,5 +1,6 @@
 package com.visuwall.web;
 
+import com.visuwall.domain.Build;
 import com.visuwall.domain.Builds;
 import com.visuwall.domain.Wall;
 import com.visuwall.domain.Walls;
@@ -11,6 +12,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
+
+import java.util.Set;
 
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.ok;
@@ -47,7 +50,8 @@ public class BuildsResource {
         }
         Builds builds = wall.getBuilds();
         LOG.debug("new builds request from client for "+WALL_ID+" wall ("+builds.count()+" builds)");
-        return ok().entity(builds.all()).build();
+        Set<Build> allBuilds = builds.all();
+        return ok().entity(allBuilds).build();
     }
 
 }

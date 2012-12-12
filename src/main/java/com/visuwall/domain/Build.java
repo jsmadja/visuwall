@@ -43,7 +43,6 @@ public class Build implements Comparable<Build>{
     private String lastBuildId;
     @JsonIgnore
     private boolean removeable;
-    private boolean disabled;
 
     public Build(BasicCapability connection, SoftwareProjectId projectId) {
         this.connection = connection;
@@ -82,19 +81,7 @@ public class Build implements Comparable<Build>{
 
     @Override
     public int compareTo(Build build2) {
-        if(build2 == null) {
-            return -1;
-        }
-        if (this.status == build2.status) {
-            if(build2.lastBuildDate == null) {
-                return -1;
-            }
-            return build2.lastBuildDate.compareTo(this.lastBuildDate);
-        }
-        if(build2.status == null  || this.status == null) {
-            return -1;
-        }
-        return build2.status.ordinal() - this.status.ordinal();
+        return this.name.compareToIgnoreCase(build2.name);
     }
 
     public void refresh() throws Exception {
@@ -141,6 +128,7 @@ public class Build implements Comparable<Build>{
         skippedTestCount = testResult.getSkipCount();
     }
 
+    @JsonIgnore
     public boolean isRefreshable() {
         try {
             return status == BUILDING || status == UNKNOWN || isCurrentlyBuilding() || newBuildIsAvailable();
@@ -180,6 +168,7 @@ public class Build implements Comparable<Build>{
         return this.name.equalsIgnoreCase(name);
     }
 
+    @JsonIgnore
     public boolean isBuilding() {
         return status == BUILDING;
     }
@@ -197,6 +186,7 @@ public class Build implements Comparable<Build>{
         return removeable;
     }
 
+    @JsonIgnore
     public boolean isDisabled() throws ProjectNotFoundException {
         BuildCapability buildCapability = (BuildCapability) connection;
         return buildCapability.isProjectDisabled(projectId);
