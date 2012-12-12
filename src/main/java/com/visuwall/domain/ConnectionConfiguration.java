@@ -1,5 +1,7 @@
 package com.visuwall.domain;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -9,6 +11,7 @@ public class ConnectionConfiguration {
     private String url;
     private String login;
     private String password;
+    private String buildFilter;
 
 
     public static PluginConfiguration createPluginConfigurationFrom(ConnectionConfiguration connectionConfiguration) {
@@ -48,5 +51,16 @@ public class ConnectionConfiguration {
 
     public String getPassword() {
         return password;
+    }
+
+    public boolean acceptBuildNamedAs(String name) {
+        if(StringUtils.isBlank(buildFilter)) {
+            return true;
+        }
+        return name.matches(buildFilter);
+    }
+
+    public void setBuildFilter(String buildFilter) {
+        this.buildFilter = buildFilter;
     }
 }

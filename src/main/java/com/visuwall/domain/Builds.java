@@ -16,8 +16,11 @@ public class Builds implements Iterable<Build>{
 
     private static final Logger LOG = LoggerFactory.getLogger(Builds.class);
 
-    public void addConnection(BasicCapability connection) {
+    private ConnectionConfiguration connectionConfiguration;
+
+    public void addConnection(BasicCapability connection, ConnectionConfiguration connectionConfiguration) {
         this.connections.add(connection);
+        this.connectionConfiguration = connectionConfiguration;
     }
 
     public void refresh() {
@@ -134,7 +137,7 @@ public class Builds implements Iterable<Build>{
                 return false;
             }
         }
-        return true;
+        return connectionConfiguration.acceptBuildNamedAs(projectId.getProjectId());
     }
 
     @Override

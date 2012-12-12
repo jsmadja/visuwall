@@ -35,7 +35,7 @@ public class Wall implements Runnable {
         PluginConfiguration pluginConfiguration = ConnectionConfiguration.createPluginConfigurationFrom(connectionConfiguration);
         URL softwareUrl = connectionConfiguration.asUrl();
         BasicCapability connection = plugin.getConnection(softwareUrl, pluginConfiguration);
-        builds.addConnection(connection);
+        builds.addConnection(connection, connectionConfiguration);
         configuration.addUrl(connectionConfiguration);
         builds.refresh();
     }

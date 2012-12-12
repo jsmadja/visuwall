@@ -34,7 +34,6 @@ public class BuildsResource {
         if(!builds.contains(name)) {
             return status(NOT_FOUND).build();
         }
-
         LOG.debug("new build request from client for build "+name);
         return ok().entity(builds.getBuild(name)).build();
     }
