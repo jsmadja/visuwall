@@ -21,7 +21,7 @@ function BuildsCtrl($scope,Build,$timeout) {
             if($scope.builds == null) {
                 timeout = 5*1000;
             } else {
-                timeout = 300*1000;
+                timeout = 60*1000;
             }
         }, timeout);
     }

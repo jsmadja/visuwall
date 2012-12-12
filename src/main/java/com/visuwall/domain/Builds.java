@@ -1,6 +1,7 @@
 package com.visuwall.domain;
 
 import com.visuwall.api.domain.SoftwareProjectId;
+import com.visuwall.api.exception.ProjectNotFoundException;
 import com.visuwall.api.plugin.capability.BasicCapability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,14 +57,9 @@ public class Builds implements Iterable<Build>{
         return new Callable<Build>() {
             @Override
             public Build call() throws Exception {
-                try {
-                    if (build.isRefreshable()) {
-                        LOG.info(build + " is refreshing ...");
-                        build.refresh();
-                    }
-                } catch (Throwable t) {
-                    build.setRemoveable();
-                    LOG.info("Build " + build + " is not available anymore and will be removed from the wall", t);
+                if (build.isRefreshable()) {
+                    LOG.info(build + " is refreshing ...");
+                    build.refresh();
                 }
                 return build;
             }
@@ -117,6 +113,8 @@ public class Builds implements Iterable<Build>{
             LOG.error("Error when getting future: "+future, e);
         } catch (InterruptedException e) {
             LOG.error("Error when getting future: " + future, e);
+        } catch (ProjectNotFoundException e) {
+            LOG.error("Error when getting future: " + future, e);
         }
     }
 
@@ -131,9 +129,9 @@ public class Builds implements Iterable<Build>{
         }
     }
 
-    private boolean isAddable(SoftwareProjectId projectId) {
+    private boolean isAddable(SoftwareProjectId projectId) throws ProjectNotFoundException {
         for (Build build : builds) {
-            if(build.is(projectId)) {
+            if(build.is(projectId) || build.isDisabled()) {
                 return false;
             }
         }

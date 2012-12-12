@@ -1,8 +1,4 @@
-/* app css stylesheet */
-
 html {
-    /* trop sombre
-    background-color: #111111; */
     background-color: #222;
 }
 
@@ -15,20 +11,6 @@ body {
 .projects {
   list-style: none;
   margin: 0px 0px 0px 0px;
-}
-
-.1-columns-list {
-      -webkit-column-count: 1;
-      -moz-column-count: 1;
-      -o-column-count: 1;
-      column-count: 1;
-}
-
-.2-columns-list {
-  -webkit-column-count: 2;
-  -moz-column-count: 2;
-  -o-column-count: 2;
-  column-count: 2;
 }
 
 .projects li {

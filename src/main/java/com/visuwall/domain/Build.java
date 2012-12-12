@@ -43,6 +43,7 @@ public class Build implements Comparable<Build>{
     private String lastBuildId;
     @JsonIgnore
     private boolean removeable;
+    private boolean disabled;
 
     public Build(BasicCapability connection, SoftwareProjectId projectId) {
         this.connection = connection;
@@ -97,21 +98,10 @@ public class Build implements Comparable<Build>{
     }
 
     public void refresh() throws Exception {
-        refreshInfos();
-        refreshTimes();
-        refreshTests();
-    }
-
-    private void refreshInfos() {
         try {
-            BuildCapability buildCapability = (BuildCapability) connection;
-            String lastBuildId = buildCapability.getLastBuildId(projectId);
-            name = buildCapability.getName(projectId);
-            if(buildCapability.isBuilding(projectId, lastBuildId)) {
-                status = BUILDING;
-            } else {
-                status = buildCapability.getBuildState(projectId, lastBuildId);
-            }
+            refreshInfos();
+            refreshTimes();
+            refreshTests();
         } catch(ProjectNotFoundException e) {
             setRemoveable();
         } catch(BuildIdNotFoundException e) {
@@ -121,7 +111,18 @@ public class Build implements Comparable<Build>{
         }
     }
 
-    private void refreshTimes() throws Exception {
+    private void refreshInfos() throws ProjectNotFoundException, BuildIdNotFoundException, BuildNotFoundException {
+        BuildCapability buildCapability = (BuildCapability) connection;
+        name = buildCapability.getName(projectId);
+        String lastBuildId = buildCapability.getLastBuildId(projectId);
+        if(buildCapability.isBuilding(projectId, lastBuildId)) {
+            status = BUILDING;
+        } else {
+            status = buildCapability.getBuildState(projectId, lastBuildId);
+        }
+    }
+
+    private void refreshTimes() throws ProjectNotFoundException, BuildIdNotFoundException, BuildNotFoundException {
         BuildCapability buildCapability = (BuildCapability) connection;
         String lastBuildId = buildCapability.getLastBuildId(projectId);
         BuildTime buildTime = buildCapability.getBuildTime(projectId, lastBuildId);
@@ -140,8 +141,17 @@ public class Build implements Comparable<Build>{
         skippedTestCount = testResult.getSkipCount();
     }
 
-    public boolean isRefreshable() throws Throwable {
-        return isCurrentlyBuilding() || newBuildIsAvailable();
+    public boolean isRefreshable() {
+        try {
+            return status == BUILDING || status == UNKNOWN || isCurrentlyBuilding() || newBuildIsAvailable();
+        } catch (ProjectNotFoundException e) {
+            setRemoveable();
+            return false;
+        } catch (BuildNotFoundException e) {
+            return false;
+        } catch (BuildIdNotFoundException e) {
+            return false;
+        }
     }
 
     private boolean isCurrentlyBuilding() throws ProjectNotFoundException, BuildNotFoundException {
@@ -185,5 +195,10 @@ public class Build implements Comparable<Build>{
 
     public boolean isRemoveable() {
         return removeable;
+    }
+
+    public boolean isDisabled() throws ProjectNotFoundException {
+        BuildCapability buildCapability = (BuildCapability) connection;
+        return buildCapability.isProjectDisabled(projectId);
     }
 }

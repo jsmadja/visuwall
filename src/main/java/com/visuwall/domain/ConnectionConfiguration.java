@@ -1,9 +1,12 @@
 package com.visuwall.domain;
 
+import com.google.common.base.Joiner;
 import org.apache.commons.lang.StringUtils;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConnectionConfiguration {
 
@@ -61,6 +64,31 @@ public class ConnectionConfiguration {
     }
 
     public void setBuildFilter(String buildFilter) {
-        this.buildFilter = buildFilter;
+        if(buildFilter.startsWith("regexp:")) {
+            this.buildFilter = buildFilter.substring("regexp:".length());
+            return;
+        }
+        if(buildFilter.contains(",")) {
+            List<String> regexps = buildRegexps(buildFilter);
+            this.buildFilter = Joiner.on('|').join(regexps);
+        } else {
+            this.buildFilter = buildFilter;
+        }
+    }
+
+    private List<String> buildRegexps(String buildFilter) {
+        List<String> regexps = new ArrayList<String>();
+        String[] split = buildFilter.split(",");
+        for (String filter : split) {
+            String regexp = "(?i)";
+            if(filter.endsWith("*")) {
+                String buildNamePrefix = filter.substring(0, filter.length() - 1);
+                regexp +=  buildNamePrefix + ".*";
+            } else {
+                regexp += filter.substring(0, filter.length());
+            }
+            regexps.add(regexp);
+        }
+        return regexps;
     }
 }
