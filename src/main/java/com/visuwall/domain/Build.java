@@ -20,6 +20,9 @@ import org.slf4j.LoggerFactory;
 import java.util.Date;
 import java.util.Locale;
 
+import static com.visuwall.api.domain.BuildState.BUILDING;
+import static com.visuwall.api.domain.BuildState.UNKNOWN;
+
 public class Build implements Comparable<Build>{
 
     private static final Logger LOG = LoggerFactory.getLogger(Build.class);
@@ -99,14 +102,22 @@ public class Build implements Comparable<Build>{
         refreshTests();
     }
 
-    private void refreshInfos() throws Exception {
-        BuildCapability buildCapability = (BuildCapability) connection;
-        String lastBuildId = buildCapability.getLastBuildId(projectId);
-        name = buildCapability.getName(projectId);
-        if(buildCapability.isBuilding(projectId, lastBuildId)) {
-            status = BuildState.BUILDING;
-        } else {
-            status = buildCapability.getBuildState(projectId, lastBuildId);
+    private void refreshInfos() {
+        try {
+            BuildCapability buildCapability = (BuildCapability) connection;
+            String lastBuildId = buildCapability.getLastBuildId(projectId);
+            name = buildCapability.getName(projectId);
+            if(buildCapability.isBuilding(projectId, lastBuildId)) {
+                status = BUILDING;
+            } else {
+                status = buildCapability.getBuildState(projectId, lastBuildId);
+            }
+        } catch(ProjectNotFoundException e) {
+            setRemoveable();
+        } catch(BuildIdNotFoundException e) {
+            status = UNKNOWN;
+        } catch(BuildNotFoundException e) {
+            status = UNKNOWN;
         }
     }
 
@@ -160,7 +171,7 @@ public class Build implements Comparable<Build>{
     }
 
     public boolean isBuilding() {
-        return status == BuildState.BUILDING;
+        return status == BUILDING;
     }
 
     @Override

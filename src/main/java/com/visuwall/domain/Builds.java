@@ -32,7 +32,7 @@ public class Builds implements Iterable<Build>{
         ExecutorService pool = Executors.newFixedThreadPool(20);
         List<Future<Build>> futures = new ArrayList<Future<Build>>();
         for (Build build : builds) {
-            futures.add(pool.submit(createFutureBuild(build)));
+            futures.add(pool.submit(refresh(build)));
         }
         for (Future<Build> future : futures) {
             removeBuildIfNecessary(future);
@@ -52,7 +52,7 @@ public class Builds implements Iterable<Build>{
         }
     }
 
-    private Callable<Build> createFutureBuild(final Build build) {
+    private Callable<Build> refresh(final Build build) {
         return new Callable<Build>() {
             @Override
             public Build call() throws Exception {
