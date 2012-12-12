@@ -26,7 +26,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     padding-top: 20px;
-    height: 60px;
+    height: 50px;
     margin-bottom: 0px;
 }
 
@@ -41,7 +41,7 @@
 }
 
 .status-box {
-    height: 150px;
+    height: 140px;
     width: 80px;
     vertical-align: top;
 }
@@ -56,7 +56,7 @@
 .tests-box {
     color: black;
     padding-top: 5px;
-    height: 145px;
+    height: 135px;
     border-color: black;
     border-left: solid;
     float: right;
