@@ -14,27 +14,30 @@
  *     limitations under the License.
  */
 
-package net.awired.visuwall.plugin.hudson;
+package com.visuwall;
+
+import java.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public aspect Chrono {
 
-    Object around() : execution(public * net.awired.visuwall.plugin.hudson.HudsonConnection.* (..)) {
+    private static final Logger LOG = LoggerFactory.getLogger(Chrono.class);
+
+    Object around() : execution(public * com.visuwall.domain.Builds.* (..)) {
         long start = System.currentTimeMillis();
         try {
             return proceed();
         } finally {
         	String prefix = "";
-        	Object method = thisJoinPointStaticPart.getSignature();
             long end = System.currentTimeMillis();
             long duration = end - start;
-            if (duration > 1100) {
-            	prefix = "[SLOW QUERY] ";
-            }
-            if (duration > 2100) {
-                prefix = "[VERY SLOW QUERY] ";
-            }
-            if (duration >= 1100) {
-                System.err.print("Chronometer "+prefix+method+" "+duration+" ms\r\n");
+            Object method = thisJoinPointStaticPart.getSignature();
+
+            if (duration > 10) {
+            	prefix = "[SLOW] ";
+            	Object[] args = thisJoinPoint.getArgs();
+                LOG.warn("Chronometer "+prefix+" "+method+" "+Arrays.toString(args)+", "+duration+" ms");
             }
         }
     }

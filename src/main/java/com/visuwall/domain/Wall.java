@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 public class Wall implements Runnable {
 
@@ -77,7 +77,7 @@ public class Wall implements Runnable {
             try {
                 LOG.debug("Wall is refreshing ...");
                 builds.refresh();
-                SECONDS.sleep(30);
+                MINUTES.sleep(1);
             } catch (InterruptedException e) {
                 LOG.error("Error in main loop", e);
             }

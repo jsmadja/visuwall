@@ -3,7 +3,6 @@ package com.visuwall.web;
 import com.visuwall.domain.Builds;
 import com.visuwall.domain.Wall;
 import com.visuwall.domain.Walls;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

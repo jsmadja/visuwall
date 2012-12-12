@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.concurrent.*;
 
 public class Builds implements Iterable<Build>{
 
@@ -25,19 +26,45 @@ public class Builds implements Iterable<Build>{
     }
 
     private void refreshBuilds() {
-        List<Build> buildsToRemove = new ArrayList<Build>();
+        ExecutorService pool = Executors.newFixedThreadPool(20);
+        List<Future<Build>> futures = new ArrayList<Future<Build>>();
         for (Build build : builds) {
-            try {
-                if(build.isRefreshable()) {
-                    LOG.info(build+" is refreshing ...");
-                    build.refresh();
-                }
-            } catch(Throwable t) {
-                LOG.info("Build "+build+" is not available anymore and will be removed from the wall, cause: "+t.getMessage());
-                buildsToRemove.add(build);
-            }
+            futures.add(pool.submit(createFutureBuild(build)));
         }
-        builds.removeAll(buildsToRemove);
+        for (Future<Build> future : futures) {
+            removeBuildIfNecessary(future);
+        }
+    }
+
+    private void removeBuildIfNecessary(Future<Build> future) {
+        try {
+            Build build = future.get();
+            if(build.isRemoveable()) {
+                builds.remove(build);
+            }
+        }catch(ExecutionException e) {
+            LOG.error("Error when getting future: "+future, e);
+        } catch (InterruptedException e) {
+            LOG.error("Error when getting future: " + future, e);
+        }
+    }
+
+    private Callable<Build> createFutureBuild(final Build build) {
+        return new Callable<Build>() {
+            @Override
+            public Build call() throws Exception {
+                try {
+                    if (build.isRefreshable()) {
+                        LOG.info(build + " is refreshing ...");
+                        build.refresh();
+                    }
+                } catch (Throwable t) {
+                    build.setRemoveable();
+                    LOG.info("Build " + build + " is not available anymore and will be removed from the wall", t);
+                }
+                return build;
+            }
+        };
     }
 
     private void addNewBuilds() {

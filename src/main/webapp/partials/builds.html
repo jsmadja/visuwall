@@ -1,8 +1,8 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div id="builds" class="span12">
-            <ul class="builds {{column_count}}-columns-list" style="-webkit-column-count:2;">
-                <li ng-repeat="build in builds" class="thumbnail build">
+            <ul class="builds">
+                <li ng-repeat="build in builds" class="span6 thumbnail build" style="margin-left:5px;">
                     <div style="display: block" refresh-build="setBuild(build, builds)" ng-controller="BuildCtrl">
                         <div id="status" style="display:inline-block" class="status-box status-{{build.status}}"></div>
                         <div style="display:inline-block;" class="info-box">

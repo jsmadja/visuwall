@@ -6,6 +6,9 @@ import com.visuwall.api.domain.BuildState;
 import com.visuwall.api.domain.BuildTime;
 import com.visuwall.api.domain.SoftwareProjectId;
 import com.visuwall.api.domain.TestResult;
+import com.visuwall.api.exception.BuildIdNotFoundException;
+import com.visuwall.api.exception.BuildNotFoundException;
+import com.visuwall.api.exception.ProjectNotFoundException;
 import com.visuwall.api.plugin.capability.BasicCapability;
 import com.visuwall.api.plugin.capability.BuildCapability;
 import com.visuwall.api.plugin.capability.TestCapability;
@@ -35,10 +38,13 @@ public class Build implements Comparable<Build>{
     private SoftwareProjectId projectId;
     @JsonIgnore
     private String lastBuildId;
+    @JsonIgnore
+    private boolean removeable;
 
     public Build(BasicCapability connection, SoftwareProjectId projectId) {
         this.connection = connection;
         this.projectId = projectId;
+        this.removeable = false;
     }
 
     public BuildState getStatus() {
@@ -124,17 +130,22 @@ public class Build implements Comparable<Build>{
     }
 
     public boolean isRefreshable() throws Throwable {
+        return isCurrentlyBuilding() || newBuildIsAvailable();
+    }
+
+    private boolean isCurrentlyBuilding() throws ProjectNotFoundException, BuildNotFoundException {
         BuildCapability buildCapability = (BuildCapability) connection;
-        if(buildCapability.isBuilding(projectId, lastBuildId)) {
+        return buildCapability.isBuilding(projectId, lastBuildId);
+    }
+
+    private boolean newBuildIsAvailable() throws ProjectNotFoundException, BuildIdNotFoundException {
+        BuildCapability buildCapability = (BuildCapability) connection;
+        String oldBuildId = lastBuildId;
+        lastBuildId = buildCapability.getLastBuildId(projectId);
+        if(oldBuildId == null) {
             return true;
-        } else {
-            String lastBuildId = buildCapability.getLastBuildId(projectId);
-            if(!lastBuildId.equals(this.lastBuildId)) {
-                return true;
-            }
-            this.lastBuildId = lastBuildId;
         }
-        return false;
+        return !oldBuildId.equals(lastBuildId);
     }
 
     public boolean is(SoftwareProjectId projectId) {
@@ -155,5 +166,13 @@ public class Build implements Comparable<Build>{
     @Override
     public String toString() {
         return name;
+    }
+
+    public void setRemoveable() {
+        this.removeable = true;
+    }
+
+    public boolean isRemoveable() {
+        return removeable;
     }
 }
