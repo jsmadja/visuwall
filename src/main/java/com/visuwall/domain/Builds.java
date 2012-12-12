@@ -68,13 +68,52 @@ public class Builds implements Iterable<Build>{
     }
 
     private void addNewBuilds() {
-        for (BasicCapability connection : connections) {
+        ExecutorService pool = Executors.newFixedThreadPool(20);
+        List<Future<BuildConfiguration>> futures = new ArrayList<Future<BuildConfiguration>>();
+        for (final BasicCapability connection : connections) {
             Collection<SoftwareProjectId> projectIds = connection.listSoftwareProjectIds().keySet();
-            for (SoftwareProjectId projectId : projectIds) {
-                if(isAddable(projectId)) {
-                    addNewBuild(connection, projectId);
-                }
+            for (final SoftwareProjectId projectId : projectIds) {
+                futures.add(pool.submit(new Callable<BuildConfiguration>() {
+                    @Override
+                    public BuildConfiguration call() throws Exception {
+                        return new BuildConfiguration(projectId, connection);
+                    }
+                }));
             }
+        }
+        for (Future<BuildConfiguration> future : futures) {
+            addBuildIfNecessary(future);
+        }
+    }
+
+    private class BuildConfiguration {
+        private SoftwareProjectId projectId;
+        private BasicCapability connection;
+
+        public BuildConfiguration(SoftwareProjectId projectId, BasicCapability connection) {
+            this.projectId = projectId;
+            this.connection = connection;
+        }
+
+        public SoftwareProjectId getProjectId() {
+            return projectId;
+        }
+
+        public BasicCapability getConnection() {
+            return connection;
+        }
+    }
+
+    private void addBuildIfNecessary(Future<BuildConfiguration> future) {
+        try {
+            BuildConfiguration buildConfiguration = future.get();
+            if(isAddable(buildConfiguration.getProjectId())) {
+                addNewBuild(buildConfiguration.getConnection(), buildConfiguration.getProjectId());
+            }
+        }catch(ExecutionException e) {
+            LOG.error("Error when getting future: "+future, e);
+        } catch (InterruptedException e) {
+            LOG.error("Error when getting future: " + future, e);
         }
     }
 
@@ -128,4 +167,5 @@ public class Builds implements Iterable<Build>{
         }
         return false;
     }
+
 }

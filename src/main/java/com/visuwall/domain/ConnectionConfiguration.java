@@ -10,6 +10,14 @@ public class ConnectionConfiguration {
     private String login;
     private String password;
 
+
+    public static PluginConfiguration createPluginConfigurationFrom(ConnectionConfiguration connectionConfiguration) {
+        PluginConfiguration pluginConfiguration = new PluginConfiguration();
+        pluginConfiguration.put("login", connectionConfiguration.getLogin());
+        pluginConfiguration.put("password", connectionConfiguration.getPassword());
+        return pluginConfiguration;
+    }
+
     public String getName() {
         return name;
     }

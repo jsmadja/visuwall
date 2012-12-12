@@ -32,22 +32,16 @@ public class Wall implements Runnable {
     }
 
     private void addNewValidConnection(ConnectionConfiguration connectionConfiguration, VisuwallPlugin plugin) {
-        PluginConfiguration pluginConfiguration = createPluginConfigurationFrom(connectionConfiguration);
+        PluginConfiguration pluginConfiguration = ConnectionConfiguration.createPluginConfigurationFrom(connectionConfiguration);
         URL softwareUrl = connectionConfiguration.asUrl();
         BasicCapability connection = plugin.getConnection(softwareUrl, pluginConfiguration);
         builds.addConnection(connection);
         configuration.addUrl(connectionConfiguration);
-    }
-
-    private PluginConfiguration createPluginConfigurationFrom(ConnectionConfiguration connectionConfiguration) {
-        PluginConfiguration pluginConfiguration = new PluginConfiguration();
-        pluginConfiguration.put("login", connectionConfiguration.getLogin());
-        pluginConfiguration.put("password", connectionConfiguration.getPassword());
-        return pluginConfiguration;
+        builds.refresh();
     }
 
     private VisuwallPlugin findPluginCompatibleWith(ConnectionConfiguration connectionConfiguration) {
-        PluginConfiguration pluginConfiguration = createPluginConfigurationFrom(connectionConfiguration);
+        PluginConfiguration pluginConfiguration = ConnectionConfiguration.createPluginConfigurationFrom(connectionConfiguration);
         for (VisuwallPlugin plugin : plugins) {
             URL softwareUrl = connectionConfiguration.asUrl();
             if(plugin.accept(softwareUrl, pluginConfiguration)) {
