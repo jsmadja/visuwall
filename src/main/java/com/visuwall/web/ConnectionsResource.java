@@ -12,7 +12,7 @@ import static javax.ws.rs.core.Response.ok;
 
 @Path("/walls/connections")
 @Produces("application/json")
-@Consumes("application/json")
+@Consumes({"application/json", "text/plain", "*/*"})
 public class ConnectionsResource {
 
     @GET

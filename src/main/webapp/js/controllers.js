@@ -37,13 +37,13 @@ function ConfigurationsCtrl($scope, $location, Walls, Connections) {
 
     $scope.updateConnection = function(connection) {
         Connections.update(connection, function() {
-            $location.path('/configuration');
+            $location.path('/configurations');
         });
     };
 
     $scope.removeConnection = function(connection) {
-        Connections.remove({name: connection.name}, function() {
-            $location.path('/configuration');
+        Connections.delete({name: connection.name}, function() {
+            $location.path('/configurations');
         });
     };
 
