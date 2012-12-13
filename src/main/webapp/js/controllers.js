@@ -2,11 +2,6 @@
 
 function BuildsCtrl($scope,Builds,$timeout) {
 
-    $scope.setBuild = function(build, builds) {
-        $scope.build = build;
-        $scope.builds = builds;
-    }
-
     var timeout = 1;
     function updateTime() {
         $scope.builds = Builds.list();
@@ -25,7 +20,7 @@ function BuildsCtrl($scope,Builds,$timeout) {
     updateLater();
 }
 
-function ConfigurationCtrl($scope, $location, Wall, Connection) {
+function ConfigurationsCtrl($scope, $location, Walls, Connections) {
 
     $scope.connections = [
         {name:'visuwall demo', url:'http://demo.visuwall.ci'},
@@ -34,20 +29,20 @@ function ConfigurationCtrl($scope, $location, Wall, Connection) {
     ];
 
     $scope.addConnection = function() {
-        Wall.save($scope.connection, function(connection) {
+        Walls.save($scope.connection, function(connection) {
             $location.path('/builds');
         });
         $scope.connectionUrl = '';
     };
 
     $scope.updateConnection = function(connection) {
-        Connection.update(connection, function() {
+        Connections.update(connection, function() {
             $location.path('/configuration');
         });
     };
 
     $scope.removeConnection = function(connection) {
-        Connection.remove({name: connection.name}, function() {
+        Connections.remove({name: connection.name}, function() {
             $location.path('/configuration');
         });
     };

@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('visuwallDirectives', ['ngResource'])
-    .directive('refreshBuild', function($timeout, Build) {
-
+    .directive('refreshBuild', function($timeout, Builds) {
         return function($scope, element, attrs) {
 
             var build, timeoutId;
@@ -12,7 +11,7 @@ angular.module('visuwallDirectives', ['ngResource'])
                 var name = $scope.build.name;
                 for (var i=0; i < builds.length; i++) {
                     if(builds[i].name == name) {
-                        Build.get({name: name}, function(remoteBuild) {
+                        Builds.get({name: name}, function(remoteBuild) {
                             var buildToUpdate = builds[i];
                             buildToUpdate.name = remoteBuild.name;
                             buildToUpdate.status = remoteBuild.status;

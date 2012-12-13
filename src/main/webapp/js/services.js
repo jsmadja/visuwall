@@ -1,21 +1,18 @@
 'use strict';
 
 angular.module('visuwallServices', ['ngResource']).
-    factory('Build', function($resource) {
-        return $resource('rest/walls/builds/:name', {}, {
-        });
-    }).
     factory('Builds', function($resource) {
-        return $resource('rest/walls/builds', {}, {
-            list: { method:'GET',   isArray:true}
+        return $resource('rest/walls/builds/:name', {}, {
+            list: { method:'GET',   isArray:true},
+            get:  { method:'GET'}
         });
     }).
-    factory('Wall', function($resource) {
+    factory('Walls', function($resource) {
         return $resource('rest/walls', {}, {
             list: { method: 'GET',  isArray: true }
         });
     }).
-    factory('Connection', function($resource) {
+    factory('Connections', function($resource) {
         return $resource('rest/walls/connections/:name', {}, {
             update: { method: 'PUT', isArray: true },
             remove: { method: 'DELETE'}
