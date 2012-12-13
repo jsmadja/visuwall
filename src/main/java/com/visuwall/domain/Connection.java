@@ -33,6 +33,7 @@ public class Connection {
         return basicCapability.listSoftwareProjectIds().keySet();
     }
 
+    @JsonIgnore
     public BasicCapability getVisuwallConnection() {
         return basicCapability;
     }
@@ -123,5 +124,9 @@ public class Connection {
 
     public boolean hasName(String name) {
         return this.name.equalsIgnoreCase(name);
+    }
+
+    public String getBuildFilter() {
+        return buildFilter;
     }
 }

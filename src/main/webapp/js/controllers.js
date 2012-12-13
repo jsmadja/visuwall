@@ -22,15 +22,11 @@ function BuildsCtrl($scope,Builds,$timeout) {
 
 function ConfigurationsCtrl($scope, $location, Walls, Connections) {
 
-    $scope.connections = [
-        {name:'visuwall demo', url:'http://demo.visuwall.ci'},
-        {name:'my client', url:'http://jenkins-master', buildFilter:'cautions*,fxent*,hermes*'},
-        {name:'awired', url:'http://ci.awired.net', buildFilter:'visuwall*'}
-    ];
+    $scope.connections = Connections.list();
 
     $scope.addConnection = function() {
-        Walls.save($scope.connection, function(connection) {
-            $location.path('/builds');
+        Connections.save($scope.connection, function(connection) {
+            $location.path('/configurations');
         });
         $scope.connectionUrl = '';
     };
