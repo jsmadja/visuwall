@@ -1,20 +1,33 @@
 package com.visuwall.domain;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import static java.util.Collections.unmodifiableList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Configuration {
 
-    private List<ConnectionConfiguration> connectionConfigurations = new ArrayList<ConnectionConfiguration>();
+    private static final Logger LOG = LoggerFactory.getLogger(Configuration.class);
 
-    public Collection<ConnectionConfiguration> getConnectionConfigurations() {
-        return unmodifiableList(connectionConfigurations);
+    private Connections connections = new Connections();
+
+    public void addUrl(Connection connection) {
+        this.connections.add(connection);
     }
 
-    public void addUrl(ConnectionConfiguration connectionConfiguration) {
-        this.connectionConfigurations.add(connectionConfiguration);
+    public void remove(Connection connection) {
+        if(!connections.remove(connection)) {
+            LOG.warn(connection+" has not been removed from global configuration");
+        }
+    }
+
+    public Connections getConnections() {
+        return connections;
+    }
+
+    public Connection getConnectionByName(String name) {
+        return connections.getConnection(name);
+    }
+
+    public boolean containsConfiguration(String name) {
+        return connections.contains(name);
     }
 }

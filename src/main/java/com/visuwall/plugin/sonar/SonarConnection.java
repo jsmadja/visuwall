@@ -281,6 +281,11 @@ public class SonarConnection implements MetricCapability, TestCapability {
         return false;
     }
 
+    @Override
+    public String getUrl() {
+        return url;
+    }
+
     private TestResult createUnitTestAnalysis(String artifactId) {
         TestResult unitTestResult = new TestResult();
         try {

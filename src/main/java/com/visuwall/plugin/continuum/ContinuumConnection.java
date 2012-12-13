@@ -43,6 +43,7 @@ public class ContinuumConnection implements BuildCapability, ViewCapability {
     private ContinuumXmlRpcClient client;
 
     private boolean connected;
+    private String url;
 
     @Override
     public String getMavenId(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException,
@@ -64,6 +65,7 @@ public class ContinuumConnection implements BuildCapability, ViewCapability {
         ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
         try {
+            this.url = url;
             client = new ContinuumXmlRpcClient(new URL(url + "/xmlrpc"));
             connected = true;
         } catch (MalformedURLException e) {
@@ -157,6 +159,11 @@ public class ContinuumConnection implements BuildCapability, ViewCapability {
     @Override
     public boolean isProjectDisabled(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException {
         return false;
+    }
+
+    @Override
+    public String getUrl() {
+        return url;
     }
 
     @Override

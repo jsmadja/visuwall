@@ -21,6 +21,8 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
     <jaxrs:serviceBeans>
         <bean class="com.visuwall.web.BuildsResource" />
         <bean class="com.visuwall.web.WallsResource" />
+        <bean class="com.visuwall.web.ConfigurationsResource" />
+        <bean class="com.visuwall.web.ConnectionsResource" />
     </jaxrs:serviceBeans>
        <jaxrs:providers>
         <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>

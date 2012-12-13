@@ -1,26 +1,46 @@
 package com.visuwall.domain;
 
 import com.google.common.base.Joiner;
-import org.apache.commons.lang.StringUtils;
+import com.visuwall.api.domain.SoftwareProjectId;
+import com.visuwall.api.plugin.capability.BasicCapability;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class ConnectionConfiguration {
+import static org.apache.commons.lang.StringUtils.isBlank;
+
+public class Connection {
+
+    @JsonIgnore
+    private BasicCapability basicCapability;
 
     private String name;
+
     private String url;
+
     private String login;
+
+    @JsonIgnore
     private String password;
+
     private String buildFilter;
 
+    public Collection<SoftwareProjectId> listSoftwareProjectIds() {
+        return basicCapability.listSoftwareProjectIds().keySet();
+    }
 
-    public static PluginConfiguration createPluginConfigurationFrom(ConnectionConfiguration connectionConfiguration) {
+    public BasicCapability getVisuwallConnection() {
+        return basicCapability;
+    }
+
+    public static PluginConfiguration createPluginConfigurationFrom(Connection connection) {
         PluginConfiguration pluginConfiguration = new PluginConfiguration();
-        pluginConfiguration.put("login", connectionConfiguration.getLogin());
-        pluginConfiguration.put("password", connectionConfiguration.getPassword());
+        pluginConfiguration.put("login", connection.getLogin());
+        pluginConfiguration.put("password", connection.getPassword());
         return pluginConfiguration;
     }
 
@@ -56,8 +76,8 @@ public class ConnectionConfiguration {
         return password;
     }
 
-    public boolean acceptBuildNamedAs(String name) {
-        if(StringUtils.isBlank(buildFilter)) {
+    public boolean accept(String name) {
+        if(isBlank(buildFilter)) {
             return true;
         }
         return name.matches(buildFilter);
@@ -90,5 +110,18 @@ public class ConnectionConfiguration {
             regexps.add(regexp);
         }
         return regexps;
+    }
+
+    public void setVisuwallConnection(BasicCapability visuwallConnection) {
+        this.basicCapability = visuwallConnection;
+    }
+
+    @Override
+    public String toString() {
+        return "connection '"+name+"";
+    }
+
+    public boolean hasName(String name) {
+        return this.name.equalsIgnoreCase(name);
     }
 }

@@ -13,15 +13,12 @@ public class Builds implements Iterable<Build>{
 
     private Set<Build> builds = new TreeSet<Build>();
 
-    private Set<BasicCapability> connections = new HashSet<BasicCapability>();
+    private Connections connections = new Connections();
 
     private static final Logger LOG = LoggerFactory.getLogger(Builds.class);
 
-    private ConnectionConfiguration connectionConfiguration;
-
-    public void addConnection(BasicCapability connection, ConnectionConfiguration connectionConfiguration) {
+    public void addConnection(Connection connection) {
         this.connections.add(connection);
-        this.connectionConfiguration = connectionConfiguration;
     }
 
     public void refresh() {
@@ -58,11 +55,11 @@ public class Builds implements Iterable<Build>{
         return new Callable<Build>() {
             @Override
             public Build call() throws Exception {
-                if (build.isRefreshable()) {
-                    LOG.info(build + " is refreshing ...");
-                    build.refresh();
-                }
-                return build;
+            if (build.isRefreshable()) {
+                LOG.info(build + " is refreshing ...");
+                build.refresh();
+            }
+            return build;
             }
         };
     }
@@ -70,8 +67,8 @@ public class Builds implements Iterable<Build>{
     private void addNewBuilds() {
         ExecutorService pool = Executors.newFixedThreadPool(20);
         List<Future<BuildConfiguration>> futures = new ArrayList<Future<BuildConfiguration>>();
-        for (final BasicCapability connection : connections) {
-            Collection<SoftwareProjectId> projectIds = connection.listSoftwareProjectIds().keySet();
+        for (final Connection connection : connections) {
+            Collection<SoftwareProjectId> projectIds = connection.listSoftwareProjectIds();
             for (final SoftwareProjectId projectId : projectIds) {
                 futures.add(pool.submit(new Callable<BuildConfiguration>() {
                     @Override
@@ -87,29 +84,21 @@ public class Builds implements Iterable<Build>{
         pool.shutdown();
     }
 
-    private class BuildConfiguration {
-        private SoftwareProjectId projectId;
-        private BasicCapability connection;
-
-        public BuildConfiguration(SoftwareProjectId projectId, BasicCapability connection) {
-            this.projectId = projectId;
-            this.connection = connection;
+    public void removeAllBuildsFrom(Connection connection) {
+        List<Build> buildsToRemove = new ArrayList<Build>();
+        for (Build build : builds) {
+            if(build.isLinkedTo(connection.getUrl())) {
+                buildsToRemove.add(build);
+            }
         }
-
-        public SoftwareProjectId getProjectId() {
-            return projectId;
-        }
-
-        public BasicCapability getConnection() {
-            return connection;
-        }
+        builds.removeAll(buildsToRemove);
     }
 
-    private void addBuildIfNecessary(Future<BuildConfiguration> future) {
+   private void addBuildIfNecessary(Future<BuildConfiguration> future) {
         try {
             BuildConfiguration buildConfiguration = future.get();
-            if(isAddable(buildConfiguration.getProjectId())) {
-                addNewBuild(buildConfiguration.getConnection(), buildConfiguration.getProjectId());
+            if(isAddable(buildConfiguration)) {
+                addNewBuild(buildConfiguration);
             }
         }catch(ExecutionException e) {
             LOG.error("Error when getting future: "+future, e);
@@ -120,7 +109,9 @@ public class Builds implements Iterable<Build>{
         }
     }
 
-    private void addNewBuild(BasicCapability connection, SoftwareProjectId projectId) {
+    private void addNewBuild(BuildConfiguration buildConfiguration) {
+        BasicCapability connection = buildConfiguration.getVisuwallConnection();
+        SoftwareProjectId projectId = buildConfiguration.getProjectId();
         try {
             LOG.info("Add a new build " + projectId);
             Build build = new Build(connection, projectId);
@@ -131,13 +122,14 @@ public class Builds implements Iterable<Build>{
         }
     }
 
-    private boolean isAddable(SoftwareProjectId projectId) throws ProjectNotFoundException {
+    private boolean isAddable(BuildConfiguration buildConfiguration) throws ProjectNotFoundException {
+        SoftwareProjectId softwareProjectId = buildConfiguration.getProjectId();
         for (Build build : builds) {
-            if(build.is(projectId) || build.isDisabled()) {
+            if(build.is(softwareProjectId) || build.isDisabled()) {
                 return false;
             }
         }
-        return connectionConfiguration.acceptBuildNamedAs(projectId.getProjectId());
+        return buildConfiguration.accept(softwareProjectId);
     }
 
     @Override

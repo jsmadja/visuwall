@@ -19,31 +19,32 @@ public class Wall implements Runnable {
 
     private Logger LOG = LoggerFactory.getLogger(Wall.class);
 
-    public void addConnection(ConnectionConfiguration connectionConfiguration) {
-        String url = connectionConfiguration.getUrl();
+    public void addConnection(Connection connection) {
+        String url = connection.getUrl();
         LOG.info("Trying to identify a compatible plugin for url:" + url);
-        VisuwallPlugin plugin = findPluginCompatibleWith(connectionConfiguration);
+        VisuwallPlugin plugin = findPluginCompatibleWith(connection);
         if(plugin == null) {
             LOG.info("Visuwall cannot find a compatible plugin for "+url);
         } else {
             LOG.info(plugin.getName() + " is compatible with url:" + url);
-            addNewValidConnection(connectionConfiguration, plugin);
+            addNewValidConnection(connection, plugin);
         }
     }
 
-    private void addNewValidConnection(ConnectionConfiguration connectionConfiguration, VisuwallPlugin plugin) {
-        PluginConfiguration pluginConfiguration = ConnectionConfiguration.createPluginConfigurationFrom(connectionConfiguration);
-        URL softwareUrl = connectionConfiguration.asUrl();
-        BasicCapability connection = plugin.getConnection(softwareUrl, pluginConfiguration);
-        builds.addConnection(connection, connectionConfiguration);
-        configuration.addUrl(connectionConfiguration);
+    private void addNewValidConnection(Connection connection, VisuwallPlugin plugin) {
+        PluginConfiguration pluginConfiguration = Connection.createPluginConfigurationFrom(connection);
+        URL softwareUrl = connection.asUrl();
+        BasicCapability visuwallConnection = plugin.getConnection(softwareUrl, pluginConfiguration);
+        connection.setVisuwallConnection(visuwallConnection);
+        builds.addConnection(connection);
+        configuration.addUrl(connection);
         builds.refresh();
     }
 
-    private VisuwallPlugin findPluginCompatibleWith(ConnectionConfiguration connectionConfiguration) {
-        PluginConfiguration pluginConfiguration = ConnectionConfiguration.createPluginConfigurationFrom(connectionConfiguration);
+    private VisuwallPlugin findPluginCompatibleWith(Connection connection) {
+        PluginConfiguration pluginConfiguration = Connection.createPluginConfigurationFrom(connection);
         for (VisuwallPlugin plugin : plugins) {
-            URL softwareUrl = connectionConfiguration.asUrl();
+            URL softwareUrl = connection.asUrl();
             if(plugin.accept(softwareUrl, pluginConfiguration)) {
                 LOG.info("Plugin acceptation - "+plugin.getName()+" ... OK");
                 return plugin;
@@ -80,6 +81,28 @@ public class Wall implements Runnable {
 
     public Configuration getConfiguration() {
         return configuration;
+    }
+
+    public void removeConnection(String name) throws ResourceNotFoundException {
+        if(!configuration.containsConfiguration(name)) {
+            throw new ResourceNotFoundException("Cannot find connection '"+name+"'");
+        }
+        Connection connection = configuration.getConnectionByName(name);
+        removeConnection(connection);
+    }
+
+    public void updateConnection(Connection connection) {
+        removeConnection(connection);
+        addConnection(connection);
+    }
+
+    private void removeConnection(Connection connection) {
+        configuration.remove(connection);
+        builds.removeAllBuildsFrom(connection);
+    }
+
+    public Connections getConnections() {
+        return configuration.getConnections();
     }
 }
 

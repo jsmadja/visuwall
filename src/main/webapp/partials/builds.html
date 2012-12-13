@@ -3,7 +3,7 @@
         <div id="builds" class="span12">
             <ul class="builds">
                 <li ng-repeat="build in builds" class="span6 thumbnail build" style="margin-left:5px;">
-                    <div style="display: block" refresh-build="setBuild(build, builds)" ng-controller="BuildCtrl">
+                    <div style="display: block" refresh-build="setBuild(build, builds)" ng-controller="BuildsCtrl">
                         <div id="status" style="display:inline-block" class="status-box status-{{build.status}}"></div>
                         <div style="display:inline-block;" class="info-box">
                             <p class="build-title">

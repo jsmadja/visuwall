@@ -9,10 +9,10 @@ function BuildCtrl($scope) {
     }
 }
 
-function BuildsCtrl($scope,Build,$timeout) {
+function BuildsCtrl($scope,Builds,$timeout) {
     var timeout = 1;
     function updateTime() {
-        $scope.builds = Build.query();
+        $scope.builds = Builds.list();
     }
     function updateLater() {
         $timeout(function() {
@@ -28,22 +28,12 @@ function BuildsCtrl($scope,Build,$timeout) {
     updateLater();
 }
 
-function TracksCtrl($scope, Track) {
-    $scope.tracks = Track.query();
-}
-
-function MetricsCtrl($scope, Metric) {
-    $scope.metrics = Metric.query();
-}
-
-function DeploymentsCtrl($scope, Deployment) {
-    $scope.deployments = Deployment.query();
-}
-
-function ConfigurationCtrl($scope, $location, Wall) {
+function ConfigurationCtrl($scope, $location, Wall, Connection) {
 
     $scope.connections = [
-        {url:'http://demo.visuwall.ci'}
+        {name:'visuwall demo', url:'http://demo.visuwall.ci'},
+        {name:'my client', url:'http://jenkins-master', buildFilter:'cautions*,fxent*,hermes*'},
+        {name:'awired', url:'http://ci.awired.net', buildFilter:'visuwall*'}
     ];
 
     $scope.addConnection = function() {
@@ -51,6 +41,18 @@ function ConfigurationCtrl($scope, $location, Wall) {
             $location.path('/builds');
         });
         $scope.connectionUrl = '';
+    };
+
+    $scope.updateConnection = function(connection) {
+        Connection.update(connection, function() {
+            $location.path('/configuration');
+        });
+    };
+
+    $scope.removeConnection = function(connection) {
+        Connection.remove({name: connection.name}, function() {
+            $location.path('/configuration');
+        });
     };
 
 }

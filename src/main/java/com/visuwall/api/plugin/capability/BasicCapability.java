@@ -93,4 +93,6 @@ public interface BasicCapability {
      * @throws ProjectNotFoundException
      */
     boolean isProjectDisabled(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException;
+
+    String getUrl();
 }

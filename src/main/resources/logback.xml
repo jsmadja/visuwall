@@ -9,5 +9,6 @@
     </root>
 
     <logger name="com.visuwall" level="INFO" />
+    <logger name="org.apache.cxf.jaxrs.utils.JAXRSUtils" level="TRACE" />
 
 </configuration>

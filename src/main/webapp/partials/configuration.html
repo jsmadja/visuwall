@@ -1,32 +1,44 @@
 <h2>Configuration</h2>
-<div class="container-fluid">
-    <div class="row-fluid" ng-controller="ConfigurationCtrl">
-    <ul class="unstyled">
-        <li ng-repeat="connection in connections">
-            {{connection.url}}
-        </li>
-    </ul>
+<div class="container-fluid" ng-controller="ConfigurationCtrl">
+    <div class="tabbable tabs-left">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab1" data-toggle="tab">Build</a></li>
+            <li><a href="#tab2" data-toggle="tab">Track</a></li>
+            <li><a href="#tab3" data-toggle="tab">Analyze</a></li>
+            <li><a href="#tab4" data-toggle="tab">Deploy</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab1">
+                <ul class="unstyled">
+                    <li ng-repeat="connection in connections">
+                        <form name="myForm" class="form-inline">
+                            <input type="text" name="name" ng-model="connection.name" required placeholder="{{connection.name}}" />
+                            <input type="url" name="site" ng-model="connection.url" required placeholder="{{connection.url}}" />
+                            <input type="text" name="buildFilter" ng-model="connection.buildFilter" placeholder="{{connection.buildFilter}}" />
+                            <button ng-click="updateConnection(connection)" class="btn btn-info">Update</button>
+                            <button ng-click="removeConnection(connection)" class="btn btn-danger">Remove</button>
+                        </form>
 
-    <form name="myForm">
-        <div class="control-group" ng-class="{error: myForm.name.$invalid}">
-            <label>Name</label>
-            <input type="text" name="name" ng-model="connection.name" required>
-            <span ng-show="myForm.name.$error.required" class="help-inline">Required</span>
+                    </li>
+                    <li>
+                        <form name="myForm" class="form-inline">
+                            <input type="text" name="name" ng-model="connection.name" required placeholder="name" />
+                            <input type="url" name="site" ng-model="connection.url" required placeholder="url" />
+                            <input type="text" name="buildFilter" ng-model="connection.buildFilter" placeholder="filter" />
+                            <button ng-click="addConnection()" class="btn btn-primary">Add</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-pane" id="tab2">
+                <p>I'm in Section Track.</p>
+            </div>
+            <div class="tab-pane" id="tab3">
+                <p>I'm in Section Analyze.</p>
+            </div>
+            <div class="tab-pane" id="tab4">
+                <p>I'm in Section Deploy.</p>
+            </div>
         </div>
-        <div class="control-group" ng-class="{error: myForm.site.$invalid}">
-            <label>URL</label>
-            <input type="url" name="site" ng-model="connection.url" required>
-            <span ng-show="myForm.site.$error.required" class="help-inline">Required</span>
-            <span ng-show="myForm.site.$error.url" class="help-inline">Not an URL</span>
-        </div>
-        <div class="control-group">
-            <label>Build filter</label>
-            <input type="text" name="buildFilter" ng-model="connection.buildFilter">
-        </div>
-        <br>
-        <button ng-click="addConnection()" class="btn btn-primary">
-            Add
-        </button>
-    </form>
-</div>
     </div>
+</div>

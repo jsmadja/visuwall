@@ -19,7 +19,8 @@ import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.ok;
 import static javax.ws.rs.core.Response.status;
 
-@Path("/builds")
+@Path("/walls/builds")
+@Produces("application/json")
 public class BuildsResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(BuildsResource.class);
@@ -27,7 +28,6 @@ public class BuildsResource {
 
     @GET
     @Path("/{name}")
-    @Produces("application/json")
     public Response builds(@PathParam("name") String name) {
         Wall wall = Walls.get(WALL_ID);
         if(wall == null) {
@@ -42,7 +42,6 @@ public class BuildsResource {
     }
 
     @GET
-    @Produces("application/json")
     public Response builds() {
         Wall wall = Walls.get(WALL_ID);
         if(wall == null) {
@@ -52,6 +51,24 @@ public class BuildsResource {
         LOG.debug("new builds request from client for "+WALL_ID+" wall ("+builds.count()+" builds)");
         Set<Build> allBuilds = builds.all();
         return ok().entity(allBuilds).build();
+    }
+
+
+    @GET
+    @Path("/{name}")
+    public Response getBuild(@PathParam("name") String name) {
+        Wall wall = Walls.get("wall");
+        Build build = wall.getBuild(name);
+        return ok().entity(build).build();
+    }
+
+    @GET
+    @Path("/{name}/last")
+    public Response refreshBuild(@PathParam("name") String name) {
+        Wall wall = Walls.get("wall");
+        Build build = wall.getBuild(name);
+        build.refresh();
+        return ok().entity(build).build();
     }
 
 }

@@ -29,11 +29,11 @@ public class DemoConnection implements BuildCapability, TestCapability, ViewCapa
 
     private List<String> views = new ArrayList<String>();
 
-    private Integer marsBuildId = 1;
-
     private List<String> marsBuildIds = new ArrayList<String>();
 
     private ChangeStateProject marsProj = new ChangeStateProject();
+
+    private String url = "http://demo.visuwall.ci";
 
     public DemoConnection() {
         softwareProjectIds.put(moon, "Moon");
@@ -178,6 +178,11 @@ public class DemoConnection implements BuildCapability, TestCapability, ViewCapa
     @Override
     public boolean isProjectDisabled(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException {
         return false;
+    }
+
+    @Override
+    public String getUrl() {
+        return url;
     }
 
     @Override

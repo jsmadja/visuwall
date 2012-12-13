@@ -54,6 +54,7 @@ public class HudsonConnection implements BuildCapability, ViewCapability, TestCa
     Hudson hudson;
 
     private boolean connected;
+    private String url;
 
     @Override
     public void connect(String url, String login, String password) {
@@ -61,6 +62,7 @@ public class HudsonConnection implements BuildCapability, ViewCapability, TestCa
         if (isBlank(url)) {
             throw new IllegalStateException("url can't be null.");
         }
+        this.url = url;
         if (StringUtils.isBlank(login)) {
             hudson = new Hudson(url);
         } else {
@@ -313,6 +315,11 @@ public class HudsonConnection implements BuildCapability, ViewCapability, TestCa
         } catch (HudsonJobNotFoundException e) {
             throw new ProjectNotFoundException("Can't find job with software project id: " + softwareProjectId, e);
         }
+    }
+
+    @Override
+    public String getUrl() {
+        return url;
     }
 
     @Override

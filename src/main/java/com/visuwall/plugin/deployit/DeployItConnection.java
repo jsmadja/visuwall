@@ -21,6 +21,7 @@ public class DeployItConnection implements BuildCapability, TestCapability, View
     private boolean connected;
 
     private final static Logger LOG = LoggerFactory.getLogger(DeployItConnection.class);
+    private String url;
 
     @Override
     public String getMavenId(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException,
@@ -32,6 +33,7 @@ public class DeployItConnection implements BuildCapability, TestCapability, View
     public void connect(String url, String login, String password) {
         deployIt = new DeployIt(url, login, password);
         connected = true;
+        this.url = url;
     }
 
     @Override
@@ -139,6 +141,11 @@ public class DeployItConnection implements BuildCapability, TestCapability, View
     @Override
     public boolean isProjectDisabled(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException {
         return false;
+    }
+
+    @Override
+    public String getUrl() {
+        return url;
     }
 
     @Override

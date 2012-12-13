@@ -58,6 +58,8 @@ public class BambooConnection implements BuildCapability, TestCapability {
 
     private boolean connected;
 
+    private String url;
+
     private static final Logger LOG = LoggerFactory.getLogger(BambooConnection.class);
 
     @Override
@@ -66,6 +68,7 @@ public class BambooConnection implements BuildCapability, TestCapability {
         if (StringUtils.isBlank(url)) {
             throw new IllegalArgumentException("url can't be null.");
         }
+        this.url = url;
         if (StringUtils.isNotBlank(login)) {
             bamboo = new Bamboo(url, login, password);
         } else {
@@ -250,6 +253,11 @@ public class BambooConnection implements BuildCapability, TestCapability {
         } catch (BambooPlanNotFoundException e) {
             throw new ProjectNotFoundException("Can't find plan with software project id: " + softwareProjectId, e);
         }
+    }
+
+    @Override
+    public String getUrl() {
+        return url;
     }
 
     @Override

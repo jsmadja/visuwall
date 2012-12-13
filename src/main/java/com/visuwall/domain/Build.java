@@ -37,10 +37,13 @@ public class Build implements Comparable<Build>{
 
     @JsonIgnore
     private BasicCapability connection;
+
     @JsonIgnore
     private SoftwareProjectId projectId;
+
     @JsonIgnore
     private String lastBuildId;
+
     @JsonIgnore
     private boolean removeable;
 
@@ -80,11 +83,11 @@ public class Build implements Comparable<Build>{
     }
 
     @Override
-    public int compareTo(Build build2) {
-        return this.name.compareToIgnoreCase(build2.name);
+    public int compareTo(Build build) {
+        return this.name.compareToIgnoreCase(build.name);
     }
 
-    public void refresh() throws Exception {
+    public void refresh() {
         try {
             refreshInfos();
             refreshTimes();
@@ -190,5 +193,10 @@ public class Build implements Comparable<Build>{
     public boolean isDisabled() throws ProjectNotFoundException {
         BuildCapability buildCapability = (BuildCapability) connection;
         return buildCapability.isProjectDisabled(projectId);
+    }
+
+    @JsonIgnore
+    public boolean isLinkedTo(String url) {
+        return this.connection.getUrl().equalsIgnoreCase(url);
     }
 }

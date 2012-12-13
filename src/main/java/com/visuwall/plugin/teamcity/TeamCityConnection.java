@@ -72,6 +72,8 @@ public class TeamCityConnection implements BuildCapability, TestCapability, View
     @VisibleForTesting
     TeamCity teamCity;
 
+    private String url;
+
     @Override
     public void connect(String url, String login, String password) {
         checkNotNull(url, "url is mandatory");
@@ -83,6 +85,7 @@ public class TeamCityConnection implements BuildCapability, TestCapability, View
             login = "guest";
             password = "";
         }
+        this.url = url;
         teamCity = new TeamCity(url, login, password);
         connected = true;
     }
@@ -311,6 +314,11 @@ public class TeamCityConnection implements BuildCapability, TestCapability, View
         } catch (TeamCityBuildTypeNotFoundException e) {
             throw new ProjectNotFoundException("Can't find project with software project id:" + softwareProjectId, e);
         }
+    }
+
+    @Override
+    public String getUrl() {
+        return url;
     }
 
     @Override

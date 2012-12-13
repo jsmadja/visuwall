@@ -4,12 +4,12 @@ angular.module('visuwall', ['visuwallServices']).
   config(['$routeProvider', function($routeProvider) {
   $routeProvider.
       when('/builds',        {templateUrl: 'partials/builds.html',       controller:BuildsCtrl}).
-      when('/tracks',        {templateUrl: 'partials/tracks.html',         controller:TracksCtrl}).
-      when('/metrics',       {templateUrl: 'partials/metrics.html',        controller:MetricsCtrl}).
-      when('/deployments',   {templateUrl: 'partials/deployments.html',    controller:DeploymentsCtrl}).
+      //when('/tracks',        {templateUrl: 'partials/tracks.html',         controller:TracksCtrl}).
+      //when('/metrics',       {templateUrl: 'partials/metrics.html',        controller:MetricsCtrl}).
+      //when('/deployments',   {templateUrl: 'partials/deployments.html',    controller:DeploymentsCtrl}).
       when('/configuration', {templateUrl: 'partials/configuration.html',    controller:ConfigurationCtrl}).
       otherwise({redirectTo: '/builds'});
-}]).directive('refreshBuild', function($timeout, Build, Builds) {
+}]).directive('refreshBuild', function($timeout, Build) {
 
     return function($scope, element, attrs) {
 
@@ -17,10 +17,10 @@ angular.module('visuwall', ['visuwallServices']).
 
         function updateTime() {
             var builds = $scope.builds;
-            var buildName = $scope.build.name;
+            var name = $scope.build.name;
             for (var i=0; i < builds.length; i++) {
-                if(builds[i].name == buildName) {
-                    Build.get({buildName: buildName}, function(remoteBuild) {
+                if(builds[i].name == name) {
+                    Build.get({name: name}, function(remoteBuild) {
                         var buildToUpdate = builds[i];
                         buildToUpdate.name = remoteBuild.name;
                         buildToUpdate.status = remoteBuild.status;

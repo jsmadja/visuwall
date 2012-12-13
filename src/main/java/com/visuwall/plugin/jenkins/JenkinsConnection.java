@@ -54,12 +54,15 @@ public final class JenkinsConnection implements BuildCapability, ViewCapability,
     private static final Collection<String> DEFAULT_VIEWS = Arrays.asList("Alle", "Todo", "Tous", "\u3059\u3079\u3066",
             "Tudo", "\u0412\u0441\u0435", "Hepsi", "All");
 
+    private String url;
+
     @Override
     public void connect(String url, String login, String password) {
         checkNotNull(url, "url is mandatory");
         if (isBlank(url)) {
             throw new IllegalStateException("url can't be null.");
         }
+        this.url = url;
         if (StringUtils.isBlank(login)) {
             hudson = new Hudson(url);
         } else {
@@ -316,6 +319,11 @@ public final class JenkinsConnection implements BuildCapability, ViewCapability,
         } catch (HudsonJobNotFoundException e) {
             throw new ProjectNotFoundException("Can't find job with software project id: " + softwareProjectId, e);
         }
+    }
+
+    @Override
+    public String getUrl() {
+        return url;
     }
 
     @Override
