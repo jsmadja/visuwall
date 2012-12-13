@@ -1,7 +1,5 @@
 'use strict';
 
-/* Services */
-
 angular.module('visuwallServices', ['ngResource']).
     factory('Build', function($resource) {
         return $resource('rest/walls/builds/:name', {}, {
@@ -18,9 +16,9 @@ angular.module('visuwallServices', ['ngResource']).
         });
     }).
     factory('Connection', function($resource) {
-       return $resource('rest/walls/connections/:name', {}, {
-           update: { method: 'PUT', isArray: true },
-           remove: { method: 'DELETE'}
-       });
+        return $resource('rest/walls/connections/:name', {}, {
+            update: { method: 'PUT', isArray: true },
+            remove: { method: 'DELETE'}
+        });
     }
 );

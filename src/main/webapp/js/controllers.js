@@ -1,15 +1,12 @@
 'use strict';
 
-/* Controllers */
+function BuildsCtrl($scope,Builds,$timeout) {
 
-function BuildCtrl($scope) {
     $scope.setBuild = function(build, builds) {
         $scope.build = build;
         $scope.builds = builds;
     }
-}
 
-function BuildsCtrl($scope,Builds,$timeout) {
     var timeout = 1;
     function updateTime() {
         $scope.builds = Builds.list();
