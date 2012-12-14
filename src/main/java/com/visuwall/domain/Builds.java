@@ -38,6 +38,7 @@ public class Builds implements Iterable<Build>{
         for (Future<Build> future : futures) {
             removeBuildIfNecessary(future);
         }
+        pool.shutdown();
     }
 
     private void removeBuildIfNecessary(Future<Build> future) {
@@ -83,6 +84,7 @@ public class Builds implements Iterable<Build>{
         for (Future<BuildConfiguration> future : futures) {
             addBuildIfNecessary(future);
         }
+        pool.shutdown();
     }
 
     private class BuildConfiguration {
@@ -114,7 +116,7 @@ public class Builds implements Iterable<Build>{
         } catch (InterruptedException e) {
             LOG.error("Error when getting future: " + future, e);
         } catch (ProjectNotFoundException e) {
-            LOG.error("Error when getting future: " + future, e);
+            LOG.info(e.getMessage());
         }
     }
 
