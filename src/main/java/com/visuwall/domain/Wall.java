@@ -5,12 +5,9 @@ import com.visuwall.api.plugin.capability.BasicCapability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.net.URL;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
-import static javax.xml.bind.annotation.XmlAccessType.FIELD;
 
 public class Wall implements Runnable {
 
@@ -18,14 +15,14 @@ public class Wall implements Runnable {
 
     private Configuration configuration = new Configuration();
 
-    private Plugins plugins = new Plugins();
-
     private Logger LOG = LoggerFactory.getLogger(Wall.class);
+
+    private PluginDiscover pluginDiscover = new PluginDiscover();
 
     public void addConnection(Connection connection) {
         String url = connection.getUrl();
         LOG.info("Trying to identify a compatible plugin for url:" + url);
-        VisuwallPlugin plugin = findPluginCompatibleWith(connection);
+        VisuwallPlugin plugin = pluginDiscover.findPluginCompatibleWith(connection);
         if(plugin == null) {
             LOG.info("Visuwall cannot find a compatible plugin for "+url);
         } else {
@@ -42,19 +39,6 @@ public class Wall implements Runnable {
         builds.addConnection(connection);
         configuration.addUrl(connection);
         builds.refresh();
-    }
-
-    private VisuwallPlugin findPluginCompatibleWith(Connection connection) {
-        PluginConfiguration pluginConfiguration = Connection.createPluginConfigurationFrom(connection);
-        for (VisuwallPlugin plugin : plugins) {
-            URL softwareUrl = connection.asUrl();
-            if(plugin.accept(softwareUrl, pluginConfiguration)) {
-                LOG.info("Plugin acceptation - "+plugin.getName()+" ... OK");
-                return plugin;
-            }
-            LOG.info("Plugin acceptation - "+plugin.getName()+" ... KO");
-        }
-        return null;
     }
 
     void start() {

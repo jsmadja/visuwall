@@ -16,7 +16,7 @@ import java.util.Iterator;
 
 public class Plugins implements Iterable<VisuwallPlugin> {
 
-    private Collection<VisuwallPlugin> plugins = new ArrayList<VisuwallPlugin>();
+    private static final Collection<VisuwallPlugin> plugins = new ArrayList<VisuwallPlugin>();
 
     public Plugins() {
         plugins.add(new JenkinsPlugin());

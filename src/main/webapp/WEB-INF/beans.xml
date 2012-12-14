@@ -22,6 +22,7 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
             <bean class="com.visuwall.web.BuildsResource"/>
             <bean class="com.visuwall.web.WallsResource"/>
             <bean class="com.visuwall.web.ConfigurationsResource"/>
+            <bean class="com.visuwall.web.ConnectionResource"/>
             <bean class="com.visuwall.web.ConnectionsResource"/>
         </jaxrs:serviceBeans>
         <jaxrs:providers>

@@ -4,13 +4,16 @@ import com.google.common.base.Joiner;
 import com.visuwall.api.domain.SoftwareProjectId;
 import com.visuwall.api.plugin.capability.BasicCapability;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import sun.misc.Regexp;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
+import static java.util.Collections.sort;
 import static org.apache.commons.lang.StringUtils.isBlank;
 
 public class Connection {
@@ -28,6 +31,10 @@ public class Connection {
     private String password;
 
     private String buildFilter;
+    private String pluginName;
+    private String warning;
+
+    private List<String> includeBuildNames = new ArrayList<String>();
 
     public Collection<SoftwareProjectId> listSoftwareProjectIds() {
         return basicCapability.listSoftwareProjectIds().keySet();
@@ -61,9 +68,31 @@ public class Connection {
         this.url = url;
     }
 
+    public List<String> getIncludeBuildNames() {
+        return includeBuildNames;
+    }
+
+    public void setIncludeBuildNames(List<String> includeBuildNames) {
+        this.includeBuildNames = includeBuildNames;
+    }
+
+    public Collection<String> getBuildNames() {
+        List<String> buildNames = new ArrayList<String>();
+        if(basicCapability != null) {
+            Collection<SoftwareProjectId> softwareProjectIds = listSoftwareProjectIds();
+            for (SoftwareProjectId softwareProjectId : softwareProjectIds) {
+                if(accept(softwareProjectId.getProjectId())) {
+                    buildNames.add(softwareProjectId.getProjectId());
+                }
+            }
+            sort(buildNames);
+        }
+        return buildNames;
+    }
+
     public URL asUrl() {
         try {
-            return new URL(url);
+            return new URL(url.toString().toLowerCase());
         } catch (MalformedURLException e) {
             throw new IllegalStateException(e);
         }
@@ -73,45 +102,32 @@ public class Connection {
         return login;
     }
 
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @JsonIgnore
     public String getPassword() {
         return password;
     }
 
     public boolean accept(String name) {
+        if(!includeBuildNames.isEmpty()) {
+            return includeBuildNames.contains(name);
+        }
         if(isBlank(buildFilter)) {
             return true;
         }
-        return name.matches(buildFilter);
+        String regexp = new RegexpAdapter(buildFilter).toString();
+        return name.matches(regexp);
     }
 
     public void setBuildFilter(String buildFilter) {
-        if(buildFilter.startsWith("regexp:")) {
-            this.buildFilter = buildFilter.substring("regexp:".length());
-            return;
-        }
-        if(buildFilter.contains(",")) {
-            List<String> regexps = buildRegexps(buildFilter);
-            this.buildFilter = Joiner.on('|').join(regexps);
-        } else {
-            this.buildFilter = buildFilter;
-        }
-    }
-
-    private List<String> buildRegexps(String buildFilter) {
-        List<String> regexps = new ArrayList<String>();
-        String[] split = buildFilter.split(",");
-        for (String filter : split) {
-            String regexp = "(?i)";
-            if(filter.endsWith("*")) {
-                String buildNamePrefix = filter.substring(0, filter.length() - 1);
-                regexp +=  buildNamePrefix + ".*";
-            } else {
-                regexp += filter.substring(0, filter.length());
-            }
-            regexps.add(regexp);
-        }
-        return regexps;
+        this.buildFilter = buildFilter;
     }
 
     public void setVisuwallConnection(BasicCapability visuwallConnection) {
@@ -129,5 +145,21 @@ public class Connection {
 
     public String getBuildFilter() {
         return buildFilter;
+    }
+
+    public void setPluginName(String pluginName) {
+        this.pluginName = pluginName;
+    }
+
+    public String getPluginName() {
+        return pluginName;
+    }
+
+    public void setWarning(String warning) {
+        this.warning = warning;
+    }
+
+    public String getWarning() {
+        return warning;
     }
 }

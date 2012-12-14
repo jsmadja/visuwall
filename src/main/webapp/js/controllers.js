@@ -20,15 +20,15 @@ function BuildsCtrl($scope,Builds,$timeout) {
     updateLater();
 }
 
-function ConfigurationsCtrl($scope, $location, Walls, Connections) {
+function ConfigurationsCtrl($scope, $location, Connection, Connections) {
 
     $scope.connections = Connections.list();
 
     $scope.addConnection = function() {
+        $scope.connection.includeBuildNames = $scope.buildNames;
         Connections.save($scope.connection, function(connection) {
             $location.path('/configurations');
         });
-        $scope.connectionUrl = '';
     };
 
     $scope.updateConnection = function(connection) {
@@ -42,5 +42,29 @@ function ConfigurationsCtrl($scope, $location, Walls, Connections) {
             $location.path('/configurations');
         });
     };
+
+    $scope.checkConnection = function() {
+        var url = $scope.connection.url;
+        setTimeout(function() {
+            if ($scope.connection.url == url) {
+                Connection.save($scope.connection, function(connection) {
+                    $scope.connection = connection;
+                });
+            }
+            url = $scope.connection.url;
+        }, 500);
+    }
+
+    $scope.applyFilter = function() {
+        var buildFilter = $scope.connection.buildFilter;
+        setTimeout(function() {
+            if ($scope.connection.buildFilter == buildFilter) {
+                Connection.save($scope.connection, function(connection) {
+                    $scope.connection = connection;
+                });
+            }
+            buildFilter = $scope.connection.buildFilter;
+        }, 500);
+    }
 
 }

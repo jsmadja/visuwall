@@ -15,7 +15,11 @@ angular.module('visuwallServices', ['ngResource']).
     factory('Connections', function($resource) {
         return $resource('rest/walls/connections/:name', {}, {
             list: { method:'GET', isArray: true},
-            update: { method: 'PUT', isArray: true }
+            update: { method: 'PUT', isArray: true },
+        });
+    }).
+    factory('Connection', function($resource) {
+        return $resource('rest/connection', {}, {
         });
     }
 );

@@ -34,6 +34,11 @@
                     <li>
                         <h3>Add a new connection</h3>
                         <form name="connectionForm" class="form-inline well">
+                            <div class="control-group">
+                                <div class="alert alert-info" ng-show="connection.warning != null">
+                                    {{connection.warning}}
+                                </div>
+                            </div>
                             <div class="control-group" >
                                 <label>Name <span class="star">*</span></label>
                                 <input type="text" name="name" ng-model="connection.name" required placeholder="name" />
@@ -41,13 +46,23 @@
                             </div>
                             <div class="control-group" >
                                 <label>URL <span class="star">*</span></label>
-                                <input type="url" name="site" ng-model="connection.url" required placeholder="url" />
+                                <input type="url" name="site" ng-model="connection.url" required placeholder="url" ng-change="checkConnection()" />
                                 <span ng-show="connectionForm.site.$error.required" class="help-inline warning">Required</span>
                                 <span ng-show="connectionForm.site.$error.url" class="help-inline error">Not a valid URL</span>
                             </div>
                             <div class="control-group">
                                 <label>Filter</label>
-                                <input type="text" name="buildFilter" ng-model="connection.buildFilter" placeholder="filter" />
+                                <input type="text" name="buildFilter" ng-model="connection.buildFilter" ng-change="applyFilter()" placeholder="filter" />
+                            </div>
+                            <div class="control-group">
+                                <label>Plugin</label>
+                                <input type="text" name="pluginName" ng-model="connection.pluginName" disabled />
+                            </div>
+                            <div class="control-group">
+                                <label>Builds</label>
+                                <select multiple ng-model="buildNames">
+                                    <option value="{{buildName}}" ng-repeat="buildName in connection.buildNames">{{buildName}}</option>
+                                </select>
                             </div>
                             <button ng-click="addConnection()" class="btn btn-primary">Add</button>
                         </form>
