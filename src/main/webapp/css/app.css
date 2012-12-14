@@ -43,3 +43,23 @@ body {
     height: 32px;
     margin-bottom: 0px;
 }
+
+.star {
+    color: red;
+    font-weight: bold;
+}
+
+label {
+    font-weight: bold;
+    min-width: 50px;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+.warning {
+    color: red;
+    font-weight: bold;
+}

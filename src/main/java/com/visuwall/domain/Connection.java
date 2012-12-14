@@ -73,6 +73,7 @@ public class Connection {
         return login;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }

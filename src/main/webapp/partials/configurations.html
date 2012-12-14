@@ -1,4 +1,7 @@
 <h2>Configuration</h2>
+
+        <a href="rest/walls/configurations">Export</a>
+
 <div class="container-fluid" ng-controller="ConfigurationsCtrl">
     <div class="tabbable tabs-left">
         <ul class="nav nav-tabs">
@@ -9,22 +12,43 @@
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab1">
-                <ul class="unstyled">
+                <ul class="unstyled" style="width: 50%;">
                     <li ng-repeat="connection in connections">
-                        <form name="myForm" class="form-inline">
-                            <input type="text" name="name" ng-model="connection.name" required placeholder="{{connection.name}}" />
-                            <input type="url" name="site" ng-model="connection.url" required placeholder="{{connection.url}}" />
-                            <input type="text" name="buildFilter" ng-model="connection.buildFilter" placeholder="{{connection.buildFilter}}" />
+                        <h3>{{connection.name}} configuration</h3>
+                        <form name="connectionForm" class="form-inline well">
+                            <div class="control-group" >
+                                <label>URL <span class="star">*</span></label>
+                                <input type="url" name="site" ng-model="connection.url" required placeholder="{{connection.url}}">
+                                <span ng-show="connectionForm.site.$error.required" class="help-inline warning">Required</span>
+                                <span ng-show="connectionForm.site.$error.url" class="help-inline error">Not a valid URL</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Filter</label>
+                                <input type="text" name="buildFilter" ng-model="connection.buildFilter" placeholder="{{connection.buildFilter}}" />
+                            </div>
                             <button ng-click="updateConnection(connection)" class="btn btn-info">Update</button>
                             <button ng-click="removeConnection(connection)" class="btn btn-danger">Remove</button>
                         </form>
 
                     </li>
                     <li>
-                        <form name="myForm" class="form-inline">
-                            <input type="text" name="name" ng-model="connection.name" required placeholder="name" />
-                            <input type="url" name="site" ng-model="connection.url" required placeholder="url" />
-                            <input type="text" name="buildFilter" ng-model="connection.buildFilter" placeholder="filter" />
+                        <h3>Add a new connection</h3>
+                        <form name="connectionForm" class="form-inline well">
+                            <div class="control-group" >
+                                <label>Name <span class="star">*</span></label>
+                                <input type="text" name="name" ng-model="connection.name" required placeholder="name" />
+                                <span ng-show="connectionForm.site.$error.required" class="help-inline warning">Required</span>
+                            </div>
+                            <div class="control-group" >
+                                <label>URL <span class="star">*</span></label>
+                                <input type="url" name="site" ng-model="connection.url" required placeholder="url" />
+                                <span ng-show="connectionForm.site.$error.required" class="help-inline warning">Required</span>
+                                <span ng-show="connectionForm.site.$error.url" class="help-inline error">Not a valid URL</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Filter</label>
+                                <input type="text" name="buildFilter" ng-model="connection.buildFilter" placeholder="filter" />
+                            </div>
                             <button ng-click="addConnection()" class="btn btn-primary">Add</button>
                         </form>
                     </li>

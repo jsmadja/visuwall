@@ -12,7 +12,7 @@ import static javax.ws.rs.core.Response.ok;
 
 @Path("/walls/connections")
 @Produces("application/json")
-@Consumes({"application/json", "text/plain", "*/*"})
+@Consumes({"application/json", "text/plain"})
 public class ConnectionsResource {
 
     @GET
@@ -37,6 +37,7 @@ public class ConnectionsResource {
 
     @DELETE
     @Path("/{name}")
+    @Consumes("*/*")
     public Response removeConnection(@PathParam("name") String name) {
         try {
             Wall wall = Walls.get("wall");

@@ -1,5 +1,6 @@
 package com.visuwall.domain;
 
+import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -15,5 +16,9 @@ public class Walls {
 
     public static Wall get(String wallId) {
         return walls.get(wallId);
+    }
+
+    public static Collection<Wall> all() {
+        return walls.values();
     }
 }

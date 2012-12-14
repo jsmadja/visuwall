@@ -5,9 +5,12 @@ import com.visuwall.api.plugin.capability.BasicCapability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.net.URL;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static javax.xml.bind.annotation.XmlAccessType.FIELD;
 
 public class Wall implements Runnable {
 

@@ -185,6 +185,7 @@ public class Build implements Comparable<Build>{
         this.removeable = true;
     }
 
+    @JsonIgnore
     public boolean isRemoveable() {
         return removeable;
     }
