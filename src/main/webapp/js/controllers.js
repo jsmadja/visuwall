@@ -26,12 +26,12 @@ function ConfigurationsCtrl($scope, $location, Connection, Connections) {
 
     $scope.addConnection = function() {
         $scope.connection.includeBuildNames = $scope.buildNames;
-        Connections.save($scope.connection, function(connection) {
+        Connections.update($scope.connection, function(connection) {
             $location.path('/configurations');
         });
     };
 
-    $scope.updateConnection = function(connection) {
+    $scope.editConnection = function(connection) {
         $scope.connection = connection;
     };
 
@@ -50,7 +50,7 @@ function ConfigurationsCtrl($scope, $location, Connection, Connections) {
                 });
             }
             url = $scope.connection.url;
-        }, 500);
+        }, 1000);
     }
 
     $scope.applyFilter = function() {

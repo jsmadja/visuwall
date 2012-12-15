@@ -34,7 +34,7 @@
                     <tr ng-repeat="connection in connections">
                         <td>{{connection.name}}</td>
                         <td>{{connection.url}}</td>
-                        <td><button ng-click="updateConnection(connection)" class="btn btn-info">Edit</button></td>
+                        <td><button ng-click="editConnection(connection)" class="btn btn-info">Edit</button></td>
                         <td><button ng-click="removeConnection(connection)" class="btn btn-danger">Remove</button></td>
                     </tr>
                 </table>
@@ -46,20 +46,20 @@
                         </div>
                     </div>
                     <div class="control-group" >
-                        <label>Name <span class="star">*</span></label>
-                        <input type="text" name="name" ng-model="connection.name" required placeholder="name" />
-                        <span ng-show="connectionForm.site.$error.required" class="help-inline warning">Required</span>
+                        <label>URL <span class="star">*</span></label>
+                        <input type="url" name="url" ng-model="connection.url" required placeholder="url" ng-change="checkConnection()" />
+                        <span ng-show="connectionForm.url.$error.required" class="help-inline warning">Required</span>
+                        <span ng-show="connectionForm.url.$error.url" class="help-inline error">Not a valid URL</span>
                     </div>
                     <div class="control-group" >
-                        <label>URL <span class="star">*</span></label>
-                        <input type="url" name="site" ng-model="connection.url" required placeholder="url" ng-change="checkConnection()" />
-                        <span ng-show="connectionForm.site.$error.required" class="help-inline warning">Required</span>
-                        <span ng-show="connectionForm.site.$error.url" class="help-inline error">Not a valid URL</span>
+                        <label>Name <span class="star">*</span></label>
+                        <input type="text" name="name" ng-model="connection.name" required placeholder="name" />
+                        <span ng-show="connectionForm.name.$error.required" class="help-inline warning">Required</span>
                     </div>
                     <div class="control-group" >
                         <label>Authentication </label>
-                        <input type="text" name="name" ng-model="connection.login" required placeholder="login" />
-                        <input type="password" name="password" ng-model="connection.password" required placeholder="password" />
+                        <input type="text" name="name" ng-model="connection.login" placeholder="login" />
+                        <input type="password" name="password" ng-model="connection.password" placeholder="password" />
                     </div>
                     <div class="control-group">
                         <label>Filter</label>
@@ -75,7 +75,7 @@
                             <option value="{{buildName}}" ng-repeat="buildName in connection.buildNames">{{buildName}}</option>
                         </select>
                     </div>
-                    <button ng-click="updateConnection()" class="btn btn-primary">Submit</button>
+                    <button ng-click="addConnection()" class="btn btn-primary">Submit</button>
                 </form>
 
 
