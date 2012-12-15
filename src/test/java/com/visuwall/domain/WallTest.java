@@ -1,5 +1,6 @@
 package com.visuwall.domain;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -9,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 public class WallTest {
 
     @Test
+    @Ignore
     public void test() throws InterruptedException {
 
         Wall wall = Walls.get("wall");
