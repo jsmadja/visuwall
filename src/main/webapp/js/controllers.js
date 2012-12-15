@@ -32,9 +32,7 @@ function ConfigurationsCtrl($scope, $location, Connection, Connections) {
     };
 
     $scope.updateConnection = function(connection) {
-        Connections.update(connection, function() {
-            $location.path('/configurations');
-        });
+        $scope.connection = connection;
     };
 
     $scope.removeConnection = function(connection) {

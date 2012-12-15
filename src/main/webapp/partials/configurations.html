@@ -1,9 +1,19 @@
-<h2>Configuration</h2>
+<style type="text/css">
+    html {
+        background-color: white;
+    }
 
-        <a href="rest/walls/configurations">Export</a>
+    body {
+        color: black;
+        background-color: white;
+        background-image: none;
+    }
+</style>
+
+<h2 style="margin-left: 20px;">Configuration</h2>
 
 <div class="container-fluid" ng-controller="ConfigurationsCtrl">
-    <div class="tabbable tabs-left">
+    <div class="tabbable">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tab1" data-toggle="tab">Build</a></li>
             <li><a href="#tab2" data-toggle="tab">Track</a></li>
@@ -12,62 +22,63 @@
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab1">
-                <ul class="unstyled" style="width: 50%;">
-                    <li ng-repeat="connection in connections">
-                        <h3>{{connection.name}} configuration</h3>
-                        <form name="connectionForm" class="form-inline well">
-                            <div class="control-group" >
-                                <label>URL <span class="star">*</span></label>
-                                <input type="url" name="site" ng-model="connection.url" required placeholder="{{connection.url}}">
-                                <span ng-show="connectionForm.site.$error.required" class="help-inline warning">Required</span>
-                                <span ng-show="connectionForm.site.$error.url" class="help-inline error">Not a valid URL</span>
-                            </div>
-                            <div class="control-group">
-                                <label>Filter</label>
-                                <input type="text" name="buildFilter" ng-model="connection.buildFilter" placeholder="{{connection.buildFilter}}" />
-                            </div>
-                            <button ng-click="updateConnection(connection)" class="btn btn-info">Update</button>
-                            <button ng-click="removeConnection(connection)" class="btn btn-danger">Remove</button>
-                        </form>
+                <table class="table table-condensed table-hover table-bordered table-striped" style="width: 600px;">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Url</th>
+                        <th style="width: 50px;"></th>
+                        <th style="width: 50px;"></th>
+                    </tr>
+                    </thead>
+                    <tr ng-repeat="connection in connections">
+                        <td>{{connection.name}}</td>
+                        <td>{{connection.url}}</td>
+                        <td><button ng-click="updateConnection(connection)" class="btn btn-info">Edit</button></td>
+                        <td><button ng-click="removeConnection(connection)" class="btn btn-danger">Remove</button></td>
+                    </tr>
+                </table>
 
-                    </li>
-                    <li>
-                        <h3>Add a new connection</h3>
-                        <form name="connectionForm" class="form-inline well">
-                            <div class="control-group">
-                                <div class="alert alert-info" ng-show="connection.warning != null">
-                                    {{connection.warning}}
-                                </div>
-                            </div>
-                            <div class="control-group" >
-                                <label>Name <span class="star">*</span></label>
-                                <input type="text" name="name" ng-model="connection.name" required placeholder="name" />
-                                <span ng-show="connectionForm.site.$error.required" class="help-inline warning">Required</span>
-                            </div>
-                            <div class="control-group" >
-                                <label>URL <span class="star">*</span></label>
-                                <input type="url" name="site" ng-model="connection.url" required placeholder="url" ng-change="checkConnection()" />
-                                <span ng-show="connectionForm.site.$error.required" class="help-inline warning">Required</span>
-                                <span ng-show="connectionForm.site.$error.url" class="help-inline error">Not a valid URL</span>
-                            </div>
-                            <div class="control-group">
-                                <label>Filter</label>
-                                <input type="text" name="buildFilter" ng-model="connection.buildFilter" ng-change="applyFilter()" placeholder="filter" />
-                            </div>
-                            <div class="control-group">
-                                <label>Plugin</label>
-                                <input type="text" name="pluginName" ng-model="connection.pluginName" disabled />
-                            </div>
-                            <div class="control-group">
-                                <label>Builds</label>
-                                <select multiple ng-model="buildNames">
-                                    <option value="{{buildName}}" ng-repeat="buildName in connection.buildNames">{{buildName}}</option>
-                                </select>
-                            </div>
-                            <button ng-click="addConnection()" class="btn btn-primary">Add</button>
-                        </form>
-                    </li>
-                </ul>
+                <form name="connectionForm" class="form-inline well" style="width: 560px;">
+                    <div class="control-group">
+                        <div class="alert alert-info" ng-show="connection.warning != null">
+                            {{connection.warning}}
+                        </div>
+                    </div>
+                    <div class="control-group" >
+                        <label>Name <span class="star">*</span></label>
+                        <input type="text" name="name" ng-model="connection.name" required placeholder="name" />
+                        <span ng-show="connectionForm.site.$error.required" class="help-inline warning">Required</span>
+                    </div>
+                    <div class="control-group" >
+                        <label>URL <span class="star">*</span></label>
+                        <input type="url" name="site" ng-model="connection.url" required placeholder="url" ng-change="checkConnection()" />
+                        <span ng-show="connectionForm.site.$error.required" class="help-inline warning">Required</span>
+                        <span ng-show="connectionForm.site.$error.url" class="help-inline error">Not a valid URL</span>
+                    </div>
+                    <div class="control-group" >
+                        <label>Authentication </label>
+                        <input type="text" name="name" ng-model="connection.login" required placeholder="login" />
+                        <input type="password" name="password" ng-model="connection.password" required placeholder="password" />
+                    </div>
+                    <div class="control-group">
+                        <label>Filter</label>
+                        <input type="text" name="buildFilter" ng-model="connection.buildFilter" ng-change="applyFilter()" placeholder="filter" />
+                    </div>
+                    <div class="control-group">
+                        <label>Plugin</label>
+                        <input type="text" name="pluginName" ng-model="connection.pluginName" disabled />
+                    </div>
+                    <div class="control-group">
+                        <label>Builds</label>
+                        <select multiple ng-model="buildNames">
+                            <option value="{{buildName}}" ng-repeat="buildName in connection.buildNames">{{buildName}}</option>
+                        </select>
+                    </div>
+                    <button ng-click="updateConnection()" class="btn btn-primary">Submit</button>
+                </form>
+
+
             </div>
             <div class="tab-pane" id="tab2">
                 <p>I'm in Section Track.</p>
