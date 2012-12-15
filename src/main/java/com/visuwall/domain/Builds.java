@@ -27,7 +27,7 @@ public class Builds implements Iterable<Build> {
     }
 
     private void refreshBuilds() {
-        ExecutorService pool = Executors.newFixedThreadPool(20);
+        ExecutorService pool = Executors.newFixedThreadPool(5);
         List<Future<Build>> futures = new ArrayList<Future<Build>>();
         for (Build build : builds) {
             futures.add(pool.submit(refresh(build)));

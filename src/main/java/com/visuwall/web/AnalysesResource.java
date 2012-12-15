@@ -38,6 +38,7 @@ public class AnalysesResource {
     @GET
     @Path("/{name}")
     public Response getAnalysis(@PathParam("name") String name) {
+        LOG.debug("new analysis request from client for "+WALL_ID+" wall ("+name+" analysis)");
         Wall wall = Walls.get("wall");
         Analysis analysis = wall.getAnalysis(name);
         return ok().entity(analysis).build();

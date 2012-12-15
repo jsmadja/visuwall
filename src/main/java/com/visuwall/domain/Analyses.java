@@ -83,7 +83,7 @@ public class Analyses implements Iterable<Analysis> {
     }
 
     private void addNewAnalyses() {
-        ExecutorService pool = Executors.newFixedThreadPool(20);
+        ExecutorService pool = Executors.newFixedThreadPool(5);
         List<Future<BuildConfiguration>> futures = new ArrayList<Future<BuildConfiguration>>();
         for (final Connection connection : connections) {
             Collection<SoftwareProjectId> projectIds = connection.listSoftwareProjectIds();

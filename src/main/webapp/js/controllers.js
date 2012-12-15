@@ -71,7 +71,7 @@ function ConfigurationsCtrl($scope, $location, Connection, Connections) {
       }
       url = $scope.connection.url;
     }, 1000);
-  }
+  };
 
   $scope.applyFilter = function () {
     var buildFilter = $scope.connection.buildFilter;

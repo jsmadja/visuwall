@@ -9,6 +9,7 @@ import com.visuwall.api.exception.ProjectNotFoundException;
 import com.visuwall.api.plugin.capability.BasicCapability;
 import com.visuwall.api.plugin.capability.MetricCapability;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +48,9 @@ public class Analysis implements Comparable<Analysis>, Refreshable {
     @JsonIgnore
     private MetricCapability metricCapability;
 
+    @JsonIgnore
+    private DateTime lastAnalysis = DateTime.now();
+
     public Analysis(BasicCapability connection, SoftwareProjectId projectId, List<String> selectedMetrics) {
         this.connection = connection;
         this.projectId = projectId;
@@ -66,6 +70,7 @@ public class Analysis implements Comparable<Analysis>, Refreshable {
             refreshMetrics();
             refreshing = false;
             LOG.debug("Ending refresh of " + name);
+            lastAnalysis = DateTime.now();
         } catch(ProjectNotFoundException e) {
             setRemoveable();
         }
@@ -127,7 +132,7 @@ public class Analysis implements Comparable<Analysis>, Refreshable {
 
     @Override
     public boolean isRefreshable() {
-        return !refreshing;
+        return !refreshing && lastAnalysis.plusMinutes(10).isBeforeNow();
     }
 
     public void setRemoveable() {

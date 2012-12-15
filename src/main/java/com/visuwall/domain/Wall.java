@@ -86,7 +86,7 @@ public class Wall implements Runnable {
 
     private void waitForNextIteration() throws InterruptedException {
         if(builds.count() == 0 && analyses.count() == 0) {
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.SECONDS.sleep(20);
         } else {
             TimeUnit.MINUTES.sleep(1);
         }
