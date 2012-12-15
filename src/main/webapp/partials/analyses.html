@@ -1,0 +1,22 @@
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span12">
+      <ul class="analyses">
+        <li ng-repeat="analysis in analyses" class="span6 thumbnail analysis">
+          <div style="display: block" refresh-analysis ng-controller="AnalysesCtrl">
+            <p class="analysis-title">
+              {{analysis.name}}
+            </p>
+            <table id="metrics" style="width: 100%;">
+              <tr ng-repeat="metric in analysis.metrics">
+                <td class="label-tendency-{{metric.tendency}}-{{metric.qualitative}}">{{metric.name}}</td>
+                <td class="label-tendency-{{metric.tendency}}-{{metric.qualitative}}" style="text-align: right;">{{metric.value}}</td>
+                <td style="text-align: right;" class="tendency tendency-{{metric.tendency}}-{{metric.qualitative}}"></td>
+              </tr>
+            </table>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

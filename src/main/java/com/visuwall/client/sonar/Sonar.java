@@ -17,6 +17,8 @@
 package com.visuwall.client.sonar;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,10 +55,6 @@ public class Sonar {
 
     private String sonarUrl;
 
-    public Sonar(String url) {
-        this(url, null, null);
-    }
-
     public Sonar(String url, String login, String password) {
         Preconditions.checkNotNull(url, "sonarUrl is mandatory");
         Preconditions.checkArgument(!url.isEmpty(), "sonarUrl can't be empty");
@@ -70,23 +68,28 @@ public class Sonar {
         }
     }
 
-    public Measure findMeasure(String artifactId, String measureKey) throws SonarMeasureNotFoundException {
+    public List<Measure> findMeasures(String artifactId, String  ... measureKeys) throws SonarMeasureNotFoundException {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(artifactId), "artifactId is a mandatory parameter");
-        Preconditions.checkNotNull(measureKey, "measureKey is a mandatory parameter");
-        return findMeasureFromSonar(artifactId, measureKey);
+        Preconditions.checkNotNull(measureKeys, "measureKeys is a mandatory parameter");
+        return findMeasuresFromSonar(artifactId, measureKeys);
     }
 
-    private Measure findMeasureFromSonar(String artifactId, String measureKey) throws SonarMeasureNotFoundException {
-        ResourceQuery query = ResourceQuery.createForMetrics(artifactId, measureKey);
+    private List<Measure> findMeasuresFromSonar(String artifactId, String ... measureKeys) throws SonarMeasureNotFoundException {
+        ResourceQuery query = ResourceQuery.createForMetrics(artifactId, measureKeys).setIncludeTrends(true);
         try {
+            List<Measure> measures = new ArrayList<Measure>();
             Resource resource = sonar.find(query);
             if (resource == null) {
-                throw new SonarMeasureNotFoundException("Metric " + measureKey + " not found for project "
+                throw new SonarMeasureNotFoundException("Metric " + measureKeys + " not found for project "
                         + artifactId + " in Sonar " + sonarUrl);
             }
-            return resource.getMeasure(measureKey);
+            for (String measureKey : measureKeys) {
+                Measure measure = resource.getMeasure(measureKey);
+                measures.add(measure);
+            }
+            return measures;
         } catch (ConnectionException e) {
-            throw new SonarMeasureNotFoundException("Metric " + measureKey + " not found for project " + artifactId
+            throw new SonarMeasureNotFoundException("Metric " + measureKeys + " not found for project " + artifactId
                     + " in Sonar " + sonarUrl, e);
         }
     }
@@ -145,4 +148,7 @@ public class Sonar {
         }
     }
 
+    public Measure findMeasure(String projectKey, String measureKey) throws SonarMeasureNotFoundException {
+        return findMeasures(projectKey, measureKey).get(0);
+    }
 }

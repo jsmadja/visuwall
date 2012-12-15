@@ -4,6 +4,7 @@ import com.visuwall.domain.Connection;
 import com.visuwall.domain.ResourceNotFoundException;
 import com.visuwall.domain.Wall;
 import com.visuwall.domain.Walls;
+import org.apache.commons.lang.StringUtils;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -21,15 +22,11 @@ public class ConnectionsResource {
         return ok().entity(wall.getConnections()).build();
     }
 
-    @POST
-    public Response addConnection(Connection connection) {
-        Wall wall = Walls.get("wall");
-        wall.addConnection(connection);
-        return ok().build();
-    }
-
     @PUT
     public Response updateConnection(Connection connection) {
+        if(StringUtils.isBlank(connection.getName())) {
+            return Response.notModified().build();
+        }
         Wall wall = Walls.get("wall");
         wall.updateConnection(connection);
         return ok().build();

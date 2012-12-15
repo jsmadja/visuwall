@@ -1,20 +1,19 @@
 package com.visuwall.domain;
 
-import com.google.common.base.Joiner;
 import com.visuwall.api.domain.SoftwareProjectId;
+import com.visuwall.api.domain.quality.QualityMetric;
 import com.visuwall.api.plugin.capability.BasicCapability;
+import com.visuwall.api.plugin.capability.MetricCapability;
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import sun.misc.Regexp;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static java.util.Collections.sort;
 import static org.apache.commons.lang.StringUtils.isBlank;
+import static org.apache.commons.lang.StringUtils.removeEnd;
 
 public class Connection {
 
@@ -35,6 +34,7 @@ public class Connection {
     private String warning;
 
     private List<String> includeBuildNames = new ArrayList<String>();
+    private List<String> includeMetricNames = new ArrayList<String>();
 
     public Collection<SoftwareProjectId> listSoftwareProjectIds() {
         return basicCapability.listSoftwareProjectIds().keySet();
@@ -65,6 +65,10 @@ public class Connection {
     }
 
     public void setUrl(String url) {
+        if(url != null) {
+            url = url.toLowerCase();
+            url = removeEnd(url, "/");
+        }
         this.url = url;
     }
 
@@ -78,21 +82,44 @@ public class Connection {
 
     public Collection<String> getBuildNames() {
         List<String> buildNames = new ArrayList<String>();
-        if(basicCapability != null) {
+        if (basicCapability != null) {
             Collection<SoftwareProjectId> softwareProjectIds = listSoftwareProjectIds();
             for (SoftwareProjectId softwareProjectId : softwareProjectIds) {
-                if(accept(softwareProjectId.getProjectId())) {
-                    buildNames.add(softwareProjectId.getProjectId());
-                }
+                buildNames.add(softwareProjectId.getProjectId());
             }
             sort(buildNames);
         }
         return buildNames;
     }
 
+    public List<String> getIncludeMetricNames() {
+        return includeMetricNames;
+    }
+
+    public void setIncludeMetricNames(List<String> includeMetricNames) {
+        this.includeMetricNames = includeMetricNames;
+    }
+
+    public Collection<Metric> getMetrics() {
+        Set<Metric> metrics = new TreeSet<Metric>();
+        if(basicCapability instanceof MetricCapability) {
+            MetricCapability capability = (MetricCapability) basicCapability;
+            Map<String, List<QualityMetric>> metricsByCategory = capability.getMetricsByCategory();
+            Collection<List<QualityMetric>> values = metricsByCategory.values();
+            for (List<QualityMetric> value : values) {
+                for (QualityMetric qualityMetric : value) {
+                    String key = qualityMetric.getKey();
+                    String name = qualityMetric.getName();
+                    metrics.add(new Metric(key, name));
+                }
+            }
+        }
+        return metrics;
+    }
+
     public URL asUrl() {
         try {
-            return new URL(url.toString().toLowerCase());
+            return new URL(url);
         } catch (MalformedURLException e) {
             throw new IllegalStateException(e);
         }
@@ -116,10 +143,10 @@ public class Connection {
     }
 
     public boolean accept(String name) {
-        if(!includeBuildNames.isEmpty()) {
+        if (!includeBuildNames.isEmpty()) {
             return includeBuildNames.contains(name);
         }
-        if(isBlank(buildFilter)) {
+        if (isBlank(buildFilter)) {
             return true;
         }
         String regexp = new RegexpAdapter(buildFilter).toString();
@@ -136,7 +163,7 @@ public class Connection {
 
     @Override
     public String toString() {
-        return "connection '"+name+"";
+        return "connection '" + name + "";
     }
 
     public boolean hasName(String name) {

@@ -19,6 +19,7 @@ http://cxf.apache.org/schemas/jaxrs.xsd">
 
     <jaxrs:server id="services" address="/">
         <jaxrs:serviceBeans>
+            <bean class="com.visuwall.web.AnalysesResource"/>
             <bean class="com.visuwall.web.BuildsResource"/>
             <bean class="com.visuwall.web.WallsResource"/>
             <bean class="com.visuwall.web.ConfigurationsResource"/>

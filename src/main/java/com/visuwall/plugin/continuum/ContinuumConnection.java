@@ -45,17 +45,6 @@ public class ContinuumConnection implements BuildCapability, ViewCapability {
     private boolean connected;
     private String url;
 
-    @Override
-    public String getMavenId(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException,
-            MavenIdNotFoundException {
-        try {
-            ProjectSummary projectSummary = client.getProjectSummary(getId(softwareProjectId));
-            return projectSummary.getGroupId() + ":" + projectSummary.getArtifactId();
-        } catch (Exception e) {
-            throw new MavenIdNotFoundException("Cannot find Maven Id for " + softwareProjectId, e);
-        }
-    }
-
     private int getId(SoftwareProjectId softwareProjectId) {
         return Integer.parseInt(softwareProjectId.getProjectId());
     }
@@ -73,15 +62,6 @@ public class ContinuumConnection implements BuildCapability, ViewCapability {
         } finally {
             Thread.currentThread().setContextClassLoader(contextClassLoader);
         }
-    }
-
-    @Override
-    public void close() {
-    }
-
-    @Override
-    public boolean isClosed() {
-        return !connected;
     }
 
     @Override
@@ -110,25 +90,6 @@ public class ContinuumConnection implements BuildCapability, ViewCapability {
         } catch (Exception e) {
             throw new ProjectNotFoundException("Cannot find " + softwareProjectId, e);
         }
-    }
-
-    @Override
-    public SoftwareProjectId identify(ProjectKey projectKey) throws ProjectNotFoundException {
-        try {
-            String projectMavenId = projectKey.getMavenId();
-            List<ProjectSummary> projects = findAllProjects();
-            for (ProjectSummary project : projects) {
-                String groupId = project.getGroupId();
-                String artifactId = project.getArtifactId();
-                String mavenId = groupId + ":" + artifactId;
-                if (mavenId.equals(projectMavenId)) {
-                    return new SoftwareProjectId(Integer.toString(project.getId()));
-                }
-            }
-        } catch (Exception e) {
-            throw new ProjectNotFoundException("Cannot identify " + projectKey, e);
-        }
-        throw new ProjectNotFoundException("Cannot identify " + projectKey);
     }
 
     private List<ProjectSummary> findAllProjects() throws Exception {
@@ -210,15 +171,6 @@ public class ContinuumConnection implements BuildCapability, ViewCapability {
     }
 
     @Override
-    public List<String> getBuildIds(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException {
-        List<String> buildIds = new ArrayList<String>();
-        ProjectSummary project = findProject(softwareProjectId);
-        Integer latestBuildId = project.getLatestBuildId();
-        buildIds.add(latestBuildId.toString());
-        return buildIds;
-    }
-
-    @Override
     public BuildState getBuildState(SoftwareProjectId projectId, String buildId) throws ProjectNotFoundException,
             BuildNotFoundException {
         int id = getId(projectId);
@@ -231,12 +183,6 @@ public class ContinuumConnection implements BuildCapability, ViewCapability {
         } catch (Exception e) {
             throw new BuildNotFoundException(e);
         }
-    }
-
-    @Override
-    public Date getEstimatedFinishTime(SoftwareProjectId projectId, String buildId) throws ProjectNotFoundException,
-            BuildNotFoundException {
-        return new Date();
     }
 
     @Override

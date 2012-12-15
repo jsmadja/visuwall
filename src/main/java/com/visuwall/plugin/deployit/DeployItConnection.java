@@ -24,26 +24,10 @@ public class DeployItConnection implements BuildCapability, TestCapability, View
     private String url;
 
     @Override
-    public String getMavenId(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException,
-            MavenIdNotFoundException {
-        throw new MavenIdNotFoundException("Not implemented");
-    }
-
-    @Override
     public void connect(String url, String login, String password) {
         deployIt = new DeployIt(url, login, password);
         connected = true;
         this.url = url;
-    }
-
-    @Override
-    public void close() {
-        connected = false;
-    }
-
-    @Override
-    public boolean isClosed() {
-        return !connected;
     }
 
     @Override
@@ -88,11 +72,6 @@ public class DeployItConnection implements BuildCapability, TestCapability, View
             }
         }
         return null;
-    }
-
-    @Override
-    public SoftwareProjectId identify(ProjectKey projectKey) throws ProjectNotFoundException {
-        throw new ProjectNotFoundException("Not implemented");
     }
 
     @Override
@@ -192,32 +171,9 @@ public class DeployItConnection implements BuildCapability, TestCapability, View
     }
 
     @Override
-    public List<String> getBuildIds(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException {
-        List<String> buildIds = new ArrayList<String>();
-        try {
-            List<Task> tasks = getTasks(softwareProjectId);
-            for (Task task : tasks) {
-                String version = task.getVersion().toString();
-                if (!buildIds.contains(version)) {
-                    buildIds.add(0, version);
-                }
-            }
-        } catch (ResourceNotFoundException e) {
-            throw new ProjectNotFoundException("Cannot find deployment for " + softwareProjectId);
-        }
-        return buildIds;
-    }
-
-    @Override
     public BuildState getBuildState(SoftwareProjectId projectId, String buildId) throws ProjectNotFoundException,
             BuildNotFoundException {
         return BuildState.SUCCESS;
-    }
-
-    @Override
-    public Date getEstimatedFinishTime(SoftwareProjectId projectId, String buildId) throws ProjectNotFoundException,
-            BuildNotFoundException {
-        return new Date();
     }
 
     @Override

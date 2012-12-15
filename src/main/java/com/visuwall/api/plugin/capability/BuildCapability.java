@@ -16,18 +16,15 @@
 
 package com.visuwall.api.plugin.capability;
 
-import java.util.Date;
-import java.util.List;
-
-import com.visuwall.api.domain.Commiter;
-import com.visuwall.api.domain.SoftwareProjectId;
+import com.visuwall.api.domain.BuildState;
 import com.visuwall.api.domain.BuildTime;
 import com.visuwall.api.domain.Commiter;
 import com.visuwall.api.domain.SoftwareProjectId;
-import com.visuwall.api.domain.BuildState;
-import com.visuwall.api.exception.BuildNotFoundException;
 import com.visuwall.api.exception.BuildIdNotFoundException;
+import com.visuwall.api.exception.BuildNotFoundException;
 import com.visuwall.api.exception.ProjectNotFoundException;
+
+import java.util.List;
 
 public interface BuildCapability extends BasicCapability {
 
@@ -55,16 +52,6 @@ public interface BuildCapability extends BasicCapability {
             ProjectNotFoundException;
 
     /**
-     * Returns the build ids order by integer ASC
-     * Pending builds not included.
-     * 
-     * @param softwareProjectId
-     * @return
-     * @throws ProjectNotFoundException
-     */
-    List<String> getBuildIds(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException;
-
-    /**
      * Builds are in a certain state which may vary between software You'll have to try to associate them with common
      * States
      * 
@@ -75,18 +62,6 @@ public interface BuildCapability extends BasicCapability {
      * @throws BuildNotFoundException
      */
     BuildState getBuildState(SoftwareProjectId projectId, String buildId) throws ProjectNotFoundException,
-            BuildNotFoundException;
-
-    /**
-     * If a project is building, plugin can calculate the estimated finish time
-     * 
-     * @param projectId
-     * @param buildId
-     * @return
-     * @throws ProjectNotFoundException
-     * @throws BuildNotFoundException
-     */
-    Date getEstimatedFinishTime(SoftwareProjectId projectId, String buildId) throws ProjectNotFoundException,
             BuildNotFoundException;
 
     /**

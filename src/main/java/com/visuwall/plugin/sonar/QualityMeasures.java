@@ -32,6 +32,7 @@ class QualityMeasures {
         SonarQualityMeasure qualityMeasure = new SonarQualityMeasure();
         qualityMeasure.setKey(measureKey);
         qualityMeasure.setValue(value);
+        qualityMeasure.setTendency(measure.getTrend());
         qualityMeasure.setFormattedValue(measure.getFormattedValue());
         return qualityMeasure;
     }

@@ -13,10 +13,10 @@ public class RegexpAdapter {
     }
 
     public String toString() {
-        if(buildFilter.startsWith("regexp:")) {
+        if (buildFilter.startsWith("regexp:")) {
             return buildFilter.substring("regexp:".length());
         }
-        if(buildFilter.contains(",")) {
+        if (buildFilter.contains(",")) {
             List<String> regexps = buildRegexps();
             return Joiner.on('|').join(regexps);
         }
@@ -35,9 +35,9 @@ public class RegexpAdapter {
 
     private String buildRegexp(String filter) {
         String regexp = "(?i)";
-        if(filter.endsWith("*")) {
+        if (filter.endsWith("*")) {
             String buildNamePrefix = filter.substring(0, filter.length() - 1);
-            regexp +=  buildNamePrefix + ".*";
+            regexp += buildNamePrefix + ".*";
         } else {
             regexp += filter.substring(0, filter.length());
         }

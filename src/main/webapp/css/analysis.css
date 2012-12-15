@@ -1,0 +1,94 @@
+.analyses {
+  margin-left: 0px;
+}
+
+.analyses li {
+  border-color: black;
+  margin-bottom: 5px;
+}
+
+.analysis {
+  background: #45484d; /* Old browsers */
+  background: -moz-linear-gradient(top,  #45484d 0%, #000000 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#45484d), color-stop(100%,#000000)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #45484d 0%,#000000 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #45484d 0%,#000000 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #45484d 0%,#000000 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #45484d 0%,#000000 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#45484d', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
+  padding: 0;
+}
+
+.analysis-title {
+  font-size: 56pt;
+  text-shadow: 0px 0px 9px #777;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-top: 20px;
+  height: 50px;
+  margin-bottom: 0px;
+}
+
+#metrics {
+  font-size: 16pt;
+}
+
+.tendency {
+  background-repeat: no-repeat;
+  width: 20px;
+}
+
+.tendency-1-true {
+  background-image: url(http://nemo.sonarsource.org/images/tendency/-1-green.png);
+}
+
+.label-tendency-1-true {
+  color: #18C418;
+}
+
+.label-tendency-2-true {
+  color: #18C418;
+}
+
+.label-tendency--1-true {
+  color: red;
+}
+
+.label-tendency--2-true {
+  color: red;
+}
+
+.tendency-2-true {
+  background-image: url(http://nemo.sonarsource.org/images/tendency/-2-green.png);
+}
+
+.tendency-1-false {
+  background-image: url(http://nemo.sonarsource.org/images/tendency/-1-black.png);
+}
+
+.tendency-2-false {
+  background-image: url(http://nemo.sonarsource.org/images/tendency/-2-black.png);
+}
+
+.tendency-0-true {
+}
+
+.tendency-0-false {
+}
+
+.tendency--1-true {
+  background-image: url(http://nemo.sonarsource.org/images/tendency/1-red.png);
+}
+
+.tendency--2-true {
+  background-image: url(http://nemo.sonarsource.org/images/tendency/2-red.png);
+}
+
+.tendency--1-false {
+  background-image: url(http://nemo.sonarsource.org/images/tendency/1-black.png);
+}
+
+.tendency--2-false {
+  background-image: url(http://nemo.sonarsource.org/images/tendency/2-black.png);
+}

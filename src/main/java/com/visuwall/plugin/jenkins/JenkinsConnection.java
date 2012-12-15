@@ -84,19 +84,6 @@ public final class JenkinsConnection implements BuildCapability, ViewCapability,
     }
 
     @Override
-    public Date getEstimatedFinishTime(SoftwareProjectId projectId, String buildId) throws ProjectNotFoundException,
-            BuildNotFoundException {
-        checkSoftwareProjectId(projectId);
-        checkConnected();
-        try {
-            String projectName = jobName(projectId);
-            return hudson.getEstimatedFinishTime(projectName);
-        } catch (HudsonJobNotFoundException e) {
-            throw new ProjectNotFoundException(e);
-        }
-    }
-
-    @Override
     public boolean isBuilding(SoftwareProjectId projectId, String buildId) throws ProjectNotFoundException,
             BuildNotFoundException {
         checkSoftwareProjectId(projectId);
@@ -208,11 +195,6 @@ public final class JenkinsConnection implements BuildCapability, ViewCapability,
     }
 
     @Override
-    public void close() {
-        connected = false;
-    }
-
-    @Override
     public String getDescription(SoftwareProjectId projectId) throws ProjectNotFoundException {
         checkConnected();
         checkSoftwareProjectId(projectId);
@@ -221,53 +203,6 @@ public final class JenkinsConnection implements BuildCapability, ViewCapability,
             return hudson.getDescription(jobName);
         } catch (HudsonJobNotFoundException e) {
             throw new ProjectNotFoundException("Can't find description of project id: " + projectId, e);
-        }
-    }
-
-    @Override
-    public SoftwareProjectId identify(ProjectKey projectKey) throws ProjectNotFoundException {
-        checkConnected();
-        checkNotNull(projectKey, "projectKey is mandatory");
-        String jobName = projectKey.getName();
-        if (jobName != null) {
-            try {
-                hudson.findJob(jobName);
-                return new SoftwareProjectId(jobName);
-            } catch (HudsonJobNotFoundException e) {
-                throw new ProjectNotFoundException("Can't identify job with project key: " + projectKey, e);
-            }
-        }
-        throw new ProjectNotFoundException("Can't identify job with project key: " + projectKey);
-    }
-
-    @Override
-    public List<String> getBuildIds(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException {
-        checkConnected();
-        checkSoftwareProjectId(softwareProjectId);
-        try {
-            String jobName = softwareProjectId.getProjectId();
-            List<Integer> buildIds = hudson.getBuildNumbers(jobName);
-            List<String> res = new ArrayList<String>(buildIds.size());
-            for (Integer buildId : buildIds) {
-                res.add(String.valueOf(buildId));
-            }
-            return res;
-        } catch (HudsonJobNotFoundException e) {
-            throw new ProjectNotFoundException("Can't find build numbers of software project id " + softwareProjectId,
-                    e);
-        }
-    }
-
-    @Override
-    public String getMavenId(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException,
-            MavenIdNotFoundException {
-        checkConnected();
-        checkSoftwareProjectId(softwareProjectId);
-        String jobName = softwareProjectId.getProjectId();
-        try {
-            return hudson.findMavenId(jobName);
-        } catch (com.visuwall.client.common.MavenIdNotFoundException e) {
-            throw new MavenIdNotFoundException("Can't get maven id of project " + softwareProjectId, e);
         }
     }
 
@@ -301,11 +236,6 @@ public final class JenkinsConnection implements BuildCapability, ViewCapability,
         } catch (HudsonJobNotFoundException e) {
             throw new BuildNotFoundException("Can't find project " + softwareProjectId, e);
         }
-    }
-
-    @Override
-    public boolean isClosed() {
-        return !connected;
     }
 
     @Override

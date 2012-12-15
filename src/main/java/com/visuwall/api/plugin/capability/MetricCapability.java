@@ -16,6 +16,7 @@
 
 package com.visuwall.api.plugin.capability;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import com.visuwall.api.domain.SoftwareProjectId;

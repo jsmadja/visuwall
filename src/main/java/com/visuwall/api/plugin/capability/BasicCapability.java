@@ -27,14 +27,6 @@ import java.util.Map;
 public interface BasicCapability {
 
     /**
-     * If plugin can find maven id, it should return it or throw MavenIdNotFoundException
-     * 
-     * @param softwareProjectId
-     * @return
-     */
-    String getMavenId(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException, MavenIdNotFoundException;
-
-    /**
      * Initiate connection to the software
      * 
      * @param url
@@ -43,16 +35,6 @@ public interface BasicCapability {
      * @throws ConnectionException
      */
     void connect(String url, String login, String password) throws ConnectionException;
-
-    /**
-     * Close the connection to the software
-     */
-    void close();
-
-    /**
-     * Return the state of the connection
-     */
-    boolean isClosed();
 
     /**
      * Return the description of the project
@@ -71,14 +53,6 @@ public interface BasicCapability {
     String getName(SoftwareProjectId projectId) throws ProjectNotFoundException;
 
     /**
-     * Find the software project id with informations contained in project key
-     * 
-     * @param projectKey
-     * @return
-     */
-    SoftwareProjectId identify(ProjectKey projectKey) throws ProjectNotFoundException;
-
-    /**
      * Return the full list of project id contained in the software with there display name
      * 
      * @return
@@ -95,4 +69,5 @@ public interface BasicCapability {
     boolean isProjectDisabled(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException;
 
     String getUrl();
+
 }

@@ -119,46 +119,10 @@ public class BambooConnection implements BuildCapability, TestCapability {
     }
 
     @Override
-    public void close() {
-        connected = false;
-    }
-
-    @Override
     public String getDescription(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException {
         checkConnected();
         checkSoftwareProjectId(softwareProjectId);
         return "";
-    }
-
-    @Override
-    public SoftwareProjectId identify(ProjectKey projectKey) throws ProjectNotFoundException {
-        checkConnected();
-        Preconditions.checkNotNull(projectKey, "projectKey is mandatory");
-        String name = projectKey.getName();
-        List<Plan> plans = bamboo.findAllPlans();
-        for (Plan plan : plans) {
-            String planName = plan.getName();
-            if (name.equals(planName)) {
-                SoftwareProjectId softwareProjectId = new SoftwareProjectId(plan.getKey());
-                return softwareProjectId;
-            }
-        }
-        throw new ProjectNotFoundException("Can't identify project with projectKey:" + projectKey);
-    }
-
-    @Override
-    public Date getEstimatedFinishTime(SoftwareProjectId projectId, String buildId) throws ProjectNotFoundException,
-            BuildNotFoundException {
-        checkConnected();
-        checkBuildId(buildId);
-        String projectName = getProjectKey(projectId);
-        try {
-            return bamboo.getEstimatedFinishTime(projectName);
-        } catch (BambooPlanNotFoundException e) {
-            throw new ProjectNotFoundException(e);
-        } catch (BambooEstimatedFinishTimeNotFoundException e) {
-            return new Date();
-        }
     }
 
     private String getProjectKey(SoftwareProjectId projectId) {
@@ -183,30 +147,6 @@ public class BambooConnection implements BuildCapability, TestCapability {
     }
 
     @Override
-    public List<String> getBuildIds(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException {
-        checkConnected();
-        checkSoftwareProjectId(softwareProjectId);
-        String planKey = softwareProjectId.getProjectId();
-        String lastResultNumber;
-        try {
-            lastResultNumber = String.valueOf(bamboo.getLastResultNumber(planKey));
-        } catch (BambooBuildNumberNotFoundException e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Can't find builds numbers of software project id : " + softwareProjectId, e);
-            }
-            return new ArrayList<String>();
-        }
-        return Arrays.asList(lastResultNumber);
-    }
-
-    @Override
-    public String getMavenId(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException,
-            MavenIdNotFoundException {
-        checkConnected();
-        throw new MavenIdNotFoundException("Not implemented!");
-    }
-
-    @Override
     public String getName(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException {
         checkConnected();
         checkSoftwareProjectId(softwareProjectId);
@@ -218,11 +158,6 @@ public class BambooConnection implements BuildCapability, TestCapability {
         } catch (BambooPlanNotFoundException e) {
             throw new ProjectNotFoundException("Can't find name of software project id: " + softwareProjectId);
         }
-    }
-
-    @Override
-    public boolean isClosed() {
-        return !connected;
     }
 
     @Override

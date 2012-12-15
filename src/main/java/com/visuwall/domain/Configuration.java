@@ -14,8 +14,8 @@ public class Configuration {
     }
 
     public void remove(Connection connection) {
-        if(!connections.remove(connection)) {
-            LOG.warn(connection+" has not been removed from global configuration");
+        if (!connections.remove(connection)) {
+            LOG.warn(connection + " has not been removed from global configuration");
         }
     }
 

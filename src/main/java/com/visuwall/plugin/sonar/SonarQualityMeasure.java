@@ -24,6 +24,7 @@ public final class SonarQualityMeasure {
     private Double value;
     private String formattedValue;
     private String key;
+    private Integer tendency;
 
     public Double getValue() {
         return value;
@@ -79,5 +80,16 @@ public final class SonarQualityMeasure {
                 .add("value", value) //
                 .add("formattedValue", formattedValue) //
                 .toString();
+    }
+
+    public void setTendency(Integer tendency) {
+        if(tendency == null){
+            tendency = 0;
+        }
+        this.tendency = tendency;
+    }
+
+    public int getTendency() {
+        return tendency;
     }
 }

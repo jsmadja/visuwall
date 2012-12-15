@@ -16,50 +16,28 @@
 
 package com.visuwall.plugin.sonar;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
-import com.visuwall.client.sonar.Sonar;
-import com.visuwall.client.sonar.domain.SonarQualityMetric;
-import com.visuwall.client.sonar.exception.SonarMeasureNotFoundException;
-import com.visuwall.client.sonar.exception.SonarMetricsNotFoundException;
-import com.visuwall.client.sonar.exception.SonarProjectNotFoundException;
-import com.visuwall.client.sonar.exception.SonarProjectsNotFoundException;
-import com.visuwall.client.sonar.exception.SonarResourceNotFoundException;
-import com.visuwall.client.sonar.resource.Project;
-import com.visuwall.api.domain.BuildState;
-import com.visuwall.api.domain.BuildTime;
-import com.visuwall.api.domain.Commiter;
-import com.visuwall.api.domain.ProjectKey;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import com.visuwall.api.domain.SoftwareProjectId;
-import com.visuwall.api.domain.TestResult;
 import com.visuwall.api.domain.quality.QualityMeasure;
 import com.visuwall.api.domain.quality.QualityMetric;
 import com.visuwall.api.domain.quality.QualityResult;
-import com.visuwall.api.exception.BuildIdNotFoundException;
-import com.visuwall.api.exception.BuildNotFoundException;
-import com.visuwall.api.exception.MavenIdNotFoundException;
 import com.visuwall.api.exception.ProjectNotFoundException;
 import com.visuwall.api.plugin.capability.MetricCapability;
-import com.visuwall.api.plugin.capability.TestCapability;
-
+import com.visuwall.client.sonar.Sonar;
+import com.visuwall.client.sonar.domain.SonarQualityMetric;
+import com.visuwall.client.sonar.exception.*;
+import com.visuwall.client.sonar.resource.Project;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.wsclient.services.Measure;
 import org.sonar.wsclient.services.Resource;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
+import java.util.*;
 
-public class SonarConnection implements MetricCapability, TestCapability {
+public class SonarConnection implements MetricCapability {
 
     private static final Logger LOG = LoggerFactory.getLogger(SonarConnection.class);
 
@@ -126,11 +104,6 @@ public class SonarConnection implements MetricCapability, TestCapability {
     }
 
     @Override
-    public void close() {
-        connected = false;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (o instanceof SonarConnection) {
             SonarConnection s = (SonarConnection) o;
@@ -155,40 +128,6 @@ public class SonarConnection implements MetricCapability, TestCapability {
         } catch (SonarResourceNotFoundException e) {
             throw new ProjectNotFoundException("Can't get description of software project id: " + softwareProjectId, e);
         }
-    }
-
-    @Override
-    public SoftwareProjectId identify(ProjectKey projectKey) throws ProjectNotFoundException {
-        checkConnected();
-        Preconditions.checkNotNull(projectKey, "projectKey is mandatory");
-        try {
-            String mavenId = projectKey.getMavenId();
-            if (mavenId != null) {
-                Resource resource = sonarClient.findResource(mavenId);
-                SoftwareProjectId softwareProjectId = new SoftwareProjectId(resource.getKey());
-                return softwareProjectId;
-            }
-        } catch (SonarResourceNotFoundException e) {
-            throw new ProjectNotFoundException("Can't identify project key: " + projectKey, e);
-        }
-        throw new ProjectNotFoundException("Can't identify project key, there is not enough informations: "
-                + projectKey);
-    }
-
-    @Override
-    public TestResult analyzeUnitTests(SoftwareProjectId projectId) {
-        checkConnected();
-        checkSoftwareProjectId(projectId);
-        TestResult unitTestResult = new TestResult();
-        String artifactId = projectId.getProjectId();
-        if (Strings.isNullOrEmpty(artifactId)) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("can't analyze project " + projectId + " without artifactId. Is it a maven project ?");
-            }
-        } else {
-            unitTestResult = createUnitTestAnalysis(artifactId);
-        }
-        return unitTestResult;
     }
 
     @Override
@@ -221,7 +160,7 @@ public class SonarConnection implements MetricCapability, TestCapability {
             }
         } catch (SonarMeasureNotFoundException e) {
             if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage());
+                LOG.trace(e.getMessage());
             }
         }
     }
@@ -232,21 +171,8 @@ public class SonarConnection implements MetricCapability, TestCapability {
         qualityMeasure.setKey(sonarQualityMeasure.getKey());
         qualityMeasure.setName(sonarQualityMeasure.getName());
         qualityMeasure.setValue(sonarQualityMeasure.getValue());
+        qualityMeasure.setTendency(sonarQualityMeasure.getTendency());
         return qualityMeasure;
-    }
-
-    @Override
-    public String getMavenId(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException,
-            MavenIdNotFoundException {
-        checkConnected();
-        checkSoftwareProjectId(softwareProjectId);
-        try {
-            String artifactId = softwareProjectId.getProjectId();
-            Resource resource = sonarClient.findResource(artifactId);
-            return resource.getKey();
-        } catch (SonarResourceNotFoundException e) {
-            throw new MavenIdNotFoundException("Can't get maven id of software project id: " + softwareProjectId, e);
-        }
     }
 
     @Override
@@ -260,11 +186,6 @@ public class SonarConnection implements MetricCapability, TestCapability {
         } catch (SonarResourceNotFoundException e) {
             throw new ProjectNotFoundException("Can't get name of software project id: " + softwareProjectId, e);
         }
-    }
-
-    @Override
-    public boolean isClosed() {
-        return !connected;
     }
 
     @Override
@@ -284,31 +205,6 @@ public class SonarConnection implements MetricCapability, TestCapability {
     @Override
     public String getUrl() {
         return url;
-    }
-
-    private TestResult createUnitTestAnalysis(String artifactId) {
-        TestResult unitTestResult = new TestResult();
-        try {
-            Double coverage = sonarClient.findMeasure(artifactId, "coverage").getValue();
-            Double failures = sonarClient.findMeasure(artifactId, "test_failures").getValue();
-            Double errors = sonarClient.findMeasure(artifactId, "test_errors").getValue();
-            Double passTests = sonarClient.findMeasure(artifactId, "tests").getValue();
-
-            int skipCount = sonarClient.findMeasure(artifactId, "skipped_tests").getIntValue();
-            int failCount = failures.intValue() + errors.intValue();
-            int passCount = passTests.intValue() - failCount;
-
-            unitTestResult.setCoverage(coverage);
-            unitTestResult.setFailCount(failCount);
-            unitTestResult.setSkipCount(skipCount);
-            unitTestResult.setPassCount(passCount);
-        } catch (SonarMeasureNotFoundException e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Unit tests informations are not available for project with artifactId : " + artifactId
-                        + ", cause " + e.getMessage());
-            }
-        }
-        return unitTestResult;
     }
 
     private void initializeMetrics() {
@@ -347,74 +243,6 @@ public class SonarConnection implements MetricCapability, TestCapability {
         qualityMetric.setUserManaged(sonarQualityMetric.getUserManaged());
         qualityMetric.setValTyp(sonarQualityMetric.getValTyp());
         return qualityMetric;
-    }
-
-    public BuildTime getBuildTime(SoftwareProjectId softwareProjectId, Integer buildId) throws BuildNotFoundException,
-            ProjectNotFoundException {
-        checkConnected();
-        checkSoftwareProjectId(softwareProjectId);
-        BuildTime buildTime = new BuildTime();
-        buildTime.setDuration(1);
-        buildTime.setStartTime(new Date());
-        return buildTime;
-    }
-
-    @Deprecated
-    // NOT USED
-    public List<Integer> getBuildIds(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException {
-        checkConnected();
-        checkSoftwareProjectId(softwareProjectId);
-        return Arrays.asList(1);
-    }
-
-    @Deprecated
-    // NOT USED
-    public BuildState getBuildState(SoftwareProjectId softwareProjectId, Integer buildId)
-            throws ProjectNotFoundException, BuildNotFoundException {
-        checkConnected();
-        checkSoftwareProjectId(softwareProjectId);
-        return BuildState.SUCCESS;
-    }
-
-    @Deprecated
-    // NOT USED
-    public Date getEstimatedFinishTime(SoftwareProjectId softwareProjectId, Integer buildId)
-            throws ProjectNotFoundException, BuildNotFoundException {
-        checkConnected();
-        checkSoftwareProjectId(softwareProjectId);
-        return new Date();
-    }
-
-    @Deprecated
-    // NOT USED
-    public boolean isBuilding(SoftwareProjectId softwareProjectId, Integer buildId) throws ProjectNotFoundException,
-            BuildNotFoundException {
-        checkConnected();
-        checkSoftwareProjectId(softwareProjectId);
-        return false;
-    }
-
-    @Deprecated
-    // NOT USED
-    public int getLastBuildId(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException,
-            BuildIdNotFoundException {
-        checkConnected();
-        checkSoftwareProjectId(softwareProjectId);
-        return 1;
-    }
-
-    @Deprecated
-    // NOT USED
-    public List<Commiter> getBuildCommiters(SoftwareProjectId softwareProjectId, Integer buildId)
-            throws BuildNotFoundException, ProjectNotFoundException {
-        checkConnected();
-        checkSoftwareProjectId(softwareProjectId);
-        checkBuildId(buildId);
-        return new ArrayList<Commiter>();
-    }
-
-    private void checkBuildId(int buildId) {
-        Preconditions.checkNotNull(buildId, "buildId is mandatory");
     }
 
     private void checkSoftwareProjectId(SoftwareProjectId softwareProjectId) {

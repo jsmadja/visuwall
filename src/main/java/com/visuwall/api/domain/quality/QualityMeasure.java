@@ -24,6 +24,7 @@ public final class QualityMeasure {
     private Double value;
     private String formattedValue;
     private String key;
+    private int tendency;
 
     public Double getValue() {
         return value;
@@ -92,5 +93,13 @@ public final class QualityMeasure {
                 .add("value", value) //
                 .add("formattedValue", formattedValue) //
                 .toString();
+    }
+
+    public void setTendency(int tendency) {
+        this.tendency = tendency;
+    }
+
+    public int getTendency() {
+        return tendency;
     }
 }

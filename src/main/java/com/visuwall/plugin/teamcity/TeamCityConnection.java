@@ -91,11 +91,6 @@ public class TeamCityConnection implements BuildCapability, TestCapability, View
     }
 
     @Override
-    public void close() {
-        connected = false;
-    }
-
-    @Override
     public String getDescription(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException {
         checkConnected();
         checkSoftwareProjectId(softwareProjectId);
@@ -105,44 +100,6 @@ public class TeamCityConnection implements BuildCapability, TestCapability, View
             return buildType.getDescription();
         } catch (TeamCityBuildTypeNotFoundException e) {
             throw new ProjectNotFoundException("Cannot find description of project with software project id:"
-                    + softwareProjectId, e);
-        }
-    }
-
-    @Override
-    public SoftwareProjectId identify(ProjectKey projectKey) throws ProjectNotFoundException {
-        checkConnected();
-        Preconditions.checkNotNull(projectKey, "projectKey is mandatory");
-        try {
-            String name = projectKey.getName();
-            List<TeamCityProject> projects = teamCity.findAllProjects();
-            for (TeamCityProject project : projects) {
-                String projectName = project.getName();
-                if (projectName.equals(name)) {
-                    String projectId = project.getId();
-                    return new SoftwareProjectId(projectId);
-                }
-            }
-        } catch (TeamCityProjectsNotFoundException e) {
-            throw new ProjectNotFoundException("Can't identify software project id with project key: " + projectKey,
-                    e);
-        }
-        throw new ProjectNotFoundException("Can't identify software project id with project key: " + projectKey);
-    }
-
-    @Override
-    public List<String> getBuildIds(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException {
-        checkConnected();
-        checkSoftwareProjectId(softwareProjectId);
-        try {
-            Set<String> ids = new TreeSet<String>();
-            TeamCityBuildType buildType = teamCity.findBuildType(softwareProjectId.getProjectId());
-            addBuildIds(ids, buildType);
-            List<String> arrayList = new ArrayList<String>(ids);
-            Collections.sort(arrayList, new BuildIdComparator());
-            return arrayList;
-        } catch (TeamCityBuildTypeNotFoundException e) {
-            throw new ProjectNotFoundException("Cannot find build numbers of software project id:"
                     + softwareProjectId, e);
         }
     }
@@ -204,21 +161,6 @@ public class TeamCityConnection implements BuildCapability, TestCapability, View
     }
 
     @Override
-    public Date getEstimatedFinishTime(SoftwareProjectId softwareProjectId, String buildId)
-            throws ProjectNotFoundException, BuildNotFoundException {
-        checkConnected();
-        checkSoftwareProjectId(softwareProjectId);
-        checkBuildId(buildId);
-        try {
-            TeamCityBuild runningBuild = teamCity.findBuild(Integer.valueOf(buildId));
-            int seconds = runningBuild.getRunningInfo().getEstimatedTotalSeconds();
-            return new DateTime().plusSeconds(seconds).toDate();
-        } catch (TeamCityBuildNotFoundException e) {
-            throw new BuildNotFoundException("Cannot find a running build", e);
-        }
-    }
-
-    @Override
     public boolean isBuilding(SoftwareProjectId softwareProjectId, String buildId) throws ProjectNotFoundException,
             BuildNotFoundException {
         checkConnected();
@@ -253,19 +195,6 @@ public class TeamCityConnection implements BuildCapability, TestCapability, View
     }
 
     @Override
-    public String getMavenId(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException,
-            MavenIdNotFoundException {
-        checkConnected();
-        checkSoftwareProjectId(softwareProjectId);
-        String projectId = softwareProjectId.getProjectId();
-        try {
-            return teamCity.findMavenId(projectId);
-        } catch (com.visuwall.client.common.MavenIdNotFoundException e) {
-            throw new MavenIdNotFoundException("Cannot find maven id for " + softwareProjectId, e);
-        }
-    }
-
-    @Override
     public String getName(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException {
         checkConnected();
         checkSoftwareProjectId(softwareProjectId);
@@ -277,11 +206,6 @@ public class TeamCityConnection implements BuildCapability, TestCapability, View
             throw new ProjectNotFoundException("Can't find name of project with software project id:"
                     + softwareProjectId, e);
         }
-    }
-
-    @Override
-    public boolean isClosed() {
-        return !connected;
     }
 
     @Override

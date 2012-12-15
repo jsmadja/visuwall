@@ -32,10 +32,10 @@ public class Connections implements Iterable<Connection> {
 
     public Connection getConnection(String name) {
         for (Connection connection : connections) {
-            if(connection.hasName(name)) {
+            if (connection.hasName(name)) {
                 return connection;
             }
         }
-        throw new IllegalStateException("Cannot find connection '"+name+"'");
+        throw new IllegalStateException("Cannot find connection '" + name + "'");
     }
 }

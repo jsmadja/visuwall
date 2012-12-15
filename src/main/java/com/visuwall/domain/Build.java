@@ -14,8 +14,6 @@ import com.visuwall.api.plugin.capability.BuildCapability;
 import com.visuwall.api.plugin.capability.TestCapability;
 import com.visuwall.formatter.DurationFormatter;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.Locale;
@@ -23,9 +21,7 @@ import java.util.Locale;
 import static com.visuwall.api.domain.BuildState.BUILDING;
 import static com.visuwall.api.domain.BuildState.UNKNOWN;
 
-public class Build implements Comparable<Build>{
-
-    private static final Logger LOG = LoggerFactory.getLogger(Build.class);
+public class Build implements Comparable<Build>, Refreshable {
 
     private BuildState status = BuildState.UNKNOWN;
     private String name;
@@ -57,6 +53,7 @@ public class Build implements Comparable<Build>{
         return status;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -87,16 +84,17 @@ public class Build implements Comparable<Build>{
         return this.name.compareToIgnoreCase(build.name);
     }
 
+    @Override
     public void refresh() {
         try {
             refreshInfos();
             refreshTimes();
             refreshTests();
-        } catch(ProjectNotFoundException e) {
+        } catch (ProjectNotFoundException e) {
             setRemoveable();
-        } catch(BuildIdNotFoundException e) {
+        } catch (BuildIdNotFoundException e) {
             status = UNKNOWN;
-        } catch(BuildNotFoundException e) {
+        } catch (BuildNotFoundException e) {
             status = UNKNOWN;
         }
     }
@@ -105,7 +103,7 @@ public class Build implements Comparable<Build>{
         BuildCapability buildCapability = (BuildCapability) connection;
         name = buildCapability.getName(projectId);
         String lastBuildId = buildCapability.getLastBuildId(projectId);
-        if(buildCapability.isBuilding(projectId, lastBuildId)) {
+        if (buildCapability.isBuilding(projectId, lastBuildId)) {
             status = BUILDING;
         } else {
             status = buildCapability.getBuildState(projectId, lastBuildId);
@@ -117,7 +115,7 @@ public class Build implements Comparable<Build>{
         String lastBuildId = buildCapability.getLastBuildId(projectId);
         BuildTime buildTime = buildCapability.getBuildTime(projectId, lastBuildId);
         lastBuildDate = buildTime.getStartTime();
-        if(buildCapability.isBuilding(projectId, lastBuildId)) {
+        if (buildCapability.isBuilding(projectId, lastBuildId)) {
             duration = 0;
         } else {
             duration = buildTime.getDuration();
@@ -125,13 +123,14 @@ public class Build implements Comparable<Build>{
     }
 
     private void refreshTests() {
-        TestResult testResult = ((TestCapability)connection).analyzeUnitTests(projectId);
+        TestResult testResult = ((TestCapability) connection).analyzeUnitTests(projectId);
         successfulTestCount = testResult.getPassCount();
         failedTestCount = testResult.getFailCount();
         skippedTestCount = testResult.getSkipCount();
     }
 
     @JsonIgnore
+    @Override
     public boolean isRefreshable() {
         try {
             return status == BUILDING || status == UNKNOWN || isCurrentlyBuilding() || newBuildIsAvailable();
@@ -154,10 +153,7 @@ public class Build implements Comparable<Build>{
         BuildCapability buildCapability = (BuildCapability) connection;
         String oldBuildId = lastBuildId;
         lastBuildId = buildCapability.getLastBuildId(projectId);
-        if(oldBuildId == null) {
-            return true;
-        }
-        return !oldBuildId.equals(lastBuildId);
+        return oldBuildId == null || !oldBuildId.equals(lastBuildId);
     }
 
     public boolean is(SoftwareProjectId projectId) {
@@ -165,10 +161,7 @@ public class Build implements Comparable<Build>{
     }
 
     public boolean hasName(String name) {
-        if(this.name == null) {
-            return false;
-        }
-        return this.name.equalsIgnoreCase(name);
+        return this.name != null && this.name.equalsIgnoreCase(name);
     }
 
     @JsonIgnore
@@ -199,5 +192,14 @@ public class Build implements Comparable<Build>{
     @JsonIgnore
     public boolean isLinkedTo(String url) {
         return this.connection.getUrl().equalsIgnoreCase(url);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof Build) {
+            Build b = (Build) o;
+            return hasName(b.name);
+        }
+        return false;
     }
 }

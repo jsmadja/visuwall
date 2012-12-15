@@ -1,7 +1,6 @@
 package com.visuwall.web;
 
 import com.visuwall.api.domain.SoftwareId;
-import com.visuwall.api.exception.SoftwareNotFoundException;
 import com.visuwall.api.plugin.VisuwallPlugin;
 import com.visuwall.domain.Connection;
 import com.visuwall.domain.PluginConfiguration;
@@ -12,7 +11,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import static javax.ws.rs.core.Response.ok;

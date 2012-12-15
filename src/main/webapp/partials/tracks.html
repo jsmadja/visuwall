@@ -1,24 +1,27 @@
 <div class="container-fluid">
-    <div class="row-fluid">
-        <div class="span12">
-            <ul class="tracks">
-                <li ng-repeat="track in tracks | orderBy:name" class="thumbnail build">
-                    <div style="display: block">
-                        <div style="display:inline-block;" class="status-box track-status-{{track.status}}"></div>
-                        <div style="display:inline-block;" class="info-box">
-                            <p class="track-title">
-                                {{track.name}}
-                            </p>
-                        </div>
-                        <div style="display:inline-block;" class="track-task-box">
-                            <ul>
-                                <li><span class="track-blacklog-style">{{track.backlog_tasks_count}}</span> tasks in backlog</li>
-                                <li><span class="track-icebox-style">{{track.icebox_tasks_count}}</span> tasks in icebox</li>
-                            </ul>
-                        </div>
-                    </div>
+  <div class="row-fluid">
+    <div class="span12">
+      <ul class="tracks">
+        <li ng-repeat="track in tracks | orderBy:name" class="thumbnail build">
+          <div style="display: block">
+            <div style="display:inline-block;" class="status-box track-status-{{track.status}}"></div>
+            <div style="display:inline-block;" class="info-box">
+              <p class="track-title">
+                {{track.name}}
+              </p>
+            </div>
+            <div style="display:inline-block;" class="track-task-box">
+              <ul>
+                <li><span class="track-blacklog-style">{{track.backlog_tasks_count}}</span> tasks in
+                  backlog
                 </li>
-            </ul>
-        </div>
+                <li><span class="track-icebox-style">{{track.icebox_tasks_count}}</span> tasks in icebox
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
+  </div>
 </div>

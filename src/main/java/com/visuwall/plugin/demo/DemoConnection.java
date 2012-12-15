@@ -16,6 +16,7 @@ import java.util.Map.Entry;
 
 import static com.visuwall.api.domain.BuildState.*;
 import static com.visuwall.plugin.demo.SoftwareProjectIds.*;
+import static java.util.Arrays.asList;
 
 public class DemoConnection implements BuildCapability, TestCapability, ViewCapability, MetricCapability {
 
@@ -78,16 +79,16 @@ public class DemoConnection implements BuildCapability, TestCapability, ViewCapa
         integrationTestResults.put(mercury, mercuryIntegrationTestResults);
         integrationTestResults.put(venus, venusIntegrationTestResults);
 
-        QualityMeasure uranusCoverageMeasure = createQualityMeasure("coverage", "Coverage", "76.5 %", 76.5);
-        QualityMeasure uranusLocMeasure = createQualityMeasure("ncloc", "Lines of code", "78.001", 78001D);
-        QualityMeasure uranusViolationsMeasure = createQualityMeasure("violations_density", "Violations", "32", 32D);
+        QualityMeasure uranusCoverageMeasure = createQualityMeasure("coverage", "Coverage", "76.5 %", 76.5,-1);
+        QualityMeasure uranusLocMeasure = createQualityMeasure("ncloc", "Lines of code", "78.001", 78001D,1);
+        QualityMeasure uranusViolationsMeasure = createQualityMeasure("violations_density", "Violations", "32", 32D,-1);
         QualityResult uranusQualityResult = new QualityResult();
         uranusQualityResult.add("coverage", uranusCoverageMeasure);
         uranusQualityResult.add("ncloc", uranusLocMeasure);
         uranusQualityResult.add("violations_density", uranusViolationsMeasure);
 
         QualityResult mercuryQualityResult = new QualityResult();
-        QualityMeasure mercuryLocMeasure = createQualityMeasure("ncloc", "Lines of code", "121.988", 121988D);
+        QualityMeasure mercuryLocMeasure = createQualityMeasure("ncloc", "Lines of code", "121.988", 121988D,1);
         mercuryQualityResult.add("ncloc", mercuryLocMeasure);
 
         qualityResults.put(uranus, uranusQualityResult);
@@ -96,12 +97,13 @@ public class DemoConnection implements BuildCapability, TestCapability, ViewCapa
         marsBuildIds.add("1");
     }
 
-    private QualityMeasure createQualityMeasure(String key, String name, String formattedValue, double value) {
+    private QualityMeasure createQualityMeasure(String key, String name, String formattedValue, double value, int tendency) {
         QualityMeasure coverageMeasure = new QualityMeasure();
         coverageMeasure.setKey(key);
         coverageMeasure.setName(name);
         coverageMeasure.setFormattedValue(formattedValue);
         coverageMeasure.setValue(value);
+        coverageMeasure.setTendency(tendency);
         return coverageMeasure;
     }
 
@@ -120,27 +122,8 @@ public class DemoConnection implements BuildCapability, TestCapability, ViewCapa
     }
 
     @Override
-    public void close() {
-        connected = false;
-    }
-
-    @Override
-    public boolean isClosed() {
-        return !connected;
-    }
-
-    @Override
     public Map<SoftwareProjectId, String> listSoftwareProjectIds() {
         return softwareProjectIds;
-    }
-
-    @Override
-    public String getMavenId(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException,
-            MavenIdNotFoundException {
-        if (softwareProjectId.getProjectId() != null) {
-            return "com.visuwall.plugin.demo:" + softwareProjectId.getProjectId();
-        }
-        throw new MavenIdNotFoundException("Cannot find maven id for " + softwareProjectId);
     }
 
     @Override
@@ -153,26 +136,6 @@ public class DemoConnection implements BuildCapability, TestCapability, ViewCapa
         String name = projectId.getProjectId();
         String firstLetter = "" + name.charAt(0);
         return firstLetter.toUpperCase() + name.substring(1);
-    }
-
-    @Override
-    public SoftwareProjectId identify(ProjectKey projectKey) throws ProjectNotFoundException {
-        String projectName = projectKey.getName();
-        SoftwareProjectId softwareProjectId = getByName(projectName);
-        if (softwareProjectId == null) {
-            throw new ProjectNotFoundException("Cannot find project for " + projectKey);
-        }
-        return softwareProjectId;
-    }
-
-    private SoftwareProjectId getByName(String projectName) {
-        Set<Entry<SoftwareProjectId, String>> entries = softwareProjectIds.entrySet();
-        for (Entry<SoftwareProjectId, String> entry : entries) {
-            if (entry.getValue().equals(projectName)) {
-                return entry.getKey();
-            }
-        }
-        return null;
     }
 
     @Override
@@ -262,16 +225,6 @@ public class DemoConnection implements BuildCapability, TestCapability, ViewCapa
     }
 
     @Override
-    public List<String> getBuildIds(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException {
-        if (mars.equals(softwareProjectId)) {
-            return marsProj.getbuildIds();
-        }
-        List<String> buildIds = new ArrayList<String>();
-        buildIds.add("1");
-        return buildIds;
-    }
-
-    @Override
     public BuildState getBuildState(SoftwareProjectId projectId, String buildId) throws ProjectNotFoundException,
             BuildNotFoundException {
         BuildState buildState = buildStates.get(projectId);
@@ -282,19 +235,6 @@ public class DemoConnection implements BuildCapability, TestCapability, ViewCapa
             return marsProj.getBuildState(buildId);
         }
         return buildState;
-    }
-
-    @Override
-    public Date getEstimatedFinishTime(SoftwareProjectId projectId, String buildId) throws ProjectNotFoundException,
-            BuildNotFoundException {
-        if (projectId.equals(mars)) {
-            return marsProj.estimatedFinishTime();
-        }
-        if (projectId.equals(moon)) {
-            Date date = new DateTime().plusHours(8).toDate();
-            return date;
-        }
-        return new Date();
     }
 
     @Override

@@ -84,20 +84,6 @@ public class HudsonConnection implements BuildCapability, ViewCapability, TestCa
     }
 
     @Override
-    public Date getEstimatedFinishTime(SoftwareProjectId projectId, String buildId) throws ProjectNotFoundException,
-            BuildNotFoundException {
-        checkConnected();
-        checkSoftwareProjectId(projectId);
-        checkBuildId(buildId);
-        try {
-            String projectName = jobName(projectId);
-            return hudson.getEstimatedFinishTime(projectName);
-        } catch (HudsonJobNotFoundException e) {
-            throw new ProjectNotFoundException(e);
-        }
-    }
-
-    @Override
     public boolean isBuilding(SoftwareProjectId projectId, String buildId) throws ProjectNotFoundException,
             BuildNotFoundException {
         checkConnected();
@@ -206,11 +192,6 @@ public class HudsonConnection implements BuildCapability, ViewCapability, TestCa
     }
 
     @Override
-    public void close() {
-        connected = false;
-    }
-
-    @Override
     public String getDescription(SoftwareProjectId projectId) throws ProjectNotFoundException {
         checkConnected();
         checkSoftwareProjectId(projectId);
@@ -219,51 +200,6 @@ public class HudsonConnection implements BuildCapability, ViewCapability, TestCa
             return hudson.getDescription(jobName);
         } catch (HudsonJobNotFoundException e) {
             throw new ProjectNotFoundException("Can't find description of project id: " + projectId, e);
-        }
-    }
-
-    @Override
-    public SoftwareProjectId identify(ProjectKey projectKey) throws ProjectNotFoundException {
-        checkConnected();
-        checkNotNull(projectKey, "projectKey is mandatory");
-        String jobName = projectKey.getName();
-        if (jobName != null) {
-            try {
-                hudson.findJob(jobName);
-                return new SoftwareProjectId(jobName);
-            } catch (HudsonJobNotFoundException e) {
-                throw new ProjectNotFoundException("Can't identify job with project key: " + projectKey, e);
-            }
-        }
-        throw new ProjectNotFoundException("Can't identify job with project key: " + projectKey);
-    }
-
-    @Override
-    public List<String> getBuildIds(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException {
-        checkConnected();
-        try {
-            String jobName = softwareProjectId.getProjectId();
-            List<Integer> buildIds = hudson.getBuildNumbers(jobName);
-            List<String> res = new ArrayList<String>(buildIds.size());
-            for (Integer buildId : buildIds) {
-                res.add(String.valueOf(buildId));
-            }
-            return res;
-        } catch (HudsonJobNotFoundException e) {
-            throw new ProjectNotFoundException("Can't find build Ids of software project id " + softwareProjectId, e);
-        }
-    }
-
-    @Override
-    public String getMavenId(SoftwareProjectId softwareProjectId) throws ProjectNotFoundException,
-            MavenIdNotFoundException {
-        checkConnected();
-        checkSoftwareProjectId(softwareProjectId);
-        String jobName = softwareProjectId.getProjectId();
-        try {
-            return hudson.findMavenId(jobName);
-        } catch (com.visuwall.client.common.MavenIdNotFoundException e) {
-            throw new MavenIdNotFoundException("Cannot find maven id for " + softwareProjectId, e);
         }
     }
 
@@ -278,11 +214,6 @@ public class HudsonConnection implements BuildCapability, ViewCapability, TestCa
         } catch (HudsonJobNotFoundException e) {
             throw new ProjectNotFoundException("Can't get name of project " + softwareProjectId, e);
         }
-    }
-
-    @Override
-    public boolean isClosed() {
-        return !connected;
     }
 
     @Override

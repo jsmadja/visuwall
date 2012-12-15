@@ -9,40 +9,57 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.concurrent.*;
 
-public class Builds implements Iterable<Build> {
+public class Analyses implements Iterable<Analysis> {
 
-    private Set<Build> builds = new TreeSet<Build>();
+    private Set<Analysis> analyses = new TreeSet<Analysis>();
 
     private Connections connections = new Connections();
 
-    private static final Logger LOG = LoggerFactory.getLogger(Builds.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Analyses.class);
+
+    public int count() {
+        return analyses.size();
+    }
+
+    public Set<Analysis> all() {
+        return Collections.unmodifiableSet(analyses);
+    }
+
+    public Analysis getAnalysis(String name) {
+        for (Analysis analysis : analyses) {
+            if (analysis.hasName(name)) {
+                return analysis;
+            }
+        }
+        throw new NoSuchElementException(name);
+    }
 
     public void addConnection(Connection connection) {
         this.connections.add(connection);
     }
 
     public void refresh() {
-        refreshBuilds();
-        addNewBuilds();
+        refreshAnalyses();
+        addNewAnalyses();
     }
 
-    private void refreshBuilds() {
+    private void refreshAnalyses() {
         ExecutorService pool = Executors.newFixedThreadPool(20);
-        List<Future<Build>> futures = new ArrayList<Future<Build>>();
-        for (Build build : builds) {
-            futures.add(pool.submit(refresh(build)));
+        List<Future<Analysis>> futures = new ArrayList<Future<Analysis>>();
+        for (Analysis analysis : analyses) {
+            futures.add(pool.submit(refresh(analysis)));
         }
-        for (Future<Build> future : futures) {
-            removeBuildIfNecessary(future);
+        for (Future<Analysis> future : futures) {
+            removeAnalysisIfNecessary(future);
         }
         pool.shutdown();
     }
 
-    private void removeBuildIfNecessary(Future<Build> future) {
+    private void removeAnalysisIfNecessary(Future<Analysis> future) {
         try {
-            Build build = future.get();
-            if (build.isRemoveable()) {
-                builds.remove(build);
+            Analysis analysis = future.get();
+            if (analysis.isRemoveable()) {
+                analyses.remove(analysis);
             }
         } catch (ExecutionException e) {
             LOG.error("Error when getting future: " + future, e);
@@ -51,21 +68,21 @@ public class Builds implements Iterable<Build> {
         }
     }
 
-    private Callable<Build> refresh(final Build build) {
-        return new Callable<Build>() {
+    private Callable<Analysis> refresh(final Analysis analysis) {
+        return new Callable<Analysis>() {
             @Override
-            public Build call() throws Exception {
-            if (build.isRefreshable()) {
-                LOG.info(build + " is refreshing ...");
-                build.refresh();
-                LOG.info(build + " is now up-to-date");
+            public Analysis call() throws Exception {
+            if (analysis.isRefreshable()) {
+                LOG.info(analysis + " is refreshing ...");
+                analysis.refresh();
+                LOG.info(analysis + " is now up-to-date");
             }
-            return build;
+            return analysis;
             }
         };
     }
 
-    private void addNewBuilds() {
+    private void addNewAnalyses() {
         ExecutorService pool = Executors.newFixedThreadPool(20);
         List<Future<BuildConfiguration>> futures = new ArrayList<Future<BuildConfiguration>>();
         for (final Connection connection : connections) {
@@ -80,26 +97,19 @@ public class Builds implements Iterable<Build> {
             }
         }
         for (Future<BuildConfiguration> future : futures) {
-            addBuildIfNecessary(future);
+            addAnalysisIfNecessary(future);
         }
         pool.shutdown();
     }
 
-    public void removeAllBuildsFrom(Connection connection) {
-        List<Build> buildsToRemove = new ArrayList<Build>();
-        for (Build build : builds) {
-            if (build.isLinkedTo(connection.getUrl())) {
-                buildsToRemove.add(build);
-            }
-        }
-        builds.removeAll(buildsToRemove);
+    public void removeAllAnalysesFrom(Connection connection) {
     }
 
-    private void addBuildIfNecessary(Future<BuildConfiguration> future) {
+    private void addAnalysisIfNecessary(Future<BuildConfiguration> future) {
         try {
             BuildConfiguration buildConfiguration = future.get();
             if (isAddable(buildConfiguration)) {
-                addNewBuild(buildConfiguration);
+                addNewAnalysis(buildConfiguration);
             }
         } catch (ExecutionException e) {
             LOG.error("Error when getting future: " + future, e);
@@ -110,23 +120,24 @@ public class Builds implements Iterable<Build> {
         }
     }
 
-    private void addNewBuild(BuildConfiguration buildConfiguration) {
+    private void addNewAnalysis(BuildConfiguration buildConfiguration) {
         BasicCapability connection = buildConfiguration.getVisuwallConnection();
         SoftwareProjectId projectId = buildConfiguration.getProjectId();
         try {
-            LOG.info("Add a new build " + projectId);
-            Build build = new Build(connection, projectId);
-            build.refresh();
-            builds.add(build);
-        } catch (Exception e) {
-            LOG.error(projectId + " is unbuildable", e);
+            LOG.info("Add a new analysis " + projectId);
+            List<String> selectedMetrics = buildConfiguration.getConnection().getIncludeMetricNames();
+            Analysis analysis = new Analysis(connection, projectId, selectedMetrics);
+            analysis.refresh();
+            analyses.add(analysis);
+        } catch(Exception e) {
+            LOG.error(projectId+" is unanalysable", e);
         }
     }
 
     private boolean isAddable(BuildConfiguration buildConfiguration) throws ProjectNotFoundException {
         SoftwareProjectId softwareProjectId = buildConfiguration.getProjectId();
-        for (Build build : builds) {
-            if (build.is(softwareProjectId) || build.isDisabled()) {
+        for (Analysis analysis : analyses) {
+            if(analysis.is(softwareProjectId)) {
                 return false;
             }
         }
@@ -134,34 +145,7 @@ public class Builds implements Iterable<Build> {
     }
 
     @Override
-    public Iterator<Build> iterator() {
-        return builds.iterator();
+    public Iterator<Analysis> iterator() {
+        return analyses.iterator();
     }
-
-    public Set<Build> all() {
-        return Collections.unmodifiableSet(builds);
-    }
-
-    public Build getBuild(String name) {
-        for (Build build : builds) {
-            if (build.hasName(name)) {
-                return build;
-            }
-        }
-        throw new NoSuchElementException(name);
-    }
-
-    public int count() {
-        return builds.size();
-    }
-
-    public boolean contains(String name) {
-        for (Build build : builds) {
-            if (build.hasName(name)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 }
