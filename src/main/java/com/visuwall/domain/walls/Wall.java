@@ -99,16 +99,21 @@ public class Wall implements Runnable {
     public void run() {
         while (true) {
             try {
-                LOG.debug("Wall is full refreshing ...");
+                long start = System.currentTimeMillis();
+                LOG.info("Wall is full refreshing ...");
                 builds.refreshAll();
                 analyses.refreshAll();
                 tracks.refreshAll();
-                LOG.debug("Wall has been fully refreshed");
+                LOG.info("Wall has been fully refreshed in "+duration(start)+" ms");
                 waitForNextIteration();
             } catch (InterruptedException e) {
                 LOG.error("Error in main loop", e);
             }
         }
+    }
+
+    private long duration(long start) {
+        return System.currentTimeMillis() - start;
     }
 
     private void waitForNextIteration() throws InterruptedException {

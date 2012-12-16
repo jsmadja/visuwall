@@ -76,7 +76,7 @@ public abstract class AbstractRefreshables<T extends Refreshable> implements Ref
     }
 
     private void discoverNewRefreshables() {
-        ExecutorService pool = Executors.newFixedThreadPool(5);
+        ExecutorService pool = Executors.newFixedThreadPool(20);
         List<Future<ConnectionConfiguration>> futures = new ArrayList<Future<ConnectionConfiguration>>();
         for (final Connection connection : connections) {
             Collection<SoftwareProjectId> projectIds = connection.listSoftwareProjectIds();
@@ -142,7 +142,7 @@ public abstract class AbstractRefreshables<T extends Refreshable> implements Ref
 
     @Override
     public boolean contains(String name) {
-        for (Refreshable refreshable : getRefreshables()) {
+        for (Refreshable refreshable : refreshables) {
             if (refreshable.hasName(name)) {
                 return true;
             }
@@ -155,16 +155,12 @@ public abstract class AbstractRefreshables<T extends Refreshable> implements Ref
         connections.remove(connection);
         String url = connection.getUrl();
         List<T> refreshablesToRemove = new ArrayList<T>();
-        for (T refreshable : getRefreshables()) {
+        for (T refreshable : refreshables) {
             if (refreshable.isLinkedTo(url)) {
                 refreshablesToRemove.add(refreshable);
             }
         }
         refreshables.removeAll(refreshablesToRemove);
-    }
-
-    public Set<T> getRefreshables() {
-        return refreshables;
     }
 
     protected void add(T refreshable) {

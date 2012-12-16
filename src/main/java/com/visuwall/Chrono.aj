@@ -24,7 +24,7 @@ public aspect Chrono {
 
     private static final Logger LOG = LoggerFactory.getLogger(Chrono.class);
 
-    Object around() : execution(public * com.visuwall.domain.*.* (..)) {
+    Object around() : execution(public * com.visuwall.*.* (..)) {
         long start = System.currentTimeMillis();
         try {
             return proceed();
