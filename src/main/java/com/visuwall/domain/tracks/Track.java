@@ -43,6 +43,9 @@ public class Track implements Comparable<Track>, Refreshable {
 
     @Override
     public int compareTo(Track track) {
+        if(this.name == null || track.name == null) {
+            return 0;
+        }
         return this.name.compareToIgnoreCase(track.name);
     }
 
