@@ -42,12 +42,12 @@ public class Build implements Comparable<Build>, Refreshable {
     private String lastBuildId;
 
     @JsonIgnore
-    private boolean removeable;
+    private boolean removable;
 
     public Build(BasicCapability connection, SoftwareProjectId projectId) {
         this.connection = connection;
         this.projectId = projectId;
-        this.removeable = false;
+        this.removable = false;
     }
 
     public BuildState getStatus() {
@@ -90,7 +90,7 @@ public class Build implements Comparable<Build>, Refreshable {
         try {
             refreshInfos();
             refreshTimes();
-            if(connection instanceof TestCapability) {
+            if (connection instanceof TestCapability) {
                 refreshTests();
             }
         } catch (ProjectNotFoundException e) {
@@ -178,18 +178,12 @@ public class Build implements Comparable<Build>, Refreshable {
     }
 
     public void setRemoveable() {
-        this.removeable = true;
+        this.removable = true;
     }
 
     @JsonIgnore
-    public boolean isRemoveable() {
-        return removeable;
-    }
-
-    @JsonIgnore
-    public boolean isDisabled() throws ProjectNotFoundException {
-        BuildCapability buildCapability = (BuildCapability) connection;
-        return buildCapability.isProjectDisabled(projectId);
+    public boolean isRemovable() {
+        return removable;
     }
 
     @JsonIgnore
@@ -199,7 +193,7 @@ public class Build implements Comparable<Build>, Refreshable {
 
     @Override
     public boolean equals(Object o) {
-        if(o instanceof Build) {
+        if (o instanceof Build) {
             Build b = (Build) o;
             return hasName(b.name);
         }

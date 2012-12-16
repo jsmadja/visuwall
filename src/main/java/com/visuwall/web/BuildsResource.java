@@ -24,7 +24,7 @@ import static javax.ws.rs.core.Response.status;
 public class BuildsResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(BuildsResource.class);
-    public static final String WALL_ID = "wall";
+    private static final String WALL_ID = "wall";
 
     @GET
     @Path("/{name}")

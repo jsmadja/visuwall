@@ -36,7 +36,7 @@ public class Tests {
     private static void addInstances(List<Object[]> parameters, String instancePropertyValue) {
         String[] instances = instancePropertyValue.split(";");
         for (String instance : instances) {
-            parameters.add(new Object[] { instance });
+            parameters.add(new Object[]{instance});
         }
     }
 

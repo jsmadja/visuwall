@@ -23,7 +23,7 @@ public interface TestCapability extends BasicCapability {
 
     /**
      * Generate the unit tests reporting
-     * 
+     *
      * @param projectId
      * @return
      */

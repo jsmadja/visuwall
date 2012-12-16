@@ -16,19 +16,15 @@
 
 package com.visuwall.client.teamcity.resource;
 
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "projects")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TeamCityProjects {
 
-    @XmlElements(value = { @XmlElement(name = "project") })
+    @XmlElements(value = {@XmlElement(name = "project")})
     private List<TeamCityProject> projects = new ArrayList<TeamCityProject>();
 
     public List<TeamCityProject> getProjects() {

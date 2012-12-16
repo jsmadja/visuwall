@@ -1,8 +1,8 @@
 package com.visuwall.plugin.sonar;
 
-import java.net.URL;
-
 import com.visuwall.client.common.GenericSoftwareClient;
+
+import java.net.URL;
 
 class SonarDetector {
 

@@ -16,12 +16,13 @@
 
 package com.visuwall.api.domain.quality;
 
+import com.google.common.base.Objects;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import com.google.common.base.Objects;
 
 public final class QualityResult implements Iterable<QualityMeasure> {
 

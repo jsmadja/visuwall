@@ -16,9 +16,11 @@
 
 package com.visuwall.plugin.jenkins;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.visuwall.api.domain.*;
-import com.visuwall.api.exception.*;
+import com.visuwall.api.exception.BuildIdNotFoundException;
+import com.visuwall.api.exception.BuildNotFoundException;
+import com.visuwall.api.exception.ProjectNotFoundException;
+import com.visuwall.api.exception.ViewNotFoundException;
 import com.visuwall.api.plugin.capability.BuildCapability;
 import com.visuwall.api.plugin.capability.TestCapability;
 import com.visuwall.api.plugin.capability.ViewCapability;
@@ -46,8 +48,7 @@ public final class JenkinsConnection implements BuildCapability, ViewCapability,
 
     private static final Logger LOG = LoggerFactory.getLogger(JenkinsConnection.class);
 
-    @VisibleForTesting
-    Hudson hudson;
+    private Hudson hudson;
 
     private boolean connected;
 
@@ -88,7 +89,7 @@ public final class JenkinsConnection implements BuildCapability, ViewCapability,
             BuildNotFoundException {
         checkSoftwareProjectId(projectId);
         checkConnected();
-        if(!isNumeric(buildId)) {
+        if (!isNumeric(buildId)) {
             return false;
         }
 
@@ -233,8 +234,6 @@ public final class JenkinsConnection implements BuildCapability, ViewCapability,
             return buildTime;
         } catch (HudsonBuildNotFoundException e) {
             throw new BuildNotFoundException("Can't find build #" + buildId + " of project " + softwareProjectId, e);
-        } catch (HudsonJobNotFoundException e) {
-            throw new BuildNotFoundException("Can't find project " + softwareProjectId, e);
         }
     }
 
@@ -275,8 +274,6 @@ public final class JenkinsConnection implements BuildCapability, ViewCapability,
                     commiters.add(commiter);
                 }
             }
-        } catch (HudsonJobNotFoundException e) {
-            throw new ProjectNotFoundException("Can't find job with software project id: " + softwareProjectId, e);
         } catch (HudsonBuildNotFoundException e) {
             throw new BuildNotFoundException("Can't find build with software project id: " + softwareProjectId
                     + " and buildId: " + buildId, e);

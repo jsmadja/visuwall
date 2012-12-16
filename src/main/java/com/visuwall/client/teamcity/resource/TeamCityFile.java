@@ -21,20 +21,20 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name="file")
+@XmlRootElement(name = "file")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TeamCityFile {
 
-    @XmlAttribute(name="relative-file")
+    @XmlAttribute(name = "relative-file")
     private String relativeFile;
-    
+
     @XmlAttribute
     private String file;
-    
-    @XmlAttribute(name="after-revision")
+
+    @XmlAttribute(name = "after-revision")
     private String afterRevision;
-    
-    @XmlAttribute(name="before-revision")
+
+    @XmlAttribute(name = "before-revision")
     private String beforeRevision;
 
     public String getRelativeFile() {

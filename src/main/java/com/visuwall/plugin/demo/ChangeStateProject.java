@@ -4,7 +4,6 @@ import com.visuwall.api.domain.BuildState;
 import com.visuwall.api.domain.BuildTime;
 import com.visuwall.api.domain.Commiter;
 import com.visuwall.api.domain.SoftwareProjectId;
-import org.joda.time.DateTime;
 
 import java.util.*;
 
@@ -26,7 +25,7 @@ public class ChangeStateProject {
         this(null);
     }
 
-    public ChangeStateProject(SoftwareProjectId projectId) {
+    private ChangeStateProject(SoftwareProjectId projectId) {
         this.projectId = projectId;
 
         Build build = generateNewBuild();
@@ -34,10 +33,8 @@ public class ChangeStateProject {
         generateNewBuild();
     }
 
-    ////////////////
-
     boolean isBuilding(boolean notBuildingTime) {
-        Build lastBuild = getlastBuild();
+        Build lastBuild = getLastBuild();
         if (notBuildingTime) {
             if (lastBuild.building) {
                 updateBuildAfterBuilding(lastBuild);
@@ -52,7 +49,7 @@ public class ChangeStateProject {
     private void updateBuildAfterBuilding(Build build) {
 
         //state
-        int stateIndex = (int) (Math.random() * (((BuildState.values().length - 1) - 0) + 1));
+        int stateIndex = (int) (Math.random() * (((BuildState.values().length - 1)) + 1));
         build.buildState = BuildState.values()[stateIndex];
 
         build.buildTime.setDuration((new Date().getTime() - build.buildTime.getStartTime().getTime()));
@@ -62,7 +59,7 @@ public class ChangeStateProject {
     private Build generateNewBuild() {
         String lastBuildId = "0";
         if (builds.size() > 0) {
-            lastBuildId = getlastBuild().buildId;
+            lastBuildId = getLastBuild().buildId;
         }
 
         Build build = new Build();
@@ -99,19 +96,12 @@ public class ChangeStateProject {
         return null;
     }
 
-    private Build getlastBuild() {
+    private Build getLastBuild() {
         return builds.get(builds.size() - 1);
     }
 
-    //////////////////////
-
     public boolean isBuilding() {
         return isBuilding(Calendar.getInstance().get(Calendar.SECOND) < 30);
-    }
-
-    // TODO should be in build 
-    public Date estimatedFinishTime() {
-        return new DateTime(getlastBuild().buildTime.getStartTime()).plusMinutes(1).toDate();
     }
 
     public SoftwareProjectId getProjectId() {
@@ -119,7 +109,7 @@ public class ChangeStateProject {
     }
 
     public String getLastBuildId() {
-        return getlastBuild().buildId;
+        return getLastBuild().buildId;
     }
 
     public List<Commiter> getCommiters(String buildId) {
@@ -128,14 +118,6 @@ public class ChangeStateProject {
 
     public BuildTime getBuildTime(String buildId) {
         return getBuildFromId(buildId).buildTime;
-    }
-
-    public List<String> getbuildIds() {
-        ArrayList<String> arrayList = new ArrayList<String>();
-        for (Build build : builds) {
-            arrayList.add(build.buildId);
-        }
-        return arrayList;
     }
 
     public BuildState getBuildState(String buildId) {

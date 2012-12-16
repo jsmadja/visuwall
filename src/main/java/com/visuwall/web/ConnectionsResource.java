@@ -24,7 +24,7 @@ public class ConnectionsResource {
 
     @PUT
     public Response updateConnection(Connection connection) {
-        if(StringUtils.isBlank(connection.getName())) {
+        if (StringUtils.isBlank(connection.getName())) {
             return notModified().build();
         }
         Wall wall = Walls.get("wall");

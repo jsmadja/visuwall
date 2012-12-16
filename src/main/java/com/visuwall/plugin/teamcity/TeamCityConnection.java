@@ -16,50 +16,28 @@
 
 package com.visuwall.plugin.teamcity;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
-import static org.apache.commons.lang.StringUtils.isBlank;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-import com.visuwall.client.teamcity.TeamCity;
-import com.visuwall.client.teamcity.exception.TeamCityBuildListNotFoundException;
-import com.visuwall.client.teamcity.exception.TeamCityBuildNotFoundException;
-import com.visuwall.client.teamcity.exception.TeamCityBuildTypeNotFoundException;
-import com.visuwall.client.teamcity.exception.TeamCityChangesNotFoundException;
-import com.visuwall.client.teamcity.exception.TeamCityProjectNotFoundException;
-import com.visuwall.client.teamcity.exception.TeamCityProjectsNotFoundException;
-import com.visuwall.client.teamcity.resource.TeamCityAbstractBuild;
-import com.visuwall.client.teamcity.resource.TeamCityBuild;
-import com.visuwall.client.teamcity.resource.TeamCityBuildItem;
-import com.visuwall.client.teamcity.resource.TeamCityBuildType;
-import com.visuwall.client.teamcity.resource.TeamCityBuilds;
-import com.visuwall.client.teamcity.resource.TeamCityChange;
-import com.visuwall.client.teamcity.resource.TeamCityProject;
-import com.visuwall.api.domain.BuildState;
-import com.visuwall.api.domain.BuildTime;
-import com.visuwall.api.domain.Commiter;
-import com.visuwall.api.domain.ProjectKey;
-import com.visuwall.api.domain.SoftwareProjectId;
-import com.visuwall.api.domain.TestResult;
+import com.visuwall.api.domain.*;
 import com.visuwall.api.exception.BuildIdNotFoundException;
 import com.visuwall.api.exception.BuildNotFoundException;
-import com.visuwall.api.exception.MavenIdNotFoundException;
 import com.visuwall.api.exception.ProjectNotFoundException;
 import com.visuwall.api.exception.ViewNotFoundException;
 import com.visuwall.api.plugin.capability.BuildCapability;
 import com.visuwall.api.plugin.capability.TestCapability;
 import com.visuwall.api.plugin.capability.ViewCapability;
-import org.joda.time.DateTime;
+import com.visuwall.client.teamcity.TeamCity;
+import com.visuwall.client.teamcity.exception.*;
+import com.visuwall.client.teamcity.resource.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+import static org.apache.commons.lang.StringUtils.isBlank;
 
 public class TeamCityConnection implements BuildCapability, TestCapability, ViewCapability {
 
@@ -69,8 +47,7 @@ public class TeamCityConnection implements BuildCapability, TestCapability, View
 
     private TestResultExtractor testResultExtractor = new TestResultExtractor();
 
-    @VisibleForTesting
-    TeamCity teamCity;
+    private TeamCity teamCity;
 
     private String url;
 
@@ -280,7 +257,7 @@ public class TeamCityConnection implements BuildCapability, TestCapability, View
             if (isBuilding(softwareProjectId, lastBuildId)) {
                 return result;
             }
-            TeamCityBuild build = teamCity.findBuild(softwareProjectId.getProjectId(), lastBuildId.toString());
+            TeamCityBuild build = teamCity.findBuild(softwareProjectId.getProjectId(), lastBuildId);
             String statusText = build.getStatusText();
             int failed = testResultExtractor.extractFailed(statusText);
             int passed = testResultExtractor.extractPassed(statusText);
@@ -300,21 +277,6 @@ public class TeamCityConnection implements BuildCapability, TestCapability, View
             LOG.warn("Can't analyze unit tests for softwareProjectId:" + softwareProjectId, e);
         }
         return result;
-    }
-
-   private void addBuildIds(Set<String> numbers, TeamCityBuildType buildType) {
-        try {
-            String buildTypeId = buildType.getId();
-            TeamCityBuilds buildList = teamCity.findBuildList(buildTypeId);
-            List<TeamCityBuildItem> builds = buildList.getBuilds();
-            for (TeamCityBuildItem item : builds) {
-                numbers.add(item.getId());
-            }
-        } catch (TeamCityBuildListNotFoundException e) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(e.getMessage());
-            }
-        }
     }
 
     private void checkBuildId(String buildId) {
@@ -381,7 +343,7 @@ public class TeamCityConnection implements BuildCapability, TestCapability, View
                 projects.add(projectName);
             }
         } catch (TeamCityProjectNotFoundException e) {
-            throw new ViewNotFoundException("Cannot finnd project names for view: " + viewName, e);
+            throw new ViewNotFoundException("Cannot find project names for view: " + viewName, e);
         }
         return projects;
     }

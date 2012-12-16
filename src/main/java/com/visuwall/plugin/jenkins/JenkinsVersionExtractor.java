@@ -32,8 +32,7 @@ class JenkinsVersionExtractor {
 
     String version() {
         String right = content.split("Jenkins ver\\.")[1].trim();
-        String version = right.split("<")[0];
-        return version;
+        return right.split("<")[0];
     }
 
 }

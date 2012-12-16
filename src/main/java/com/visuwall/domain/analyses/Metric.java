@@ -29,13 +29,13 @@ public class Metric implements Comparable<Metric> {
 
     @Override
     public String toString() {
-        return name+": "+value;
+        return name + ": " + value;
     }
 
     @Override
     public int compareTo(Metric metric) {
         int comparison = new Integer(tendency).compareTo(metric.tendency);
-        if(comparison != 0) {
+        if (comparison != 0) {
             return comparison;
         }
         return name.compareToIgnoreCase(metric.name);

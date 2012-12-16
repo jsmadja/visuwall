@@ -24,8 +24,4 @@ public class BambooPlanNotFoundException extends Exception {
         super(msg, cause);
     }
 
-    public BambooPlanNotFoundException(String msg) {
-        super(msg);
-    }
-
 }

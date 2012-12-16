@@ -32,7 +32,7 @@ public class Analysis implements Comparable<Analysis>, Refreshable {
     private SoftwareProjectId projectId;
 
     @JsonIgnore
-    private boolean removeable;
+    private boolean removable;
 
     @JsonIgnore
     private boolean refreshing;
@@ -44,7 +44,7 @@ public class Analysis implements Comparable<Analysis>, Refreshable {
 
     private static final Logger LOG = LoggerFactory.getLogger(Analysis.class);
 
-    private Map<String,List<QualityMetric>> metricsByCategory;
+    private Map<String, List<QualityMetric>> metricsByCategory;
 
     @JsonIgnore
     private MetricCapability metricCapability;
@@ -57,7 +57,7 @@ public class Analysis implements Comparable<Analysis>, Refreshable {
         this.projectId = projectId;
         this.name = projectId.getProjectId();
         this.selectedMetrics = selectedMetrics;
-        this.removeable = false;
+        this.removable = false;
         this.metricCapability = (MetricCapability) connection;
         this.metricsByCategory = metricCapability.getMetricsByCategory();
     }
@@ -66,14 +66,14 @@ public class Analysis implements Comparable<Analysis>, Refreshable {
     public void refresh() {
         try {
             refreshing = true;
-            LOG.debug("Starting refresh of "+name);
+            LOG.debug("Starting refresh of " + name);
             name = connection.getName(projectId);
             refreshMetrics();
             refreshing = false;
             LOG.debug("Ending refresh of " + name);
             lastAnalysis = DateTime.now();
-        } catch(ProjectNotFoundException e) {
-            setRemoveable();
+        } catch (ProjectNotFoundException e) {
+            setRemovable();
         }
     }
 
@@ -94,9 +94,9 @@ public class Analysis implements Comparable<Analysis>, Refreshable {
     private void refreshMetrics() {
         String[] metrics = selectedMetrics.toArray(new String[selectedMetrics.size()]);
         QualityResult qualityResult = metricCapability.analyzeQuality(projectId, metrics);
-        if(qualityResult != null) {
+        if (qualityResult != null) {
             for (QualityMeasure qualityMeasure : qualityResult) {
-                if(accept(qualityMeasure)) {
+                if (accept(qualityMeasure)) {
                     insertMetric(qualityMeasure);
                 }
             }
@@ -111,7 +111,7 @@ public class Analysis implements Comparable<Analysis>, Refreshable {
     private boolean getQualitativeOf(QualityMeasure qualityMeasure) {
         for (List<QualityMetric> metrics : metricsByCategory.values()) {
             for (QualityMetric metric : metrics) {
-                if(metric != null && metric.getName().equals(qualityMeasure.getName())) {
+                if (metric != null && metric.getName().equals(qualityMeasure.getName())) {
                     return metric.getQualitative();
                 }
             }
@@ -120,7 +120,7 @@ public class Analysis implements Comparable<Analysis>, Refreshable {
     }
 
     private boolean accept(QualityMeasure qualityMeasure) {
-        if(selectedMetrics.isEmpty()) {
+        if (selectedMetrics.isEmpty()) {
             return true;
         }
         String metricKey = qualityMeasure.getKey();
@@ -136,12 +136,12 @@ public class Analysis implements Comparable<Analysis>, Refreshable {
         return !refreshing && lastAnalysis.plusMinutes(10).isBeforeNow();
     }
 
-    public void setRemoveable() {
-        this.removeable = true;
+    public void setRemovable() {
+        this.removable = true;
     }
 
-    public boolean isRemoveable() {
-        return removeable;
+    public boolean isRemovable() {
+        return removable;
     }
 
     @Override
@@ -166,7 +166,7 @@ public class Analysis implements Comparable<Analysis>, Refreshable {
 
     @Override
     public boolean equals(Object o) {
-        if(o instanceof Analysis) {
+        if (o instanceof Analysis) {
             Analysis a = (Analysis) o;
             return hasName(a.name);
         }

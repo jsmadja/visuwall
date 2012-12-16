@@ -16,22 +16,20 @@
 
 package com.visuwall.plugin.hudson;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import com.visuwall.client.common.GenericSoftwareClient;
-import com.visuwall.client.common.GenericSoftwareClientFactory;
-import com.visuwall.client.common.ResourceNotFoundException;
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.visuwall.api.domain.SoftwareId;
 import com.visuwall.api.exception.SoftwareNotFoundException;
 import com.visuwall.api.plugin.VisuwallPlugin;
-
+import com.visuwall.client.common.GenericSoftwareClient;
+import com.visuwall.client.common.GenericSoftwareClientFactory;
+import com.visuwall.client.common.ResourceNotFoundException;
 import com.visuwall.domain.plugins.PluginConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class HudsonPlugin implements VisuwallPlugin<HudsonConnection> {
 
@@ -61,11 +59,6 @@ public class HudsonPlugin implements VisuwallPlugin<HudsonConnection> {
     @Override
     public String getName() {
         return "Hudson plugin";
-    }
-
-    @Override
-    public float getVersion() {
-        return 1.0f;
     }
 
     @Override
@@ -106,9 +99,9 @@ public class HudsonPlugin implements VisuwallPlugin<HudsonConnection> {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this) //
-                .add("name", getName()) //
-                .add("version", getVersion()).toString();
+        return Objects.toStringHelper(this)
+                .add("name", getName())
+                .toString();
     }
 
     private SoftwareId createSoftwareId(String xml) {

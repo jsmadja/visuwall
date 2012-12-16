@@ -22,7 +22,7 @@ public class Track implements Comparable<Track>, Refreshable {
     private SoftwareProjectId projectId;
 
     @JsonIgnore
-    private boolean removeable;
+    private boolean removable;
 
     private int estimatedPointsInFuture;
     private int velocity;
@@ -43,7 +43,7 @@ public class Track implements Comparable<Track>, Refreshable {
 
     @Override
     public int compareTo(Track track) {
-        if(this.name == null || track.name == null) {
+        if (this.name == null || track.name == null) {
             return 0;
         }
         return this.name.compareToIgnoreCase(track.name);
@@ -54,7 +54,7 @@ public class Track implements Comparable<Track>, Refreshable {
         try {
             refreshInfos();
         } catch (ProjectNotFoundException e) {
-            setRemoveable();
+            setRemovable();
         }
     }
 
@@ -85,13 +85,13 @@ public class Track implements Comparable<Track>, Refreshable {
         return name;
     }
 
-    public void setRemoveable() {
-        this.removeable = true;
+    public void setRemovable() {
+        this.removable = true;
     }
 
     @JsonIgnore
-    public boolean isRemoveable() {
-        return removeable;
+    public boolean isRemovable() {
+        return removable;
     }
 
     @JsonIgnore

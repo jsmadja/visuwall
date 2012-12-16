@@ -39,7 +39,7 @@ public class States {
         STATE_MAPPING.put("unstable", BuildState.UNSTABLE);
     }
 
-    public static final BuildState asVisuwallState(String hudsonState) {
+    public static BuildState asVisuwallState(String hudsonState) {
         Preconditions.checkNotNull(hudsonState, "hudsonState is mandatory");
         hudsonState = hudsonState.toLowerCase();
         BuildState state = STATE_MAPPING.get(hudsonState);

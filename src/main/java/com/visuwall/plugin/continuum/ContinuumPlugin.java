@@ -38,11 +38,6 @@ public class ContinuumPlugin implements VisuwallPlugin<ContinuumConnection> {
     }
 
     @Override
-    public float getVersion() {
-        return 1.0f;
-    }
-
-    @Override
     public String getName() {
         return "Continumm Plugin";
     }

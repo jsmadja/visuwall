@@ -38,7 +38,7 @@ class States {
         STATE_MAPPING.put(SUCCESS, BuildState.SUCCESS);
     }
 
-    static final BuildState asVisuwallState(String teamcityState) {
+    static BuildState asVisuwallState(String teamcityState) {
         BuildState state = STATE_MAPPING.get(teamcityState);
         if (state == null) {
             state = BuildState.UNKNOWN;

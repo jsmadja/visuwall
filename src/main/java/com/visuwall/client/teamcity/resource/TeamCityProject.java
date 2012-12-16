@@ -16,18 +16,11 @@
 
 package com.visuwall.client.teamcity.resource;
 
+import com.google.common.base.Objects;
+
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlElements;
-import javax.xml.bind.annotation.XmlRootElement;
-
-import com.google.common.base.Objects;
 
 @XmlRootElement(name = "project")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -52,7 +45,7 @@ public class TeamCityProject {
     private boolean archived;
 
     @XmlElementWrapper(name = "buildTypes")
-    @XmlElements(value = { @XmlElement(name = "buildType") })
+    @XmlElements(value = {@XmlElement(name = "buildType")})
     private List<TeamCityBuildType> buildTypes = new ArrayList<TeamCityBuildType>();
 
     public String getName() {

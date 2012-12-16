@@ -23,16 +23,16 @@ import static javax.ws.rs.core.Response.status;
 public class TracksResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(TracksResource.class);
-    public static final String WALL_ID = "wall";
+    private static final String WALL_ID = "wall";
 
     @GET
     public Response tracks() {
         Wall wall = Walls.get(WALL_ID);
-        if(wall == null) {
+        if (wall == null) {
             return status(NOT_FOUND).build();
         }
         Tracks tracks = wall.getTracks();
-        LOG.debug("new tracks request from client for "+WALL_ID+" wall ("+tracks.count()+" tracks)");
+        LOG.debug("new tracks request from client for " + WALL_ID + " wall (" + tracks.count() + " tracks)");
         Set<Track> allTracks = tracks.all();
         return ok().entity(allTracks).build();
     }
@@ -40,7 +40,7 @@ public class TracksResource {
     @GET
     @Path("/{name}")
     public Response getTrack(@PathParam("name") String name) {
-        LOG.debug("new track request from client for "+WALL_ID+" wall ("+name+" track)");
+        LOG.debug("new track request from client for " + WALL_ID + " wall (" + name + " track)");
         Wall wall = Walls.get("wall");
         Track track = wall.getTrack(name);
         return ok().entity(track).build();

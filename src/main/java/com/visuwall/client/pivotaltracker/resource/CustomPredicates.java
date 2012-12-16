@@ -1,12 +1,11 @@
 package com.visuwall.client.pivotaltracker.resource;
 
-import static com.visuwall.client.pivotaltracker.resource.CurrentState.unstarted;
-import static com.visuwall.client.pivotaltracker.resource.StoryType.feature;
-
+import com.google.common.base.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Predicate;
+import static com.visuwall.client.pivotaltracker.resource.CurrentState.unstarted;
+import static com.visuwall.client.pivotaltracker.resource.StoryType.feature;
 
 public class CustomPredicates {
 

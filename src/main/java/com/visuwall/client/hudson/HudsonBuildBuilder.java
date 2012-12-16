@@ -16,12 +16,13 @@
 
 package com.visuwall.client.hudson;
 
-import java.util.Date;
-import java.util.Set;
 import com.visuwall.client.hudson.domain.HudsonBuild;
 import com.visuwall.client.hudson.domain.HudsonCommiter;
 import com.visuwall.client.hudson.helper.HudsonXmlHelper;
 import com.visuwall.client.hudson.resource.Build;
+
+import java.util.Date;
+import java.util.Set;
 
 class HudsonBuildBuilder {
 

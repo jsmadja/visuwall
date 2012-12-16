@@ -16,36 +16,21 @@
 
 package com.visuwall.client.teamcity;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.ws.rs.core.MediaType;
-
 import com.visuwall.client.common.GenericSoftwareClient;
 import com.visuwall.client.common.Maven;
 import com.visuwall.client.common.MavenIdNotFoundException;
 import com.visuwall.client.common.ResourceNotFoundException;
-import com.visuwall.client.teamcity.exception.TeamCityBuildListNotFoundException;
-import com.visuwall.client.teamcity.exception.TeamCityBuildNotFoundException;
-import com.visuwall.client.teamcity.exception.TeamCityBuildTypeNotFoundException;
-import com.visuwall.client.teamcity.exception.TeamCityChangesNotFoundException;
-import com.visuwall.client.teamcity.exception.TeamCityProjectNotFoundException;
-import com.visuwall.client.teamcity.exception.TeamCityProjectsNotFoundException;
-import com.visuwall.client.teamcity.resource.TeamCityAbstractBuild;
-import com.visuwall.client.teamcity.resource.TeamCityBuild;
-import com.visuwall.client.teamcity.resource.TeamCityBuildItem;
-import com.visuwall.client.teamcity.resource.TeamCityBuildType;
-import com.visuwall.client.teamcity.resource.TeamCityBuilds;
-import com.visuwall.client.teamcity.resource.TeamCityChange;
-import com.visuwall.client.teamcity.resource.TeamCityChanges;
-import com.visuwall.client.teamcity.resource.TeamCityProject;
-import com.visuwall.client.teamcity.resource.TeamCityProjects;
-
+import com.visuwall.client.teamcity.exception.*;
+import com.visuwall.client.teamcity.resource.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class TeamCity {
 
@@ -89,8 +74,7 @@ public class TeamCity {
         checkArgument(buildId >= 0, "buildId must be >= 0");
         try {
             String buildUrl = urlBuilder.getBuild(buildId);
-            TeamCityBuild teamCityBuild = client.resource(buildUrl, TeamCityBuild.class);
-            return teamCityBuild;
+            return client.resource(buildUrl, TeamCityBuild.class);
         } catch (ResourceNotFoundException e) {
             throw new TeamCityBuildNotFoundException("Build #" + buildId + " has not been found", e);
         }
@@ -100,8 +84,7 @@ public class TeamCity {
         checkNotNull(buildTypeId, "buildTypeId is mandatory");
         try {
             String buildListUrl = urlBuilder.getBuildList(buildTypeId);
-            TeamCityBuilds teamCityBuilds = client.resource(buildListUrl, TeamCityBuilds.class);
-            return teamCityBuilds;
+            return client.resource(buildListUrl, TeamCityBuilds.class);
         } catch (ResourceNotFoundException e) {
             throw new TeamCityBuildListNotFoundException("Build list of buildTypeId " + buildTypeId
                     + " has not been found", e);
@@ -166,8 +149,7 @@ public class TeamCity {
     public TeamCityBuilds findRunningBuilds() throws TeamCityBuildNotFoundException {
         String runningBuildUrl = urlBuilder.getRunningBuilds();
         try {
-            TeamCityBuilds teamCityBuilds = client.resource(runningBuildUrl, TeamCityBuilds.class);
-            return teamCityBuilds;
+            return client.resource(runningBuildUrl, TeamCityBuilds.class);
         } catch (ResourceNotFoundException e) {
             throw new TeamCityBuildNotFoundException("There is no running build", e);
         }
@@ -205,8 +187,7 @@ public class TeamCity {
             TeamCityBuildType buildType = findBuildType(projectId);
             TeamCityBuilds buildList = findBuildList(buildType.getId());
             if (!buildList.getBuilds().isEmpty()) {
-                TeamCityBuildItem build = buildList.getBuilds().get(0);
-                return build;
+                return buildList.getBuilds().get(0);
             }
             throw new TeamCityBuildNotFoundException("Cannot find last build of " + projectId);
         } catch (TeamCityBuildTypeNotFoundException e) {

@@ -16,30 +16,18 @@
 
 package com.visuwall.client.bamboo;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import com.visuwall.client.bamboo.exception.BambooBuildNotFoundException;
-import com.visuwall.client.bamboo.exception.BambooBuildNumberNotFoundException;
-import com.visuwall.client.bamboo.exception.BambooEstimatedFinishTimeNotFoundException;
-import com.visuwall.client.bamboo.exception.BambooPlanNotFoundException;
-import com.visuwall.client.bamboo.exception.BambooResultNotFoundException;
-import com.visuwall.client.bamboo.exception.BambooStateNotFoundException;
-import com.visuwall.client.bamboo.resource.Build;
-import com.visuwall.client.bamboo.resource.Builds;
-import com.visuwall.client.bamboo.resource.Plan;
-import com.visuwall.client.bamboo.resource.Plans;
-import com.visuwall.client.bamboo.resource.Result;
-import com.visuwall.client.bamboo.resource.Results;
+import com.google.common.base.Preconditions;
+import com.visuwall.client.bamboo.exception.*;
+import com.visuwall.client.bamboo.resource.*;
 import com.visuwall.client.common.GenericSoftwareClient;
 import com.visuwall.client.common.ResourceNotFoundException;
-
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Preconditions;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class Bamboo {
 
@@ -90,8 +78,7 @@ public class Bamboo {
         checkPlanKey(planKey);
         try {
             String planUrl = bambooUrlBuilder.getPlanUrl(planKey);
-            Plan plan = client.resource(planUrl, Plan.class);
-            return plan;
+            return client.resource(planUrl, Plan.class);
         } catch (ResourceNotFoundException e) {
             throw new BambooPlanNotFoundException("Can't find plan with key:" + planKey, e);
         }
@@ -109,7 +96,7 @@ public class Bamboo {
                 if (!subResultList.isEmpty()) {
                     Result result = subResultList.get(0);
                     int number = result.getNumber();
-                    if (isBuilding(planKey, number + 1)) {
+                    if (isBuilding(planKey)) {
                         number++;
                     }
                     return number;
@@ -127,8 +114,7 @@ public class Bamboo {
         checkPlanKey(projectKey);
         try {
             String buildUrl = bambooUrlBuilder.getResultUrl(projectKey, buildNumber);
-            Result result = client.resource(buildUrl, Result.class);
-            return result;
+            return client.resource(buildUrl, Result.class);
         } catch (ResourceNotFoundException e) {
             throw new BambooBuildNotFoundException(e.getMessage(), e);
         }
@@ -181,7 +167,7 @@ public class Bamboo {
         return (long) averageBuildTimeInSeconds;
     }
 
-    public boolean isBuilding(String projectKey, Integer buildNumber) throws BambooPlanNotFoundException {
+    public boolean isBuilding(String projectKey) throws BambooPlanNotFoundException {
         checkPlanKey(projectKey);
         String planUrl = bambooUrlBuilder.getPlanUrl(projectKey);
         try {
@@ -196,8 +182,7 @@ public class Bamboo {
         try {
             int buildNumber = getLastResultNumber(planKey);
             String resultUrl = bambooUrlBuilder.getResultUrl(planKey, buildNumber);
-            Result result = client.resource(resultUrl, Result.class);
-            return result;
+            return client.resource(resultUrl, Result.class);
         } catch (BambooBuildNumberNotFoundException e) {
             throw new BambooResultNotFoundException("Can't find last result of:" + planKey, e);
         } catch (ResourceNotFoundException e) {

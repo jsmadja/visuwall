@@ -212,14 +212,14 @@ public class Result {
                 .add("key", key) //
                 .add("link", link) //
                 .add("build started time", buildStartedTime) //
-                .add("buid completed time", buildCompletedTime) //
+                .add("build completed time", buildCompletedTime) //
                 .add("build duration in seconds", buildDurationInSeconds) //
                 .add("build duration", buildDuration) //
                 .add("build duration description", buildDurationDescription) //
                 .add("build relative time", buildRelativeTime) //
                 .add("vcsRevisionKey", vcsRevisionKey) //
                 .add("build test summary", buildTestSummary) //
-                .add("sucessful test count", successfulTestCount) //
+                .add("successful test count", successfulTestCount) //
                 .add("failed test count", failedTestCount) //
                 .add("build reason", buildReason) //
                 .toString();

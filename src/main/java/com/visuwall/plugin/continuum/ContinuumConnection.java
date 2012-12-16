@@ -42,7 +42,6 @@ public class ContinuumConnection implements BuildCapability, ViewCapability {
 
     private ContinuumXmlRpcClient client;
 
-    private boolean connected;
     private String url;
 
     private int getId(SoftwareProjectId softwareProjectId) {
@@ -56,7 +55,6 @@ public class ContinuumConnection implements BuildCapability, ViewCapability {
         try {
             this.url = url;
             client = new ContinuumXmlRpcClient(new URL(url + "/xmlrpc"));
-            connected = true;
         } catch (MalformedURLException e) {
             throw new IllegalStateException("Cannot open a connection to " + url, e);
         } finally {
@@ -148,8 +146,7 @@ public class ContinuumConnection implements BuildCapability, ViewCapability {
     }
 
     private BuildResult getBuildResult(SoftwareProjectId softwareProjectId, String buildId) throws Exception {
-        BuildResult buildResult = client.getBuildResult(getId(softwareProjectId), Integer.parseInt(buildId));
-        return buildResult;
+        return client.getBuildResult(getId(softwareProjectId), Integer.parseInt(buildId));
     }
 
     @Override

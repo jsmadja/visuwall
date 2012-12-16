@@ -59,11 +59,6 @@ public class BambooPlugin implements VisuwallPlugin<BambooConnection> {
     }
 
     @Override
-    public float getVersion() {
-        return 1.0f;
-    }
-
-    @Override
     public SoftwareId getSoftwareId(URL url, PluginConfiguration pluginConfiguration) throws SoftwareNotFoundException {
         Preconditions.checkNotNull(url, "url is mandatory");
         try {
@@ -93,9 +88,9 @@ public class BambooPlugin implements VisuwallPlugin<BambooConnection> {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this) //
-                .add("name", getName()) //
-                .add("version", getVersion()).toString();
+        return Objects.toStringHelper(this)
+                .add("name", getName())
+                .toString();
     }
 
     @Override

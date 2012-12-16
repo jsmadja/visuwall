@@ -83,7 +83,7 @@ public final class SonarQualityMeasure {
     }
 
     public void setTendency(Integer tendency) {
-        if(tendency == null){
+        if (tendency == null) {
             tendency = 0;
         }
         this.tendency = tendency;

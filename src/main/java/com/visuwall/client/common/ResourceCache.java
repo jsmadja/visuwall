@@ -16,13 +16,12 @@
 
 package com.visuwall.client.common;
 
-import java.io.Serializable;
-
-import javax.ws.rs.core.MediaType;
-
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
+
+import javax.ws.rs.core.MediaType;
+import java.io.Serializable;
 
 class ResourceCache {
 
@@ -31,7 +30,7 @@ class ResourceCache {
     private static final boolean ENABLE_STATISTICS = false;
 
     public ResourceCache() {
-        CacheManager cacheManager = CacheManager.create(); 
+        CacheManager cacheManager = CacheManager.create();
         cache = cacheManager.getCache("resource_cache");
         cache.setStatisticsEnabled(ENABLE_STATISTICS);
     }

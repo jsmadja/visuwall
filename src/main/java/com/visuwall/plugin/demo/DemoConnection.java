@@ -12,25 +12,17 @@ import com.visuwall.api.plugin.capability.ViewCapability;
 import org.joda.time.DateTime;
 
 import java.util.*;
-import java.util.Map.Entry;
 
 import static com.visuwall.api.domain.BuildState.*;
 import static com.visuwall.plugin.demo.SoftwareProjectIds.*;
-import static java.util.Arrays.asList;
 
 public class DemoConnection implements BuildCapability, TestCapability, ViewCapability, MetricCapability {
 
-    private boolean connected;
-
     private Map<SoftwareProjectId, String> softwareProjectIds = new HashMap<SoftwareProjectId, String>();
     private Map<SoftwareProjectId, BuildState> buildStates = new HashMap<SoftwareProjectId, BuildState>();
-    private Map<SoftwareProjectId, TestResult> unitTestResults = new HashMap<SoftwareProjectId, TestResult>();
-    private Map<SoftwareProjectId, TestResult> integrationTestResults = new HashMap<SoftwareProjectId, TestResult>();
     private Map<SoftwareProjectId, QualityResult> qualityResults = new HashMap<SoftwareProjectId, QualityResult>();
 
     private List<String> views = new ArrayList<String>();
-
-    private List<String> marsBuildIds = new ArrayList<String>();
 
     private ChangeStateProject marsProj = new ChangeStateProject();
 
@@ -66,18 +58,18 @@ public class DemoConnection implements BuildCapability, TestCapability, ViewCapa
         TestResult neptuneTestResults = createTestResult(90, 872, 0, 0);
         TestResult mercuryTestResults = createTestResult(78, 439, 0, 0);
 
-        unitTestResults.put(saturn, saturnTestResults);
-        unitTestResults.put(neptune, neptuneTestResults);
-        unitTestResults.put(mercury, mercuryTestResults);
-        unitTestResults.put(venus, venusTestResults);
+        new HashMap<SoftwareProjectId, TestResult>().put(saturn, saturnTestResults);
+        new HashMap<SoftwareProjectId, TestResult>().put(neptune, neptuneTestResults);
+        new HashMap<SoftwareProjectId, TestResult>().put(mercury, mercuryTestResults);
+        new HashMap<SoftwareProjectId, TestResult>().put(venus, venusTestResults);
 
         TestResult neptuneIntegrationTestResults = createTestResult(78, 163, 0, 0);
         TestResult mercuryIntegrationTestResults = createTestResult(89, 236, 0, 0);
         TestResult venusIntegrationTestResults = createTestResult(49, 178, 4, 2);
 
-        integrationTestResults.put(neptune, neptuneIntegrationTestResults);
-        integrationTestResults.put(mercury, mercuryIntegrationTestResults);
-        integrationTestResults.put(venus, venusIntegrationTestResults);
+        new HashMap<SoftwareProjectId, TestResult>().put(neptune, neptuneIntegrationTestResults);
+        new HashMap<SoftwareProjectId, TestResult>().put(mercury, mercuryIntegrationTestResults);
+        new HashMap<SoftwareProjectId, TestResult>().put(venus, venusIntegrationTestResults);
 
         QualityMeasure uranusCoverageMeasure = createQualityMeasure("coverage", "Coverage", "76.5 %", 76.5,-1);
         QualityMeasure uranusLocMeasure = createQualityMeasure("ncloc", "Lines of code", "78.001", 78001D,1);
@@ -94,7 +86,7 @@ public class DemoConnection implements BuildCapability, TestCapability, ViewCapa
         qualityResults.put(uranus, uranusQualityResult);
         qualityResults.put(mercury, mercuryQualityResult);
 
-        marsBuildIds.add("1");
+        new ArrayList<String>().add("1");
     }
 
     private QualityMeasure createQualityMeasure(String key, String name, String formattedValue, double value, int tendency) {
@@ -118,7 +110,6 @@ public class DemoConnection implements BuildCapability, TestCapability, ViewCapa
 
     @Override
     public void connect(String url, String login, String password) {
-        connected = true;
     }
 
     @Override
@@ -183,7 +174,7 @@ public class DemoConnection implements BuildCapability, TestCapability, ViewCapa
 
     @Override
     public TestResult analyzeUnitTests(SoftwareProjectId projectId) {
-        TestResult testResult = unitTestResults.get(projectId);
+        TestResult testResult = new HashMap<SoftwareProjectId, TestResult>().get(projectId);
         if (testResult == null) {
             testResult = new TestResult();
         }
@@ -216,8 +207,7 @@ public class DemoConnection implements BuildCapability, TestCapability, ViewCapa
 
     private Date randomPastDate() {
         int minutesAgo = (int) (Math.random() * 50);
-        Date startDate = new DateTime().minusHours(minutesAgo).toDate();
-        return startDate;
+        return new DateTime().minusHours(minutesAgo).toDate();
     }
 
     private int randomDuration() {

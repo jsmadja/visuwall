@@ -42,12 +42,11 @@ class BambooVersionExtractor {
         }
     }
 
-    static String extractVersion(String content) throws BambooVersionNotFoundException {
+    private static String extractVersion(String content) throws BambooVersionNotFoundException {
         Preconditions.checkNotNull(content, "content is mandatory");
         if (content.contains("version ") && content.contains(" build")) {
             String rightOfVersionToken = content.split("version ")[1];
-            String leftOfBuildToken = rightOfVersionToken.split(" build")[0];
-            return leftOfBuildToken;
+            return rightOfVersionToken.split(" build")[0];
         }
         throw new BambooVersionNotFoundException("Can't extract version from content: " + content);
     }

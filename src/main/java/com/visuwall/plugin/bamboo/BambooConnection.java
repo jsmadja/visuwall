@@ -16,45 +16,32 @@
 
 package com.visuwall.plugin.bamboo;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.base.Preconditions;
+import com.visuwall.api.domain.*;
+import com.visuwall.api.exception.BuildIdNotFoundException;
+import com.visuwall.api.exception.BuildNotFoundException;
+import com.visuwall.api.exception.ProjectNotFoundException;
+import com.visuwall.api.plugin.capability.BuildCapability;
+import com.visuwall.api.plugin.capability.TestCapability;
 import com.visuwall.client.bamboo.Bamboo;
 import com.visuwall.client.bamboo.exception.BambooBuildNotFoundException;
 import com.visuwall.client.bamboo.exception.BambooBuildNumberNotFoundException;
-import com.visuwall.client.bamboo.exception.BambooEstimatedFinishTimeNotFoundException;
 import com.visuwall.client.bamboo.exception.BambooPlanNotFoundException;
 import com.visuwall.client.bamboo.exception.BambooStateNotFoundException;
 import com.visuwall.client.bamboo.resource.Plan;
 import com.visuwall.client.bamboo.resource.Result;
-import com.visuwall.api.domain.BuildState;
-import com.visuwall.api.domain.BuildTime;
-import com.visuwall.api.domain.Commiter;
-import com.visuwall.api.domain.ProjectKey;
-import com.visuwall.api.domain.SoftwareProjectId;
-import com.visuwall.api.domain.TestResult;
-import com.visuwall.api.exception.BuildIdNotFoundException;
-import com.visuwall.api.exception.BuildNotFoundException;
-import com.visuwall.api.exception.MavenIdNotFoundException;
-import com.visuwall.api.exception.ProjectNotFoundException;
-import com.visuwall.api.plugin.capability.BuildCapability;
-import com.visuwall.api.plugin.capability.TestCapability;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BambooConnection implements BuildCapability, TestCapability {
 
-    @VisibleForTesting
-    Bamboo bamboo;
+    private Bamboo bamboo;
 
     private boolean connected;
 
@@ -85,7 +72,7 @@ public class BambooConnection implements BuildCapability, TestCapability {
         checkBuildId(buildId);
         try {
             String projectName = getProjectKey(softwareProjectId);
-            return bamboo.isBuilding(projectName, Integer.valueOf(buildId));
+            return bamboo.isBuilding(projectName);
         } catch (BambooPlanNotFoundException e) {
             throw new ProjectNotFoundException("Can't find project with software project id:" + softwareProjectId, e);
         }
@@ -153,8 +140,7 @@ public class BambooConnection implements BuildCapability, TestCapability {
         try {
             String projectKey = softwareProjectId.getProjectId();
             Plan plan = bamboo.findPlan(projectKey);
-            String name = plan.getProjectName();
-            return name;
+            return plan.getProjectName();
         } catch (BambooPlanNotFoundException e) {
             throw new ProjectNotFoundException("Can't find name of software project id: " + softwareProjectId);
         }

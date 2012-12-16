@@ -1,16 +1,13 @@
 package com.visuwall.plugin.continuum;
 
-import static com.visuwall.api.domain.BuildState.FAILURE;
-import static com.visuwall.api.domain.BuildState.SUCCESS;
-import static com.visuwall.api.domain.BuildState.UNKNOWN;
+import com.visuwall.api.domain.BuildState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.visuwall.api.domain.BuildState;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static com.visuwall.api.domain.BuildState.*;
 
 public class States {
 
@@ -23,7 +20,7 @@ public class States {
         STATE_MAPPING.put(3, FAILURE);
     }
 
-    public static final BuildState asVisuwallState(int continuumState) {
+    public static BuildState asVisuwallState(int continuumState) {
         BuildState state = STATE_MAPPING.get(continuumState);
         if (state == null) {
             state = UNKNOWN;

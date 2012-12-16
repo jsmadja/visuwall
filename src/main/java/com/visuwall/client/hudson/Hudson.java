@@ -16,10 +16,7 @@
 
 package com.visuwall.client.hudson;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import com.google.common.base.Preconditions;
 import com.visuwall.client.common.Maven;
 import com.visuwall.client.common.MavenIdNotFoundException;
 import com.visuwall.client.hudson.domain.HudsonBuild;
@@ -28,26 +25,23 @@ import com.visuwall.client.hudson.domain.HudsonTestResult;
 import com.visuwall.client.hudson.exception.HudsonBuildNotFoundException;
 import com.visuwall.client.hudson.exception.HudsonJobNotFoundException;
 import com.visuwall.client.hudson.exception.HudsonViewNotFoundException;
-
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class Hudson {
 
     private static final Logger LOG = LoggerFactory.getLogger(Hudson.class);
 
-    @VisibleForTesting
-    HudsonFinder hudsonFinder;
+    private HudsonFinder hudsonFinder;
 
-    @VisibleForTesting
-    HudsonUrlBuilder hudsonUrlBuilder;
+    private HudsonUrlBuilder hudsonUrlBuilder;
 
-    @VisibleForTesting
-    Maven maven = new Maven();
+    private Maven maven = new Maven();
 
     private String url;
 
@@ -97,10 +91,8 @@ public class Hudson {
      * @param buildNumber
      * @return HudsonBuild found in Hudson with its project name and build number
      * @throws HudsonBuildNotFoundException
-     * @throws HudsonJobNotFoundException
      */
-    public HudsonBuild findBuild(String jobName, int buildNumber) throws HudsonBuildNotFoundException,
-            HudsonJobNotFoundException {
+    public HudsonBuild findBuild(String jobName, int buildNumber) throws HudsonBuildNotFoundException {
         checkJobName(jobName);
         return hudsonFinder.find(jobName, buildNumber);
     }
@@ -117,8 +109,8 @@ public class Hudson {
 
     /**
      * Return the description of the project identify by its projectName
-     * 
-     * @param string
+     *
+     * @param jobName
      * @return
      * @throws HudsonJobNotFoundException
      */
@@ -169,8 +161,7 @@ public class Hudson {
     }
 
     public List<String> findJobNames() {
-        List<String> jobNames = hudsonFinder.findJobNames();
-        return jobNames;
+        return hudsonFinder.findJobNames();
     }
 
     public List<String> findViews() {
@@ -179,8 +170,7 @@ public class Hudson {
 
     public List<String> findJobNameByView(String viewName) throws HudsonViewNotFoundException {
         Preconditions.checkNotNull(viewName, "viewName is mandatory");
-        List<String> jobNames = hudsonFinder.findJobNamesByView(viewName);
-        return jobNames;
+        return hudsonFinder.findJobNamesByView(viewName);
     }
 
     public String findMavenId(String jobName) throws MavenIdNotFoundException {
@@ -270,8 +260,7 @@ public class Hudson {
         Preconditions.checkNotNull(jobName, "jobName is mandatory");
     }
 
-    public HudsonTestResult findUnitTestResult(String jobName, int lastBuildNumber) throws HudsonJobNotFoundException,
-            HudsonBuildNotFoundException {
+    public HudsonTestResult findUnitTestResult(String jobName, int lastBuildNumber) throws HudsonBuildNotFoundException {
         return hudsonFinder.findUnitTestResult(jobName, lastBuildNumber);
     }
 

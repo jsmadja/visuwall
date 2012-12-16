@@ -16,42 +16,36 @@
 
 package com.visuwall.client.sonar;
 
-import static org.apache.commons.lang.StringUtils.isNotBlank;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.ws.rs.core.MediaType;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import com.visuwall.client.common.GenericSoftwareClient;
 import com.visuwall.client.common.ResourceNotFoundException;
 import com.visuwall.client.sonar.domain.SonarMetrics;
 import com.visuwall.client.sonar.domain.SonarQualityMetric;
-import com.visuwall.client.sonar.exception.SonarMeasureNotFoundException;
-import com.visuwall.client.sonar.exception.SonarMetricsNotFoundException;
-import com.visuwall.client.sonar.exception.SonarProjectNotFoundException;
-import com.visuwall.client.sonar.exception.SonarProjectsNotFoundException;
-import com.visuwall.client.sonar.exception.SonarResourceNotFoundException;
+import com.visuwall.client.sonar.exception.*;
 import com.visuwall.client.sonar.resource.Project;
 import com.visuwall.client.sonar.resource.Projects;
 import org.sonar.wsclient.connectors.ConnectionException;
 import org.sonar.wsclient.services.Measure;
 import org.sonar.wsclient.services.Resource;
 import org.sonar.wsclient.services.ResourceQuery;
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
+
+import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 public class Sonar {
 
-    @VisibleForTesting
-    GenericSoftwareClient client;
+    private GenericSoftwareClient client;
 
     /**
      * http://docs.codehaus.org/display/SONAR/Web+Service+API
      */
-    @VisibleForTesting
-    org.sonar.wsclient.Sonar sonar;
+    private org.sonar.wsclient.Sonar sonar;
 
     private String sonarUrl;
 
@@ -68,13 +62,13 @@ public class Sonar {
         }
     }
 
-    public List<Measure> findMeasures(String artifactId, String  ... measureKeys) throws SonarMeasureNotFoundException {
+    public List<Measure> findMeasures(String artifactId, String... measureKeys) throws SonarMeasureNotFoundException {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(artifactId), "artifactId is a mandatory parameter");
         Preconditions.checkNotNull(measureKeys, "measureKeys is a mandatory parameter");
         return findMeasuresFromSonar(artifactId, measureKeys);
     }
 
-    private List<Measure> findMeasuresFromSonar(String artifactId, String ... measureKeys) throws SonarMeasureNotFoundException {
+    private List<Measure> findMeasuresFromSonar(String artifactId, String... measureKeys) throws SonarMeasureNotFoundException {
         ResourceQuery query = ResourceQuery.createForMetrics(artifactId, measureKeys).setIncludeTrends(true);
         try {
             List<Measure> measures = new ArrayList<Measure>();

@@ -7,7 +7,7 @@ import com.visuwall.domain.connections.ConnectionConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.List;
 
 public class Analyses extends AbstractRefreshables<Analysis> {
 
@@ -23,8 +23,8 @@ public class Analyses extends AbstractRefreshables<Analysis> {
             Analysis analysis = new Analysis(connection, projectId, selectedMetrics);
             analysis.refresh();
             add(analysis);
-        } catch(Exception e) {
-            LOG.error(projectId+" is unanalysable", e);
+        } catch (Exception e) {
+            LOG.error(projectId + " is unanalysable", e);
         }
     }
 

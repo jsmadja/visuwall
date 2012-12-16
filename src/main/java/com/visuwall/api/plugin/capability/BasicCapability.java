@@ -16,10 +16,8 @@
 
 package com.visuwall.api.plugin.capability;
 
-import com.visuwall.api.domain.ProjectKey;
 import com.visuwall.api.domain.SoftwareProjectId;
 import com.visuwall.api.exception.ConnectionException;
-import com.visuwall.api.exception.MavenIdNotFoundException;
 import com.visuwall.api.exception.ProjectNotFoundException;
 
 import java.util.Map;
@@ -28,17 +26,17 @@ public interface BasicCapability {
 
     /**
      * Initiate connection to the software
-     * 
+     *
      * @param url
      * @param login
      * @param password
      * @throws ConnectionException
      */
-    void connect(String url, String login, String password) throws ConnectionException;
+    void connect(String url, String login, String password);
 
     /**
      * Return the description of the project
-     * 
+     *
      * @param softwareProjectId
      * @return
      */
@@ -46,7 +44,7 @@ public interface BasicCapability {
 
     /**
      * Return the name of the project
-     * 
+     *
      * @param projectId
      * @return
      */
@@ -54,14 +52,14 @@ public interface BasicCapability {
 
     /**
      * Return the full list of project id contained in the software with there display name
-     * 
+     *
      * @return
      */
     Map<SoftwareProjectId, String> listSoftwareProjectIds();
 
     /**
      * Returns true if project is disabled in the software
-     * 
+     *
      * @param softwareProjectId
      * @return
      * @throws ProjectNotFoundException

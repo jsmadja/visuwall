@@ -16,9 +16,11 @@
 
 package com.visuwall.plugin.hudson;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.visuwall.api.domain.*;
-import com.visuwall.api.exception.*;
+import com.visuwall.api.exception.BuildIdNotFoundException;
+import com.visuwall.api.exception.BuildNotFoundException;
+import com.visuwall.api.exception.ProjectNotFoundException;
+import com.visuwall.api.exception.ViewNotFoundException;
 import com.visuwall.api.plugin.capability.BuildCapability;
 import com.visuwall.api.plugin.capability.TestCapability;
 import com.visuwall.api.plugin.capability.ViewCapability;
@@ -50,8 +52,7 @@ public class HudsonConnection implements BuildCapability, ViewCapability, TestCa
     private static final Collection<String> DEFAULT_VIEWS = asList("Alle", "Todo", "Tous", "\u3059\u3079\u3066",
             "Tudo", "\u0412\u0441\u0435", "Hepsi", "All");
 
-    @VisibleForTesting
-    Hudson hudson;
+    private Hudson hudson;
 
     private boolean connected;
     private String url;
@@ -230,8 +231,6 @@ public class HudsonConnection implements BuildCapability, ViewCapability, TestCa
             return buildTime;
         } catch (HudsonBuildNotFoundException e) {
             throw new BuildNotFoundException("Can't find build #" + buildId + " of project " + softwareProjectId, e);
-        } catch (HudsonJobNotFoundException e) {
-            throw new BuildNotFoundException("Can't find project " + softwareProjectId, e);
         }
     }
 
@@ -272,8 +271,6 @@ public class HudsonConnection implements BuildCapability, ViewCapability, TestCa
                     commiters.add(commiter);
                 }
             }
-        } catch (HudsonJobNotFoundException e) {
-            throw new ProjectNotFoundException("Can't find job with software project id: " + softwareProjectId, e);
         } catch (HudsonBuildNotFoundException e) {
             throw new BuildNotFoundException("Can't find build with software project id: " + softwareProjectId
                     + " and buildId: " + buildId, e);

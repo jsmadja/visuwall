@@ -16,12 +16,12 @@
 
 package com.visuwall.client.hudson.resource;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
+import java.util.ArrayList;
+import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Build {
@@ -30,7 +30,7 @@ public class Build {
 
     protected String url;
 
-    @XmlElements({ @XmlElement(name = "action") })
+    @XmlElements({@XmlElement(name = "action")})
     protected List<Action> actions = new ArrayList<Action>();
 
     protected boolean building;
@@ -51,7 +51,7 @@ public class Build {
 
     protected ChangeSet changeSet;
 
-    @XmlElements({ @XmlElement(name = "culprit") })
+    @XmlElements({@XmlElement(name = "culprit")})
     protected List<Culprit> culprits = new ArrayList<Culprit>();
 
     public int getNumber() {

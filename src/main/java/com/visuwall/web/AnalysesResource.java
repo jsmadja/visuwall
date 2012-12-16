@@ -23,16 +23,16 @@ import static javax.ws.rs.core.Response.status;
 public class AnalysesResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(AnalysesResource.class);
-    public static final String WALL_ID = "wall";
+    private static final String WALL_ID = "wall";
 
     @GET
     public Response analyses() {
         Wall wall = Walls.get(WALL_ID);
-        if(wall == null) {
+        if (wall == null) {
             return status(NOT_FOUND).build();
         }
         Analyses analyses = wall.getAnalyses();
-        LOG.debug("new analyses request from client for "+WALL_ID+" wall ("+analyses.count()+" analyses)");
+        LOG.debug("new analyses request from client for " + WALL_ID + " wall (" + analyses.count() + " analyses)");
         Set<Analysis> allAnalyses = analyses.all();
         return ok().entity(allAnalyses).build();
     }
@@ -41,7 +41,7 @@ public class AnalysesResource {
     @GET
     @Path("/{name}")
     public Response getAnalysis(@PathParam("name") String name) {
-        LOG.debug("new analysis request from client for "+WALL_ID+" wall ("+name+" analysis)");
+        LOG.debug("new analysis request from client for " + WALL_ID + " wall (" + name + " analysis)");
         Wall wall = Walls.get("wall");
         Analysis analysis = wall.getAnalysis(name);
         return ok().entity(analysis).build();

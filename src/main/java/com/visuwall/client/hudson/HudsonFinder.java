@@ -67,14 +67,11 @@ class HudsonFinder {
 
     private HudsonUrlBuilder hudsonUrlBuilder;
 
-    @VisibleForTesting
-    GenericSoftwareClient client;
+    private GenericSoftwareClient client;
 
-    @VisibleForTesting
-    HudsonBuildBuilder hudsonBuildBuilder;
+    private HudsonBuildBuilder hudsonBuildBuilder;
 
-    @VisibleForTesting
-    TestResultBuilder testResultBuilder;
+    private TestResultBuilder testResultBuilder;
 
     HudsonFinder(HudsonUrlBuilder hudsonUrlBuilder) {
         this.client = new GenericSoftwareClient();
@@ -110,7 +107,7 @@ class HudsonFinder {
     Build findBuildByJobNameAndBuildNumber(String jobName, int buildNumber) throws HudsonBuildNotFoundException {
         String buildUrl = hudsonUrlBuilder.getBuildUrl(jobName, buildNumber);
         LOG.trace(buildUrl);
-        Build setBuild = null;
+        Build setBuild;
         try {
             setBuild = client.resource(buildUrl, MavenModuleSetBuild.class);
         } catch (ResourceNotFoundException e) {
@@ -206,11 +203,6 @@ class HudsonFinder {
         return commiters;
     }
 
-    String getStateOf(String jobName, int buildNumber) throws HudsonBuildNotFoundException {
-        Build build = findBuildByJobNameAndBuildNumber(jobName, buildNumber);
-        return build.getResult();
-    }
-
     private Project findJobByName(String jobName) throws HudsonJobNotFoundException {
         String jobUrl = hudsonUrlBuilder.getJobUrl(jobName);
         Project project = findProjectByName(jobName, jobUrl);
@@ -221,7 +213,7 @@ class HudsonFinder {
     }
 
     private Project findProjectByName(String jobName, String jobUrl) throws HudsonJobNotFoundException {
-        Project project = null;
+        Project project;
         try {
             project = client.resource(jobUrl, MavenModuleSet.class);
         } catch (ResourceNotFoundException e) {
@@ -267,27 +259,6 @@ class HudsonFinder {
         return buildNumbers;
     }
 
-    HudsonBuild getCompletedBuild(String jobName) throws HudsonBuildNotFoundException, HudsonJobNotFoundException {
-        Project modelJob = findJobByName(jobName);
-
-        boolean isBuilding = getIsBuilding(modelJob);
-        Build lastCompletedHudsonRun;
-        if (isBuilding) {
-            lastCompletedHudsonRun = modelJob.getLastCompletedBuild();
-        } else {
-            lastCompletedHudsonRun = modelJob.getLastBuild();
-        }
-        int lastCompleteBuildNumber = -1;
-        if (lastCompletedHudsonRun != null) {
-            lastCompleteBuildNumber = lastCompletedHudsonRun.getNumber();
-        }
-        HudsonBuild lastCompletedHudsonBuild = null;
-        if (lastCompleteBuildNumber != -1) {
-            lastCompletedHudsonBuild = find(jobName, lastCompleteBuildNumber);
-        }
-        return lastCompletedHudsonBuild;
-    }
-
     HudsonBuild getCurrentBuild(String jobName) throws HudsonJobNotFoundException, HudsonBuildNotFoundException {
         Project modelJob = findJobByName(jobName);
         Build currentHudsonRun = modelJob.getLastBuild();
@@ -300,11 +271,6 @@ class HudsonFinder {
             currentHudsonBuild = find(jobName, currentBuildNumber);
         }
         return currentHudsonBuild;
-    }
-
-    private boolean getIsBuilding(Project modelJob) {
-        String color = modelJob.getColor();
-        return color.endsWith("_anime");
     }
 
     public HudsonTestResult findUnitTestResult(String jobName, int buildNumber) throws HudsonBuildNotFoundException {

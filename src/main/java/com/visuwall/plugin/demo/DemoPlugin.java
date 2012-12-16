@@ -29,11 +29,6 @@ public class DemoPlugin implements VisuwallPlugin<DemoConnection> {
     }
 
     @Override
-    public float getVersion() {
-        return 1.0f;
-    }
-
-    @Override
     public String getName() {
         return "Demo Plugin";
     }

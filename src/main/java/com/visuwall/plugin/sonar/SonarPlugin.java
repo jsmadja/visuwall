@@ -81,11 +81,6 @@ public class SonarPlugin implements VisuwallPlugin<SonarConnection> {
     }
 
     @Override
-    public float getVersion() {
-        return 1.0f;
-    }
-
-    @Override
     public SoftwareId getSoftwareId(URL url, PluginConfiguration pluginConfiguration) throws SoftwareNotFoundException {
         checkNotNull(url, "url is mandatory");
         if (sonarDetector.isSonarPropertiesPage(url)) {
@@ -116,7 +111,7 @@ public class SonarPlugin implements VisuwallPlugin<SonarConnection> {
         return createSoftwareId(version);
     }
 
-    private SoftwareId createSoftwareIdFromProperties(URL url) throws SoftwareNotFoundException {
+    private SoftwareId createSoftwareIdFromProperties(URL url) {
         String propertiesUrl = sonarDetector.buildPropertiesUrl(url);
         Properties properties = client.existingResource(propertiesUrl, Properties.class, APPLICATION_XML_TYPE);
         String version = sonarVersionExtractor.propertiesVersion(properties);
@@ -138,11 +133,9 @@ public class SonarPlugin implements VisuwallPlugin<SonarConnection> {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this) //
-                .add("name", getName()) //
-                .add("version", getVersion())//
+        return Objects.toStringHelper(this)
+                .add("name", getName())
                 .toString();
     }
-
 
 }

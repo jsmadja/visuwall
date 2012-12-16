@@ -16,12 +16,11 @@
 
 package com.visuwall.client.hudson.helper;
 
-import java.util.List;
-
+import com.google.common.base.Preconditions;
 import com.visuwall.client.hudson.resource.Build;
 import com.visuwall.client.hudson.resource.Culprit;
 
-import com.google.common.base.Preconditions;
+import java.util.List;
 
 public class HudsonXmlHelper {
 

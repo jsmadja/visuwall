@@ -16,10 +16,10 @@
 
 package com.visuwall.plugin.jenkins;
 
-import static org.apache.commons.lang.StringUtils.isNumeric;
 import com.visuwall.api.domain.SoftwareId;
-
 import org.apache.commons.lang.StringUtils;
+
+import static org.apache.commons.lang.StringUtils.isNumeric;
 
 public class JenkinsVersionPage {
 

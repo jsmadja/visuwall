@@ -18,7 +18,6 @@ import java.util.*;
 public class DeployItConnection implements BuildCapability, TestCapability, ViewCapability {
 
     private DeployIt deployIt;
-    private boolean connected;
 
     private final static Logger LOG = LoggerFactory.getLogger(DeployItConnection.class);
     private String url;
@@ -26,7 +25,6 @@ public class DeployItConnection implements BuildCapability, TestCapability, View
     @Override
     public void connect(String url, String login, String password) {
         deployIt = new DeployIt(url, login, password);
-        connected = true;
         this.url = url;
     }
 
@@ -248,8 +246,7 @@ public class DeployItConnection implements BuildCapability, TestCapability, View
 
     private SoftwareProjectId createSoftwareProjectId(String deployedApplication, String environment) {
         String projectId = deployedApplication.replaceFirst(environment + "/", environment + " - ");
-        SoftwareProjectId softwareProjectId = new SoftwareProjectId(projectId);
-        return softwareProjectId;
+        return new SoftwareProjectId(projectId);
     }
 
     @Override

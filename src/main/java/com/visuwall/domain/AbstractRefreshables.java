@@ -1,7 +1,6 @@
 package com.visuwall.domain;
 
 import com.visuwall.api.domain.SoftwareProjectId;
-import com.visuwall.api.exception.ProjectNotFoundException;
 import com.visuwall.domain.connections.Connection;
 import com.visuwall.domain.connections.ConnectionConfiguration;
 import com.visuwall.domain.connections.Connections;
@@ -15,7 +14,7 @@ import static java.util.Collections.unmodifiableSet;
 
 public abstract class AbstractRefreshables<T extends Refreshable> implements Refreshables, Iterable<T> {
 
-    protected Connections connections = new Connections();
+    private Connections connections = new Connections();
 
     private Set<T> refreshables = new TreeSet<T>();
 
@@ -51,7 +50,7 @@ public abstract class AbstractRefreshables<T extends Refreshable> implements Ref
     private void removeRefreshableIfNecessary(Future<T> future) {
         try {
             T refreshable = future.get();
-            if (refreshable.isRemoveable()) {
+            if (refreshable.isRemovable()) {
                 refreshables.remove(refreshable);
             }
         } catch (ExecutionException e) {
@@ -105,15 +104,13 @@ public abstract class AbstractRefreshables<T extends Refreshable> implements Ref
             LOG.error("Error when getting future: " + future, e);
         } catch (InterruptedException e) {
             LOG.error("Error when getting future: " + future, e);
-        } catch (ProjectNotFoundException e) {
-            LOG.info(e.getMessage());
         }
     }
 
-    private boolean isAddable(ConnectionConfiguration connectionConfiguration) throws ProjectNotFoundException {
+    private boolean isAddable(ConnectionConfiguration connectionConfiguration) {
         SoftwareProjectId softwareProjectId = connectionConfiguration.getProjectId();
         for (T refreshable : refreshables) {
-            if(refreshable.is(softwareProjectId)) {
+            if (refreshable.is(softwareProjectId)) {
                 return false;
             }
         }

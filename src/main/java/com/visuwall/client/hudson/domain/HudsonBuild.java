@@ -16,11 +16,12 @@
 
 package com.visuwall.client.hudson.domain;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Objects.ToStringHelper;
+
 import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
-import com.google.common.base.Objects;
-import com.google.common.base.Objects.ToStringHelper;
 
 public final class HudsonBuild {
 

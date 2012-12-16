@@ -27,12 +27,12 @@ public interface VisuwallPlugin<T extends BasicCapability> {
 
     T getConnection(URL url, PluginConfiguration pluginConfiguration);
 
-    /** login, password, ... */
+    /**
+     * login, password, ...
+     */
     PluginConfiguration getDefaultPluginConfiguration();
 
     Class<T> getConnectionClass();
-
-    float getVersion();
 
     String getName();
 

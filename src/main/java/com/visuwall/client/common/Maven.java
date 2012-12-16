@@ -6,7 +6,7 @@ import org.w3c.dom.NodeList;
 
 public class Maven {
 
-    DocumentLoader documentLoader = new DocumentLoader();
+    private DocumentLoader documentLoader = new DocumentLoader();
 
     public String findMavenIdFrom(String pomUrl) throws MavenIdNotFoundException {
         try {

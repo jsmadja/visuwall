@@ -16,13 +16,9 @@
 
 package com.visuwall.client.hudson.resource;
 
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "result")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -36,7 +32,7 @@ public class Result {
 
     private int skipCount;
 
-    @XmlElements({ @XmlElement(name = "suite") })
+    @XmlElements({@XmlElement(name = "suite")})
     private List<Suite> suites = new ArrayList<Suite>();
 
     public double getDuration() {

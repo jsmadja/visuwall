@@ -21,7 +21,7 @@ public class Tracks extends AbstractRefreshables<Track> {
             track.refresh();
             add(track);
         } catch (Exception e) {
-            LOG.error(projectId + " is untrack", e);
+            LOG.error(projectId + " is untracked", e);
         }
     }
 }

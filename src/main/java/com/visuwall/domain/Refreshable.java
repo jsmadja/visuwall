@@ -16,7 +16,7 @@ public interface Refreshable {
 
     boolean hasName(String name);
 
-    boolean isRemoveable();
+    boolean isRemovable();
 
     boolean is(SoftwareProjectId softwareProjectId);
 }

@@ -43,8 +43,7 @@ public class SonarConnection implements MetricCapability {
 
     private final UUID id = UUID.randomUUID();
 
-    @VisibleForTesting
-    Sonar sonarClient;
+    private Sonar sonarClient;
 
     private Map<String, QualityMetric> metricsMap;
     private String[] metricKeys = new String[] {};

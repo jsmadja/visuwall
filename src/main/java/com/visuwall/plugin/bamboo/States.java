@@ -16,11 +16,12 @@
 
 package com.visuwall.plugin.bamboo;
 
-import java.util.HashMap;
-import java.util.Map;
 import com.visuwall.api.domain.BuildState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class States {
 
@@ -33,7 +34,7 @@ public class States {
         STATE_MAPPING.put("Failed", BuildState.FAILURE);
     }
 
-    public static final BuildState asVisuwallState(String bambooState) {
+    public static BuildState asVisuwallState(String bambooState) {
         BuildState state = STATE_MAPPING.get(bambooState);
         if (state == null) {
             state = BuildState.UNKNOWN;

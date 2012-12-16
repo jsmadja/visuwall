@@ -6,6 +6,7 @@ import org.joda.time.format.PeriodFormatterBuilder;
 
 public class DurationFormatter {
     private long duration;
+
     public DurationFormatter(long duration) {
         this.duration = duration;
     }

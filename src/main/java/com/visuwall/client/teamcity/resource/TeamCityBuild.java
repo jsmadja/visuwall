@@ -16,14 +16,9 @@
 
 package com.visuwall.client.teamcity.resource;
 
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlElements;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "build")
 public class TeamCityBuild extends TeamCityAbstractBuild {
@@ -57,7 +52,7 @@ public class TeamCityBuild extends TeamCityAbstractBuild {
     private RunningInfo runningInfo;
 
     @XmlElementWrapper(name = "tags")
-    @XmlElements({ @XmlElement(name = "tag") })
+    @XmlElements({@XmlElement(name = "tag")})
     private List<TeamCityTag> tags = new ArrayList<TeamCityTag>();
 
     @XmlElementWrapper(name = "properties")
@@ -73,7 +68,7 @@ public class TeamCityBuild extends TeamCityAbstractBuild {
     private TeamCityChanges changes;
 
     @XmlElementWrapper(name = "relatedIssues")
-    @XmlElements({ @XmlElement(name = "relatedIssue") })
+    @XmlElements({@XmlElement(name = "relatedIssue")})
     private List<TeamCityRelatedIssue> relatedIssues = new ArrayList<TeamCityRelatedIssue>();
 
     public boolean isPersonal() {

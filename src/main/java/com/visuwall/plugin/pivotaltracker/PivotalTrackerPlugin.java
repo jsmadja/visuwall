@@ -31,11 +31,6 @@ public class PivotalTrackerPlugin implements VisuwallPlugin<PivotalTrackerConnec
     }
 
     @Override
-    public float getVersion() {
-        return 1.0f;
-    }
-
-    @Override
     public String getName() {
         return "PivotalTracker plugin";
     }
@@ -45,7 +40,7 @@ public class PivotalTrackerPlugin implements VisuwallPlugin<PivotalTrackerConnec
         GenericSoftwareClient genericSoftwareClient = new GenericSoftwareClient();
         try {
             String download = genericSoftwareClient.download(url);
-            if(!download.contains("Pivotal Tracker")) {
+            if (!download.contains("Pivotal Tracker")) {
                 throw new SoftwareNotFoundException("Url " + url + " is not compatible with Pivotal Tracker");
             }
         } catch (ResourceNotFoundException e) {

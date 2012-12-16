@@ -1,11 +1,11 @@
 package com.visuwall.client.deployit.resource;
 
+import com.visuwall.client.deployit.State;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import com.visuwall.client.deployit.State;
 
 @XmlRootElement(name = "step")
 @XmlAccessorType(XmlAccessType.FIELD)

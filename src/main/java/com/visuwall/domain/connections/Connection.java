@@ -66,7 +66,7 @@ public class Connection {
     }
 
     public void setUrl(String url) {
-        if(url != null) {
+        if (url != null) {
             url = url.toLowerCase();
             url = removeEnd(url, "/");
         }
@@ -103,7 +103,7 @@ public class Connection {
 
     public Collection<Metric> getMetrics() {
         Set<Metric> metrics = new TreeSet<Metric>();
-        if(basicCapability instanceof MetricCapability) {
+        if (basicCapability instanceof MetricCapability) {
             MetricCapability capability = (MetricCapability) basicCapability;
             Map<String, List<QualityMetric>> metricsByCategory = capability.getMetricsByCategory();
             Collection<List<QualityMetric>> values = metricsByCategory.values();

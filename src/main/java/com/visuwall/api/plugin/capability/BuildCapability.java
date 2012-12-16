@@ -30,7 +30,7 @@ public interface BuildCapability extends BasicCapability {
 
     /**
      * Return a list of commiters
-     * 
+     *
      * @param softwareProjectId
      * @param buildId
      * @return
@@ -42,7 +42,7 @@ public interface BuildCapability extends BasicCapability {
 
     /**
      * Return build time information
-     * 
+     *
      * @param softwareProjectId
      * @param buildId
      * @return
@@ -54,7 +54,7 @@ public interface BuildCapability extends BasicCapability {
     /**
      * Builds are in a certain state which may vary between software You'll have to try to associate them with common
      * States
-     * 
+     *
      * @param projectId
      * @param buildId
      * @return
@@ -66,7 +66,7 @@ public interface BuildCapability extends BasicCapability {
 
     /**
      * Return true if project is building
-     * 
+     *
      * @param projectId
      * @param buildId
      * @return
@@ -79,7 +79,7 @@ public interface BuildCapability extends BasicCapability {
     /**
      * Return the last build id of a project
      * Pending builds not included.
-     * 
+     *
      * @param softwareProjectId
      * @return buildId
      * @throws ProjectNotFoundException

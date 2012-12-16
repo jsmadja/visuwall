@@ -37,8 +37,7 @@ public class TeamCityPlugin implements VisuwallPlugin<TeamCityConnection> {
 
     private static final Logger LOG = LoggerFactory.getLogger(TeamCityPlugin.class);
 
-    @VisibleForTesting
-    GenericSoftwareClient genericSoftwareClient = new GenericSoftwareClient("guest", "");
+    private GenericSoftwareClient genericSoftwareClient = new GenericSoftwareClient("guest", "");
 
     public TeamCityPlugin() {
         LOG.info("TeamCity plugin loaded.");
@@ -59,11 +58,6 @@ public class TeamCityPlugin implements VisuwallPlugin<TeamCityConnection> {
     @Override
     public String getName() {
         return "TeamCity plugin";
-    }
-
-    @Override
-    public float getVersion() {
-        return 1.0f;
     }
 
     @Override
@@ -106,15 +100,15 @@ public class TeamCityPlugin implements VisuwallPlugin<TeamCityConnection> {
         return genericSoftwareClient.resource(serverUrl, TeamCityServer.class);
     }
 
-    private String getVersion(TeamCityServer server) throws ResourceNotFoundException {
+    private String getVersion(TeamCityServer server) {
         return server.getVersionMajor() + "." + server.getVersionMinor();
     }
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this) //
-                .add("name", getName()) //
-                .add("version", getVersion()).toString();
+        return Objects.toStringHelper(this)
+                .add("name", getName())
+                .toString();
     }
 
     @Override

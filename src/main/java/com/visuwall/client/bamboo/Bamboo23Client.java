@@ -3,7 +3,6 @@ package com.visuwall.client.bamboo;
 import com.visuwall.client.bamboo.resource.Response;
 import com.visuwall.client.common.GenericSoftwareClient;
 import com.visuwall.client.common.ResourceNotFoundException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

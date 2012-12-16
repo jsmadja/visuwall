@@ -51,13 +51,13 @@ public class DeployIt {
         List<String> deployedApplications = repositoryObjectIds.getRepositoryObjectIds();
         List<String> deployedApplicationNames = new ArrayList<String>();
         for (String deployedApplication : deployedApplications) {
-            String deployedApplicationName = getDeployedApplicationName(deployedApplication, environmentName);
+            String deployedApplicationName = getDeployedApplicationName(deployedApplication);
             deployedApplicationNames.add(deployedApplicationName);
         }
         return deployedApplicationNames;
     }
 
-    private String getDeployedApplicationName(String deployedApplication, String environmentName) {
+    private String getDeployedApplicationName(String deployedApplication) {
         return StringUtils.remove(deployedApplication, "Environments/");
     }
 

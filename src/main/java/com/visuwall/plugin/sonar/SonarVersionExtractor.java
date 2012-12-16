@@ -42,7 +42,7 @@ public class SonarVersionExtractor {
             String htmlContent = new String(byteArray);
             Pattern p = Pattern.compile(".* - v\\.([0-9]\\.[0-9]*.[0-9]*) - .*");
             Matcher m = p.matcher(htmlContent);
-            while (m.find()) {
+            if (m.find()) {
                 return m.group(1);
             }
         } catch (IOException e) {

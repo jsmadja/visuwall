@@ -16,22 +16,20 @@
 
 package com.visuwall.client.common;
 
-import static com.google.common.io.Closeables.closeQuietly;
+import com.google.common.base.Preconditions;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
-
-import com.google.common.base.Preconditions;
+import static com.google.common.io.Closeables.closeQuietly;
 
 public class DocumentLoader {
 
