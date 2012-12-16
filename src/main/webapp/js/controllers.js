@@ -38,6 +38,24 @@ function AnalysesCtrl($scope, Analyses, $timeout) {
   updateLater();
 }
 
+function TracksCtrl($scope, Tracks, $timeout) {
+
+  var timeout = 1;
+
+  function updateTime() {
+    $scope.tracks = Tracks.list();
+  }
+
+  function updateLater() {
+    $timeout(function () {
+      updateTime();
+      updateLater();
+      timeout = 60 * 1000;
+    }, timeout);
+  }
+
+  updateLater();
+}
 
 function ConfigurationsCtrl($scope, $location, Connection, Connections) {
 
@@ -63,13 +81,23 @@ function ConfigurationsCtrl($scope, $location, Connection, Connections) {
 
   $scope.checkConnection = function () {
     var url = $scope.connection.url;
+    var login = $scope.connection.password;
+
     setTimeout(function () {
-      if ($scope.connection.url == url) {
+
+      var noNewUrl = $scope.connection.url == url;
+      var noNewLogin = $scope.connection.login == login;
+      console.log($scope.connection.url +' == '+ url);
+      console.log($scope.connection.login +' == '+ login);
+
+      if (noNewUrl && noNewLogin) {
         Connection.save($scope.connection, function (connection) {
           $scope.connection = connection;
         });
       }
+
       url = $scope.connection.url;
+      login = $scope.connection.login;
     }, 1000);
   };
 

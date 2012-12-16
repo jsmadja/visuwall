@@ -1,78 +1,55 @@
 .tracks {
-    list-style: none;
-}
-
-.track-status-BAD {
-    background-image: linear-gradient(bottom, rgb(172,61,79) 38%, rgb(207,92,111) 69%);
-    background-image: -o-linear-gradient(bottom, rgb(172,61,79) 38%, rgb(207,92,111) 69%);
-    background-image: -moz-linear-gradient(bottom, rgb(172,61,79) 38%, rgb(207,92,111) 69%);
-    background-image: -webkit-linear-gradient(bottom, rgb(172,61,79) 38%, rgb(207,92,111) 69%);
-    background-image: -ms-linear-gradient(bottom, rgb(172,61,79) 38%, rgb(207,92,111) 69%);
-
-    background-image: -webkit-gradient(
-        linear,
-        left bottom,
-        left top,
-        color-stop(0.38, rgb(172,61,79)),
-        color-stop(0.69, rgb(207,92,111))
-    );
-}
-
-.track-status-GOOD {
-    background-image: linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
-    background-image: -o-linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
-    background-image: -moz-linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
-    background-image: -webkit-linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
-    background-image: -ms-linear-gradient(bottom, rgb(45,173,60) 3%, rgb(72,208,90) 52%, rgb(101,250,117) 76%);
-
-    background-image: -webkit-gradient(
-        linear,
-        left bottom,
-        left top,
-        color-stop(0.03, rgb(45,173,60)),
-        color-stop(0.52, rgb(72,208,90)),
-        color-stop(0.76, rgb(101,250,117))
-    );
-}
-
-.track-title {
-    padding-top: 15px;
-    font-size: 32pt;
-    text-shadow: 0px 0px 9px #777;
+  margin-left: 0px;
 }
 
 .tracks li {
-    clear: both;
-    height: 100px;
-    margin-bottom: 10px;
-    border-color: black;
-    color: white;
+  border-color: black;
+  margin-bottom: 5px;
 }
 
-.track-task-box {
-    color: black;
-    padding-top:15px;
-    height: 85px;
-    border-color: black;
-    border-left: solid;
-    float:right;
-    padding-right: 20px;
-    min-width: 380px;
+.track {
+  background: #45484d; /* Old browsers */
+  background: -moz-linear-gradient(top,  #45484d 0%, #000000 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#45484d), color-stop(100%,#000000)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #45484d 0%,#000000 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #45484d 0%,#000000 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #45484d 0%,#000000 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #45484d 0%,#000000 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#45484d', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
+  padding-top: 10px;
+  padding-left: 10px;
 }
 
-.track-task-box ul {
-    font-size: 30pt;
-    list-style-type: none;
+.track-title {
+  font-size: 56pt;
+  text-shadow: 0px 0px 9px #777;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-top: 20px;
+  height: 50px;
+  margin-bottom: 0px;
 }
 
-.track-task-box li {
-    height: 36px;
+#tracks li {
+  font-size: 18pt;
+  line-height: 36px;;
 }
 
-.track-blacklog-style {
-    color: green;
+.metric {
+  font-size: 32pt;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-.track-icebox-style {
-    color: #4433ff;
+.velocity {
+  color: #ff00e7;
+}
+
+.remaining-points {
+  color: red;
+}
+
+.scheduled-points {
+  color: #7fd530;
 }

@@ -7,6 +7,7 @@ import com.visuwall.plugin.demo.DemoPlugin;
 import com.visuwall.plugin.deployit.DeployItPlugin;
 import com.visuwall.plugin.hudson.HudsonPlugin;
 import com.visuwall.plugin.jenkins.JenkinsPlugin;
+import com.visuwall.plugin.pivotaltracker.PivotalTrackerPlugin;
 import com.visuwall.plugin.sonar.SonarPlugin;
 import com.visuwall.plugin.teamcity.TeamCityPlugin;
 
@@ -22,6 +23,7 @@ public class Plugins implements Iterable<VisuwallPlugin> {
         plugins.add(new JenkinsPlugin());
         plugins.add(new SonarPlugin());
         plugins.add(new HudsonPlugin());
+        plugins.add(new PivotalTrackerPlugin());
         plugins.add(new TeamCityPlugin());
         plugins.add(new BambooPlugin());
         plugins.add(new ContinuumPlugin());

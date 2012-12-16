@@ -2,6 +2,7 @@ package com.visuwall.web;
 
 import com.visuwall.api.domain.SoftwareId;
 import com.visuwall.api.plugin.VisuwallPlugin;
+import com.visuwall.api.plugin.capability.BasicCapability;
 import com.visuwall.domain.connections.Connection;
 import com.visuwall.domain.plugins.PluginConfiguration;
 import com.visuwall.domain.plugins.PluginDiscover;
@@ -31,7 +32,8 @@ public class ConnectionResource {
             PluginConfiguration pluginConfiguration = Connection.createPluginConfigurationFrom(connection);
             SoftwareId softwareId = plugin.getSoftwareId(url, pluginConfiguration);
             connection.setWarning(softwareId.getWarnings());
-            connection.setVisuwallConnection(plugin.getConnection(url, pluginConfiguration));
+            BasicCapability capability = plugin.getConnection(url, pluginConfiguration);
+            connection.setVisuwallConnection(capability);
         }
         return ok().entity(connection).build();
     }

@@ -1,27 +1,29 @@
 <div class="container-fluid">
-  <div class="row-fluid">
-    <div class="span12">
-      <ul class="tracks">
-        <li ng-repeat="track in tracks | orderBy:name" class="thumbnail build">
-          <div style="display: block">
-            <div style="display:inline-block;" class="status-box track-status-{{track.status}}"></div>
-            <div style="display:inline-block;" class="info-box">
-              <p class="track-title">
-                {{track.name}}
-              </p>
-            </div>
-            <div style="display:inline-block;" class="track-task-box">
-              <ul>
-                <li><span class="track-blacklog-style">{{track.backlog_tasks_count}}</span> tasks in
-                  backlog
+    <div class="row-fluid">
+        <div class="span12" id="tracks">
+            <ul class="tracks">
+                <li ng-repeat="track in tracks" class="span6 thumbnail track">
+                    <div style="display: block" refresh-track ng-controller="TracksCtrl">
+                        <p class="track-title">
+                            {{track.name}}
+                        </p>
+                        <ul class="unstyled">
+                            <li>
+                                The current velocity is <span class="velocity metric">{{track.velocity}}</span> story points
+                            </li>
+                            <li>
+                                There are <span class="remaining-points metric">{{track.remainingPointsInCurrentIteration}}</span> story points remaining for this sprint
+                            </li>
+                            <li>
+                                <span class="scheduled-points metric">{{track.estimatedPointsInFuture}}</span> story points are already scheduled for the next iteration
+                            </li>
+                            <li>
+                                The current iteration ends in <span class="end-of-iteration metric">{{track.remainingDays}}</span> days
+                            </li>
+                        </ul>
+                    </div>
                 </li>
-                <li><span class="track-icebox-style">{{track.icebox_tasks_count}}</span> tasks in icebox
-                </li>
-              </ul>
-            </div>
-          </div>
-        </li>
-      </ul>
+            </ul>
+        </div>
     </div>
-  </div>
 </div>

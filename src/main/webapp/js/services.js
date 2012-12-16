@@ -15,6 +15,13 @@ angular.module('visuwallServices', ['ngResource']).
       get:{ method:'GET'}
     });
   }).
+  factory('Tracks',
+  function ($resource) {
+    return $resource('rest/walls/tracks/:name', {}, {
+      list:{ method:'GET', isArray:true},
+      get:{ method:'GET'}
+    });
+  }).
   factory('Walls',
   function ($resource) {
     return $resource('rest/walls', {}, {

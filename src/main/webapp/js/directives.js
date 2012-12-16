@@ -56,8 +56,8 @@ angular.module('visuwallDirectives', ['ngResource'])
         var name = $scope.analysis.name;
         for (var i = 0; i < analyses.length; i++) {
           if (analyses[i].name == name) {
-              console.log(new Date()+"Time to update analysis "+name);
-              Analyses.get({name:name}, function (remoteAnalysis) {
+            console.log(new Date()+"Time to update analysis "+name);
+            Analyses.get({name:name}, function (remoteAnalysis) {
               var analysisToUpdate = analyses[i];
               analysisToUpdate.name = remoteAnalysis.name;
               analysisToUpdate.metrics = remoteAnalysis.metrics;
@@ -69,6 +69,49 @@ angular.module('visuwallDirectives', ['ngResource'])
 
       $scope.$watch(attrs.build, function (value) {
         analysis = value;
+        updateTime();
+      });
+
+      function updateLater() {
+        timeoutId = $timeout(function () {
+          updateTime();
+          updateLater();
+        }, 10 * 1000);
+      }
+
+      element.bind('$destroy', function () {
+        $timeout.cancel(timeoutId);
+      });
+
+      updateLater();
+    }
+  })
+  .directive('refreshTrack', function ($timeout, Tracks) {
+    return function ($scope, element, attrs) {
+
+      var track, timeoutId;
+
+      function updateTime() {
+        var tracks = $scope.tracks;
+        var name = $scope.track.name;
+        for (var i = 0; i < tracks.length; i++) {
+          if (tracks[i].name == name) {
+            console.log(new Date()+"Time to update track "+name);
+            Tracks.get({name:name}, function (remoteTrack) {
+              var trackToUpdate = tracks[i];
+              trackToUpdate.name = remoteTrack.name;
+              trackToUpdate.velocity = remoteTrack.velocity;
+              trackToUpdate.remainingPointsInCurrentIteration = remoteTrack.remainingPointsInCurrentIteration;
+              trackToUpdate.estimatedPointsInFuture = remoteTrack.estimatedPointsInFuture;
+              trackToUpdate.remainingDays = remoteTrack.remainingDays;
+            });
+            return;
+          }
+        }
+      }
+
+      $scope.$watch(attrs.build, function (value) {
+        track = value;
         updateTime();
       });
 

@@ -51,13 +51,13 @@
     </div>
     <div class="control-group">
       <label>Name <span class="star">*</span></label>
-      <input type="text" name="name" ng-model="connection.name" required placeholder="name"/>
+        <input type="text" name="name" ng-model="connection.name" required placeholder="name"/>
       <span ng-show="connectionForm.name.$error.required" class="help-inline warning">Required</span>
     </div>
     <div class="control-group">
       <label>Authentication </label>
-      <input type="text" name="name" ng-model="connection.login" placeholder="login"/>
-      <input type="password" name="password" ng-model="connection.password" placeholder="password"/>
+        <input type="text" name="name" ng-change="checkConnection()" ng-model="connection.login" placeholder="login"/>
+      <input type="password" name="password" ng-change="checkConnection()" ng-model="connection.password" placeholder="password"/>
     </div>
     <div class="control-group">
       <label>Filter</label>

@@ -90,7 +90,9 @@ public class Build implements Comparable<Build>, Refreshable {
         try {
             refreshInfos();
             refreshTimes();
-            refreshTests();
+            if(connection instanceof TestCapability) {
+                refreshTests();
+            }
         } catch (ProjectNotFoundException e) {
             setRemoveable();
         } catch (BuildIdNotFoundException e) {
