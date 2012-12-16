@@ -56,4 +56,9 @@ public class DemoPlugin implements VisuwallPlugin<DemoConnection> {
         return url != null && DEMO_VISUWALL_CI.equals(url.toString());
     }
 
+    @Override
+    public boolean requiresPassword() {
+        return false;
+    }
+
 }

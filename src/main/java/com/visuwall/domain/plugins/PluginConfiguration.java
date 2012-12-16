@@ -24,4 +24,8 @@ public class PluginConfiguration {
     public boolean hasValueFor(String key) {
         return values.containsKey(key);
     }
+
+    public boolean hasPassword() {
+        return hasValueFor("password");
+    }
 }

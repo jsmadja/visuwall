@@ -87,6 +87,11 @@ public class BambooPlugin implements VisuwallPlugin<BambooConnection> {
     }
 
     @Override
+    public boolean requiresPassword() {
+        return false;
+    }
+
+    @Override
     public String toString() {
         return Objects.toStringHelper(this) //
                 .add("name", getName()) //

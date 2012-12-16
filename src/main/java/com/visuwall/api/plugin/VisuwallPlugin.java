@@ -39,4 +39,6 @@ public interface VisuwallPlugin<T extends BasicCapability> {
     SoftwareId getSoftwareId(URL url, PluginConfiguration pluginConfiguration) throws SoftwareNotFoundException;
 
     boolean accept(URL url, PluginConfiguration pluginConfiguration);
+
+    boolean requiresPassword();
 }

@@ -106,6 +106,11 @@ public class SonarPlugin implements VisuwallPlugin<SonarConnection> {
         return true;
     }
 
+    @Override
+    public boolean requiresPassword() {
+        return false;
+    }
+
     private SoftwareId createSoftwareIdFromWelcomePage(URL url) {
         String version = sonarVersionExtractor.welcomePageVersion(url);
         return createSoftwareId(version);

@@ -6,6 +6,9 @@ import com.visuwall.api.plugin.capability.BasicCapability;
 import com.visuwall.domain.connections.Connection;
 import com.visuwall.domain.plugins.PluginConfiguration;
 import com.visuwall.domain.plugins.PluginDiscover;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sun.util.LocaleServiceProviderPool;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -14,7 +17,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import java.net.URL;
 
+import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
 import static javax.ws.rs.core.Response.ok;
+import static javax.ws.rs.core.Response.status;
 
 @Path("/connection")
 @Consumes("*/*")
@@ -22,6 +27,8 @@ import static javax.ws.rs.core.Response.ok;
 public class ConnectionResource {
 
     private PluginDiscover pluginDiscover = new PluginDiscover();
+
+    private static final Logger LOG = LoggerFactory.getLogger(ConnectionResource.class);
 
     @POST
     public Response getPlugin(Connection connection) throws Exception {
@@ -32,8 +39,16 @@ public class ConnectionResource {
             PluginConfiguration pluginConfiguration = Connection.createPluginConfigurationFrom(connection);
             SoftwareId softwareId = plugin.getSoftwareId(url, pluginConfiguration);
             connection.setWarning(softwareId.getWarnings());
-            BasicCapability capability = plugin.getConnection(url, pluginConfiguration);
-            connection.setVisuwallConnection(capability);
+            if(plugin.requiresPassword() && !pluginConfiguration.hasPassword()) {
+                return status(UNAUTHORIZED).build();
+            }
+            try {
+                BasicCapability capability = plugin.getConnection(url, pluginConfiguration);
+                connection.setVisuwallConnection(capability);
+            } catch(Throwable t) {
+                LOG.info(t.getMessage());
+                return status(UNAUTHORIZED).build();
+            }
         }
         return ok().entity(connection).build();
     }

@@ -102,6 +102,11 @@ public class JenkinsPlugin implements VisuwallPlugin<JenkinsConnection> {
     }
 
     @Override
+    public boolean requiresPassword() {
+        return false;
+    }
+
+    @Override
     public String toString() {
         return Objects.toStringHelper(this) //
                 .add("name", getName()) //

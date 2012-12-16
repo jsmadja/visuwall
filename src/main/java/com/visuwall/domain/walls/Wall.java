@@ -103,7 +103,7 @@ public class Wall implements Runnable {
                 builds.refreshAll();
                 analyses.refreshAll();
                 tracks.refreshAll();
-                LOG.debug("Wall has been fully refresh");
+                LOG.debug("Wall has been fully refreshed");
                 waitForNextIteration();
             } catch (InterruptedException e) {
                 LOG.error("Error in main loop", e);

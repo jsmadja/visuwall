@@ -74,6 +74,11 @@ public class DeployItPlugin implements VisuwallPlugin<DeployItConnection> {
         return true;
     }
 
+    @Override
+    public boolean requiresPassword() {
+        return false;
+    }
+
     private SoftwareId createSoftwareId() {
         SoftwareId softwareId = new SoftwareId();
         softwareId.setName("DeployIt");

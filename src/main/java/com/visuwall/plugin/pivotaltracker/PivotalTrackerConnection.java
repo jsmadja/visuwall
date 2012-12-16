@@ -87,7 +87,7 @@ public class PivotalTrackerConnection implements BasicCapability, TrackCapabilit
         Map<SoftwareProjectId, String> softwareProjectIds = new HashMap<SoftwareProjectId, String>();
         try {
             for (Project project : client.getProjects()) {
-                SoftwareProjectId softwareProjectId = new SoftwareProjectId(project.getId().toString());
+                SoftwareProjectId softwareProjectId = new SoftwareProjectId(project.getName());
                 softwareProjectIds.put(softwareProjectId, project.getName());
             }
         } catch (ResourceNotFoundException e) {

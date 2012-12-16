@@ -69,6 +69,11 @@ public class ContinuumPlugin implements VisuwallPlugin<ContinuumConnection> {
         return true;
     }
 
+    @Override
+    public boolean requiresPassword() {
+        return false;
+    }
+
     private boolean isManageable(URL url) {
         try {
             url = new URL(url.toString() + "/groupSummary.action");

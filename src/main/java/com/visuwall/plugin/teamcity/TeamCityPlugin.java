@@ -87,6 +87,11 @@ public class TeamCityPlugin implements VisuwallPlugin<TeamCityConnection> {
         return true;
     }
 
+    @Override
+    public boolean requiresPassword() {
+        return false;
+    }
+
     private SoftwareId createSoftwareId(TeamCityServer teamCityServer) throws ResourceNotFoundException {
         SoftwareId softwareId = new SoftwareId();
         softwareId.setName("TeamCity");

@@ -3,6 +3,8 @@ package com.visuwall.plugin.pivotaltracker;
 import com.visuwall.api.domain.SoftwareId;
 import com.visuwall.api.exception.SoftwareNotFoundException;
 import com.visuwall.api.plugin.VisuwallPlugin;
+import com.visuwall.client.common.GenericSoftwareClient;
+import com.visuwall.client.common.ResourceNotFoundException;
 import com.visuwall.domain.plugins.PluginConfiguration;
 
 import java.net.URL;
@@ -40,6 +42,15 @@ public class PivotalTrackerPlugin implements VisuwallPlugin<PivotalTrackerConnec
 
     @Override
     public SoftwareId getSoftwareId(URL url, PluginConfiguration pluginConfiguration) throws SoftwareNotFoundException {
+        GenericSoftwareClient genericSoftwareClient = new GenericSoftwareClient();
+        try {
+            String download = genericSoftwareClient.download(url);
+            if(!download.contains("Pivotal Tracker")) {
+                throw new SoftwareNotFoundException("Url " + url + " is not compatible with Pivotal Tracker");
+            }
+        } catch (ResourceNotFoundException e) {
+            throw new SoftwareNotFoundException("Url " + url + " is not compatible with Pivotal Tracker", e);
+        }
         SoftwareId softwareId = new SoftwareId();
         softwareId.setCompatible(true);
         softwareId.setName("PivotalTracker");
@@ -53,6 +64,11 @@ public class PivotalTrackerPlugin implements VisuwallPlugin<PivotalTrackerConnec
         } catch (SoftwareNotFoundException e) {
             return false;
         }
+        return true;
+    }
+
+    @Override
+    public boolean requiresPassword() {
         return true;
     }
 

@@ -1,5 +1,11 @@
 'use strict';
 
+Object.prototype.getName = function() {
+  var funcNameRegex = /function (.{1,})\(/;
+  var results = (funcNameRegex).exec((this).constructor.toString());
+  return (results && results.length > 1) ? results[1] : "";
+};
+
 function BuildsCtrl($scope, Builds, $timeout) {
 
   var timeout = 1;
@@ -66,6 +72,7 @@ function ConfigurationsCtrl($scope, $location, Connection, Connections) {
     $scope.connection.includeMetricNames = $scope.metricNames;
     Connections.update($scope.connection, function (connection) {
       $location.path('/configurations');
+      $scope.connections = Connections.list();
     });
   };
 
@@ -75,41 +82,48 @@ function ConfigurationsCtrl($scope, $location, Connection, Connections) {
 
   $scope.removeConnection = function (connection) {
     Connections.delete({name:connection.name}, function () {
+      $scope.connections = Connections.list();
       $location.path('/configurations');
     });
   };
 
   $scope.checkConnection = function () {
     var url = $scope.connection.url;
-    var login = $scope.connection.password;
+    var login = $scope.connection.login;
+    var password = $scope.connection.password;
+    var name = $scope.connection.name;
 
     setTimeout(function () {
-
       var noNewUrl = $scope.connection.url == url;
       var noNewLogin = $scope.connection.login == login;
-      console.log($scope.connection.url +' == '+ url);
-      console.log($scope.connection.login +' == '+ login);
-
-      if (noNewUrl && noNewLogin) {
+      var noNewPassword = $scope.connection.password == password;
+      var nothingChanged = noNewUrl && noNewLogin && noNewPassword;
+      if (nothingChanged) {
         Connection.save($scope.connection, function (connection) {
           $scope.connection = connection;
+          $scope.connection.password = password;
+          $scope.connection.name = name;
         });
       }
-
       url = $scope.connection.url;
       login = $scope.connection.login;
+      password = $scope.connection.password;
+      name = $scope.connection.name;
     }, 1000);
   };
 
   $scope.applyFilter = function () {
     var buildFilter = $scope.connection.buildFilter;
+    var password = $scope.connection.password;
     setTimeout(function () {
       if ($scope.connection.buildFilter == buildFilter) {
         Connection.save($scope.connection, function (connection) {
           $scope.connection = connection;
+          $scope.connection.password = password;
         });
       }
       buildFilter = $scope.connection.buildFilter;
+      password = $scope.connection.password;
     }, 500);
   }
 

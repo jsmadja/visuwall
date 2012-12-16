@@ -152,6 +152,7 @@ public abstract class AbstractRefreshables<T extends Refreshable> implements Ref
 
     @Override
     public void removeAllFrom(Connection connection) {
+        connections.remove(connection);
         String url = connection.getUrl();
         List<T> refreshablesToRemove = new ArrayList<T>();
         for (T refreshable : getRefreshables()) {

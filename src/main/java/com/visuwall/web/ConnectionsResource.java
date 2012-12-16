@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
+import static javax.ws.rs.core.Response.notModified;
 import static javax.ws.rs.core.Response.ok;
 
 @Path("/walls/connections")
@@ -24,11 +25,11 @@ public class ConnectionsResource {
     @PUT
     public Response updateConnection(Connection connection) {
         if(StringUtils.isBlank(connection.getName())) {
-            return Response.notModified().build();
+            return notModified().build();
         }
         Wall wall = Walls.get("wall");
         wall.updateConnection(connection);
-        return ok().build();
+        return ok().entity(connection).build();
     }
 
     @DELETE
