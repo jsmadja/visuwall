@@ -45,8 +45,6 @@ public class SoftwareProjectId {
         return false;
     }
 
-    //////////////////////////////////////////////////////////////
-
     public void setProjectId(String projectId) {
         this.projectId = projectId;
     }

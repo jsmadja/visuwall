@@ -33,7 +33,7 @@ public class Track implements Comparable<Track>, Refreshable {
         this.connection = connection;
         this.trackCapability = (TrackCapability) connection;
         this.projectId = projectId;
-        this.removeable = false;
+        this.name = projectId.getProjectId();
     }
 
     @Override
@@ -69,15 +69,6 @@ public class Track implements Comparable<Track>, Refreshable {
     @JsonIgnore
     @Override
     public boolean isRefreshable() {
-        try {
-            return newBuildIsAvailable();
-        } catch (ProjectNotFoundException e) {
-            setRemoveable();
-            return false;
-        }
-    }
-
-    private boolean newBuildIsAvailable() throws ProjectNotFoundException {
         return true;
     }
 

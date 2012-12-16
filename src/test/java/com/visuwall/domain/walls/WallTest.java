@@ -41,7 +41,6 @@ public class WallTest {
 
     }
 
-    @Ignore
     @Test
     public void test_pivotal_tracker() throws InterruptedException {
         Wall wall = Walls.get("wall");
