@@ -1,4 +1,4 @@
-package com.visuwall.domain;
+package com.visuwall.domain.connections;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

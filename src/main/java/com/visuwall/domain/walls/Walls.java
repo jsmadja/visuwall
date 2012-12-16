@@ -1,4 +1,4 @@
-package com.visuwall.domain;
+package com.visuwall.domain.walls;
 
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;

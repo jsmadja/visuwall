@@ -2,9 +2,9 @@ package com.visuwall.web;
 
 import com.visuwall.api.domain.SoftwareId;
 import com.visuwall.api.plugin.VisuwallPlugin;
-import com.visuwall.domain.Connection;
-import com.visuwall.domain.PluginConfiguration;
-import com.visuwall.domain.PluginDiscover;
+import com.visuwall.domain.connections.Connection;
+import com.visuwall.domain.plugins.PluginConfiguration;
+import com.visuwall.domain.plugins.PluginDiscover;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

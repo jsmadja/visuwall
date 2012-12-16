@@ -1,14 +1,11 @@
 package com.visuwall.plugin.demo;
 
 import com.visuwall.api.domain.SoftwareId;
-import com.visuwall.api.exception.ConnectionException;
 import com.visuwall.api.exception.SoftwareNotFoundException;
 import com.visuwall.api.plugin.VisuwallPlugin;
-import com.visuwall.domain.PluginConfiguration;
+import com.visuwall.domain.plugins.PluginConfiguration;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 public class DemoPlugin implements VisuwallPlugin<DemoConnection> {
 

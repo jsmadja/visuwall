@@ -1,4 +1,4 @@
-package com.visuwall.domain;
+package com.visuwall.domain.plugins;
 
 import com.visuwall.api.plugin.VisuwallPlugin;
 import com.visuwall.plugin.bamboo.BambooPlugin;

@@ -1,6 +1,9 @@
 package com.visuwall.web;
 
-import com.visuwall.domain.*;
+import com.visuwall.domain.analyses.Analyses;
+import com.visuwall.domain.analyses.Analysis;
+import com.visuwall.domain.walls.Wall;
+import com.visuwall.domain.walls.Walls;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

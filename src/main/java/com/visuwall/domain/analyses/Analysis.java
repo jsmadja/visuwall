@@ -1,4 +1,4 @@
-package com.visuwall.domain;
+package com.visuwall.domain.analyses;
 
 import com.google.common.base.Predicate;
 import com.visuwall.api.domain.SoftwareProjectId;
@@ -8,6 +8,7 @@ import com.visuwall.api.domain.quality.QualityResult;
 import com.visuwall.api.exception.ProjectNotFoundException;
 import com.visuwall.api.plugin.capability.BasicCapability;
 import com.visuwall.api.plugin.capability.MetricCapability;
+import com.visuwall.domain.Refreshable;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -143,6 +144,7 @@ public class Analysis implements Comparable<Analysis>, Refreshable {
         return removeable;
     }
 
+    @Override
     public boolean hasName(String name) {
         return this.name != null && this.name.equalsIgnoreCase(name);
     }
@@ -171,4 +173,8 @@ public class Analysis implements Comparable<Analysis>, Refreshable {
         return false;
     }
 
+    @Override
+    public boolean isLinkedTo(String url) {
+        return this.connection.getUrl().equalsIgnoreCase(url);
+    }
 }

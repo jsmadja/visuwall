@@ -23,11 +23,10 @@ import java.net.URL;
 
 import com.visuwall.client.common.GenericSoftwareClient;
 import com.visuwall.api.domain.SoftwareId;
-import com.visuwall.api.exception.ConnectionException;
 import com.visuwall.api.exception.SoftwareNotFoundException;
 import com.visuwall.api.plugin.VisuwallPlugin;
 
-import com.visuwall.domain.PluginConfiguration;
+import com.visuwall.domain.plugins.PluginConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

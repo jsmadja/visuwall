@@ -1,4 +1,4 @@
-package com.visuwall.domain;
+package com.visuwall.domain.analyses;
 
 import com.visuwall.api.domain.quality.QualityMeasure;
 

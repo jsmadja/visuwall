@@ -1,4 +1,4 @@
-package com.visuwall.domain;
+package com.visuwall.web;
 
 public class ResourceNotFoundException extends Exception {
 

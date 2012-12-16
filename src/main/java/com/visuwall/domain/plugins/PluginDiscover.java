@@ -1,6 +1,7 @@
-package com.visuwall.domain;
+package com.visuwall.domain.plugins;
 
 import com.visuwall.api.plugin.VisuwallPlugin;
+import com.visuwall.domain.connections.Connection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,9 +1,9 @@
 package com.visuwall.web;
 
-import com.visuwall.domain.Build;
-import com.visuwall.domain.Builds;
-import com.visuwall.domain.Wall;
-import com.visuwall.domain.Walls;
+import com.visuwall.domain.builds.Build;
+import com.visuwall.domain.builds.Builds;
+import com.visuwall.domain.walls.Wall;
+import com.visuwall.domain.walls.Walls;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +38,7 @@ public class BuildsResource {
             return status(NOT_FOUND).build();
         }
         LOG.debug("new build request from client for build "+name);
-        return ok().entity(builds.getBuild(name)).build();
+        return ok().entity(builds.get(name)).build();
     }
 
     @GET

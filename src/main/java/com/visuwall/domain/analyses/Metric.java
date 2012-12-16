@@ -1,4 +1,4 @@
-package com.visuwall.domain;
+package com.visuwall.domain.analyses;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 

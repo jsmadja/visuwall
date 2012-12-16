@@ -1,9 +1,19 @@
-package com.visuwall.domain;
+package com.visuwall.domain.walls;
 
 import com.visuwall.api.plugin.VisuwallPlugin;
 import com.visuwall.api.plugin.capability.BasicCapability;
 import com.visuwall.api.plugin.capability.BuildCapability;
 import com.visuwall.api.plugin.capability.MetricCapability;
+import com.visuwall.domain.connections.Configuration;
+import com.visuwall.domain.connections.Connection;
+import com.visuwall.domain.connections.Connections;
+import com.visuwall.web.ResourceNotFoundException;
+import com.visuwall.domain.analyses.Analyses;
+import com.visuwall.domain.analyses.Analysis;
+import com.visuwall.domain.builds.Build;
+import com.visuwall.domain.builds.Builds;
+import com.visuwall.domain.plugins.PluginConfiguration;
+import com.visuwall.domain.plugins.PluginDiscover;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,11 +72,11 @@ public class Wall implements Runnable {
     }
 
     public Build getBuild(String name) {
-        return builds.getBuild(name);
+        return builds.get(name);
     }
 
     public Analysis getAnalysis(String name) {
-        return analyses.getAnalysis(name);
+        return analyses.get(name);
     }
 
     @Override
@@ -74,9 +84,9 @@ public class Wall implements Runnable {
         while (true) {
             try {
                 LOG.debug("Wall is full refreshing ...");
-                builds.refresh();
-                analyses.refresh();
-                LOG.debug("Wall has been fully refresh");
+                builds.refreshAll();
+                analyses.refreshAll();
+                LOG.debug("Wall has been fully refreshAll");
                 waitForNextIteration();
             } catch (InterruptedException e) {
                 LOG.error("Error in main loop", e);
@@ -111,8 +121,8 @@ public class Wall implements Runnable {
 
     private void removeConnection(Connection connection) {
         configuration.remove(connection);
-        builds.removeAllBuildsFrom(connection);
-        analyses.removeAllAnalysesFrom(connection);
+        builds.removeAllFrom(connection);
+        analyses.removeAllFrom(connection);
     }
 
     public Connections getConnections() {

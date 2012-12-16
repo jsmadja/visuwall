@@ -1,4 +1,4 @@
-package com.visuwall.domain;
+package com.visuwall.domain.builds;
 
 
 import com.ocpsoft.pretty.time.PrettyTime;
@@ -12,6 +12,7 @@ import com.visuwall.api.exception.ProjectNotFoundException;
 import com.visuwall.api.plugin.capability.BasicCapability;
 import com.visuwall.api.plugin.capability.BuildCapability;
 import com.visuwall.api.plugin.capability.TestCapability;
+import com.visuwall.domain.Refreshable;
 import com.visuwall.formatter.DurationFormatter;
 import org.codehaus.jackson.annotate.JsonIgnore;
 

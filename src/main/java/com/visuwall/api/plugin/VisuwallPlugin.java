@@ -17,13 +17,11 @@
 package com.visuwall.api.plugin;
 
 import com.visuwall.api.domain.SoftwareId;
-import com.visuwall.api.exception.ConnectionException;
 import com.visuwall.api.exception.SoftwareNotFoundException;
 import com.visuwall.api.plugin.capability.BasicCapability;
-import com.visuwall.domain.PluginConfiguration;
+import com.visuwall.domain.plugins.PluginConfiguration;
 
 import java.net.URL;
-import java.util.Map;
 
 public interface VisuwallPlugin<T extends BasicCapability> {
 

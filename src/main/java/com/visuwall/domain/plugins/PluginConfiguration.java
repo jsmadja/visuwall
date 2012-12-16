@@ -1,4 +1,4 @@
-package com.visuwall.domain;
+package com.visuwall.domain.plugins;
 
 import java.util.Collections;
 import java.util.HashMap;

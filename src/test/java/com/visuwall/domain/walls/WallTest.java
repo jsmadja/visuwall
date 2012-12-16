@@ -1,5 +1,9 @@
-package com.visuwall.domain;
+package com.visuwall.domain.walls;
 
+import com.visuwall.domain.connections.Connection;
+import com.visuwall.domain.analyses.Analyses;
+import com.visuwall.domain.analyses.Analysis;
+import com.visuwall.domain.analyses.Metric;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -9,8 +13,8 @@ import java.util.concurrent.TimeUnit;
 
 public class WallTest {
 
-    @Test
     @Ignore
+    @Test
     public void test() throws InterruptedException {
 
         Wall wall = Walls.get("wall");

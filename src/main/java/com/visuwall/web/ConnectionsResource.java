@@ -1,9 +1,8 @@
 package com.visuwall.web;
 
-import com.visuwall.domain.Connection;
-import com.visuwall.domain.ResourceNotFoundException;
-import com.visuwall.domain.Wall;
-import com.visuwall.domain.Walls;
+import com.visuwall.domain.connections.Connection;
+import com.visuwall.domain.walls.Wall;
+import com.visuwall.domain.walls.Walls;
 import org.apache.commons.lang.StringUtils;
 
 import javax.ws.rs.*;

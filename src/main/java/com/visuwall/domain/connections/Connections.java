@@ -1,4 +1,4 @@
-package com.visuwall.domain;
+package com.visuwall.domain.connections;
 
 import java.util.ArrayList;
 import java.util.Iterator;

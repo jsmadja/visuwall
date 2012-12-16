@@ -1,10 +1,11 @@
-package com.visuwall.domain;
+package com.visuwall.domain.connections;
 
 import com.visuwall.api.domain.SoftwareProjectId;
 import com.visuwall.api.domain.quality.QualityMetric;
 import com.visuwall.api.plugin.capability.BasicCapability;
 import com.visuwall.api.plugin.capability.MetricCapability;
-import org.apache.commons.lang.StringUtils;
+import com.visuwall.domain.analyses.Metric;
+import com.visuwall.domain.plugins.PluginConfiguration;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.net.MalformedURLException;

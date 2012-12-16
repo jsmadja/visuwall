@@ -1,14 +1,14 @@
-package com.visuwall.domain;
+package com.visuwall.domain.connections;
 
 import com.visuwall.api.domain.SoftwareProjectId;
 import com.visuwall.api.plugin.capability.BasicCapability;
 
-public class BuildConfiguration {
+public class ConnectionConfiguration {
 
     private SoftwareProjectId projectId;
     private Connection connection;
 
-    public BuildConfiguration(SoftwareProjectId projectId, Connection connection) {
+    public ConnectionConfiguration(SoftwareProjectId projectId, Connection connection) {
         this.projectId = projectId;
         this.connection = connection;
     }

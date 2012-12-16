@@ -1,7 +1,6 @@
 package com.visuwall.web;
 
-import com.visuwall.domain.Wall;
-import com.visuwall.domain.Walls;
+import com.visuwall.domain.walls.Walls;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
