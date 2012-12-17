@@ -231,8 +231,8 @@
                             <goal>run</goal>
                         </goals>
                         <configuration>
-                            <port>8080</port>
-                            <path>/visuwall</path>
+                            <port>9876</port>
+                            <path>/</path>
                             <useSeparateTomcatClassLoader>true</useSeparateTomcatClassLoader>
                         </configuration>
                     </execution>

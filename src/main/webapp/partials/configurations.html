@@ -4,9 +4,14 @@
     <style type="text/css">
         #connections td {
             vertical-align: middle;
+            color: #000000;
+        }
+        #connections th {
+            color: #000000;
         }
     </style>
 
+    <div class="well">
   <table id="connections" class="table table-condensed">
     <thead>
     <tr>
@@ -29,6 +34,7 @@
       </td>
     </tr>
   </table>
+    </div>
 
   <form name="connectionForm" class="form-inline well" style="width: 560px;">
     <div class="control-group">
@@ -70,7 +76,7 @@
     <div class="control-group" ng-show="connection.metrics">
       <label>Metrics</label>
       <select multiple ng-model="metricNames">
-        <option value="{{metric.key}}" ng-repeat="metric in connection.metrics">{{metric.name}}</option>
+        <option ng-selected="metric.selected" value="{{metric.key}}" ng-repeat="metric in connection.metrics">{{metric.name}}</option>
       </select>
     </div>
     <button ng-click="addConnection()" class="btn btn-primary">Submit</button>

@@ -9,6 +9,7 @@ public class Metric implements Comparable<Metric> {
     private String value;
     private int tendency;
     private boolean qualitative;
+    private boolean selected;
 
     Metric() {
 
@@ -101,5 +102,13 @@ public class Metric implements Comparable<Metric> {
     @JsonIgnore
     public boolean isEqualToZero() {
         return value.equals("0") || value.equals("0.0") || value.equals("0.0%");
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public boolean isSelected() {
+        return selected;
     }
 }

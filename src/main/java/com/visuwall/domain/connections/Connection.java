@@ -111,7 +111,11 @@ public class Connection {
                 for (QualityMetric qualityMetric : value) {
                     String key = qualityMetric.getKey();
                     String name = qualityMetric.getName();
-                    metrics.add(new Metric(key, name));
+                    Metric metric = new Metric(key, name);
+                    if(includeMetricNames.contains(key)) {
+                        metric.setSelected(true);
+                    }
+                    metrics.add(metric);
                 }
             }
         }
