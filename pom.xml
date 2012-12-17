@@ -272,14 +272,14 @@
                         <exclude>CHANGELOG.txt</exclude>
                         <exclude>INSTALL.txt</exclude>
                     </excludes>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

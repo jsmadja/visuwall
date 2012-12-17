@@ -11,14 +11,39 @@ function BuildsCtrl($scope, Builds, $timeout) {
   var timeout = 1;
 
   function updateTime() {
-    $scope.builds = Builds.list();
+    Builds.list(function(remoteBuilds) {
+      var remoteBuildsCount = 0;
+      var currentBuildsCount = 0;
+      if(remoteBuilds) {
+        remoteBuildsCount = remoteBuilds.length;
+      }
+      if($scope.builds) {
+        currentBuildsCount = $scope.builds.length;
+      }
+
+
+      var somethingChanged = remoteBuildsCount != currentBuildsCount;
+      if(!somethingChanged) {
+        for(var i=0;i<remoteBuilds.length;i++) {
+          if($scope.builds[i].name != remoteBuilds[i].name) {
+            somethingChanged = true;
+            break;
+          }
+        }
+      }
+
+      if(somethingChanged) {
+        $scope.builds = remoteBuilds;
+      }
+    });
+
   }
 
   function updateLater() {
     $timeout(function () {
       updateTime();
       updateLater();
-      timeout = 60 * 1000;
+      timeout = 5 * 1000;
     }, timeout);
   }
 
