@@ -16,22 +16,19 @@
 
 package com.visuwall.plugin.teamcity;
 
-import java.net.URL;
-
-import com.visuwall.client.common.GenericSoftwareClient;
-import com.visuwall.client.common.ResourceNotFoundException;
-import com.visuwall.client.teamcity.resource.TeamCityServer;
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.visuwall.api.domain.SoftwareId;
 import com.visuwall.api.exception.SoftwareNotFoundException;
 import com.visuwall.api.plugin.VisuwallPlugin;
-
+import com.visuwall.client.common.GenericSoftwareClient;
+import com.visuwall.client.common.ResourceNotFoundException;
+import com.visuwall.client.teamcity.resource.TeamCityServer;
 import com.visuwall.domain.plugins.PluginConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
+import java.net.URL;
 
 public class TeamCityPlugin implements VisuwallPlugin<TeamCityConnection> {
 

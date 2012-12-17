@@ -1,15 +1,13 @@
 package com.visuwall.client.pivotaltracker;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.visuwall.client.common.GenericSoftwareClient;
 import com.visuwall.client.common.ResourceNotFoundException;
 import com.visuwall.client.pivotaltracker.resource.*;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class PivotalTrackerClient extends GenericSoftwareClient {
 
@@ -70,7 +68,7 @@ public class PivotalTrackerClient extends GenericSoftwareClient {
         Stories storiesInNextIterations = new Stories();
         for (Story story : stories) {
             boolean isInNextIteration = story.getCurrentState() == CurrentState.unstarted && !currentIteration.contains(story);
-            if(isInNextIteration) {
+            if (isInNextIteration) {
                 storiesInNextIterations.add(story);
             }
         }

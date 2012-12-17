@@ -16,12 +16,13 @@
 
 package com.visuwall.plugin.bamboo;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import com.google.common.base.Preconditions;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Closeables;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 class BambooVersionExtractor {
 

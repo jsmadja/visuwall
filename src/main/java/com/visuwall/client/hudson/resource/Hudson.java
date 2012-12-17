@@ -16,14 +16,11 @@
 
 package com.visuwall.client.hudson.resource;
 
+import com.google.common.base.Objects;
+
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
-import javax.xml.bind.annotation.XmlRootElement;
-import com.google.common.base.Objects;
 
 @XmlRootElement(name = "hudson")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -49,10 +46,10 @@ public class Hudson {
 
     private boolean useSecurity;
 
-    @XmlElements({ @XmlElement(name = "job") })
+    @XmlElements({@XmlElement(name = "job")})
     private List<Job> jobs = new ArrayList<Job>();
 
-    @XmlElements({ @XmlElement(name = "view") })
+    @XmlElements({@XmlElement(name = "view")})
     private List<View> views = new ArrayList<View>();
 
     public String getAssignedLabel() {

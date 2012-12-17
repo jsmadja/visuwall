@@ -16,11 +16,12 @@
 
 package com.visuwall.plugin.teamcity;
 
-import java.util.HashMap;
-import java.util.Map;
 import com.visuwall.api.domain.BuildState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 class States {
 

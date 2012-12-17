@@ -16,9 +16,10 @@
 
 package com.visuwall.plugin.teamcity;
 
-import java.util.Date;
-import com.visuwall.client.teamcity.resource.TeamCityBuild;
 import com.visuwall.api.domain.BuildTime;
+import com.visuwall.client.teamcity.resource.TeamCityBuild;
+
+import java.util.Date;
 
 class BuildTimes {
 

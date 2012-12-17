@@ -1,19 +1,17 @@
 package com.visuwall.plugin.deployit;
 
-import java.net.URL;
-
-import com.visuwall.client.common.GenericSoftwareClient;
-import com.visuwall.client.common.GenericSoftwareClientFactory;
-import com.visuwall.client.deployit.resource.RepositoryObjectIds;
+import com.google.common.base.Preconditions;
 import com.visuwall.api.domain.SoftwareId;
 import com.visuwall.api.exception.SoftwareNotFoundException;
 import com.visuwall.api.plugin.VisuwallPlugin;
-
+import com.visuwall.client.common.GenericSoftwareClient;
+import com.visuwall.client.common.GenericSoftwareClientFactory;
+import com.visuwall.client.deployit.resource.RepositoryObjectIds;
 import com.visuwall.domain.plugins.PluginConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Preconditions;
+import java.net.URL;
 
 public class DeployItPlugin implements VisuwallPlugin<DeployItConnection> {
 

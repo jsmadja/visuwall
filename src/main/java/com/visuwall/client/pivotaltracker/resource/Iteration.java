@@ -1,20 +1,17 @@
 package com.visuwall.client.pivotaltracker.resource;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import static com.google.common.base.Predicates.and;
 import static com.google.common.collect.Collections2.filter;
-import static com.visuwall.client.pivotaltracker.resource.CustomPredicates.isEstimated;
-import static com.visuwall.client.pivotaltracker.resource.CustomPredicates.isFeature;
-import static com.visuwall.client.pivotaltracker.resource.CustomPredicates.isReady;
+import static com.visuwall.client.pivotaltracker.resource.CustomPredicates.*;
 
 @XmlRootElement(name = "iteration")
 @XmlAccessorType(XmlAccessType.FIELD)

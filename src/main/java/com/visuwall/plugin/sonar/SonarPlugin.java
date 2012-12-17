@@ -16,21 +16,19 @@
 
 package com.visuwall.plugin.sonar;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static javax.ws.rs.core.MediaType.APPLICATION_XML_TYPE;
-
-import java.net.URL;
-
-import com.visuwall.client.common.GenericSoftwareClient;
+import com.google.common.base.Objects;
 import com.visuwall.api.domain.SoftwareId;
 import com.visuwall.api.exception.SoftwareNotFoundException;
 import com.visuwall.api.plugin.VisuwallPlugin;
-
+import com.visuwall.client.common.GenericSoftwareClient;
 import com.visuwall.domain.plugins.PluginConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Objects;
+import java.net.URL;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static javax.ws.rs.core.MediaType.APPLICATION_XML_TYPE;
 
 public class SonarPlugin implements VisuwallPlugin<SonarConnection> {
 
@@ -95,7 +93,7 @@ public class SonarPlugin implements VisuwallPlugin<SonarConnection> {
     public boolean accept(URL url, PluginConfiguration pluginConfiguration) {
         try {
             getSoftwareId(url, pluginConfiguration);
-        } catch(SoftwareNotFoundException e) {
+        } catch (SoftwareNotFoundException e) {
             return false;
         }
         return true;

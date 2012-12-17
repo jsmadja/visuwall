@@ -4,7 +4,10 @@ import com.visuwall.api.domain.*;
 import com.visuwall.api.domain.quality.QualityMeasure;
 import com.visuwall.api.domain.quality.QualityMetric;
 import com.visuwall.api.domain.quality.QualityResult;
-import com.visuwall.api.exception.*;
+import com.visuwall.api.exception.BuildIdNotFoundException;
+import com.visuwall.api.exception.BuildNotFoundException;
+import com.visuwall.api.exception.ProjectNotFoundException;
+import com.visuwall.api.exception.ViewNotFoundException;
 import com.visuwall.api.plugin.capability.BuildCapability;
 import com.visuwall.api.plugin.capability.MetricCapability;
 import com.visuwall.api.plugin.capability.TestCapability;
@@ -71,16 +74,16 @@ public class DemoConnection implements BuildCapability, TestCapability, ViewCapa
         new HashMap<SoftwareProjectId, TestResult>().put(mercury, mercuryIntegrationTestResults);
         new HashMap<SoftwareProjectId, TestResult>().put(venus, venusIntegrationTestResults);
 
-        QualityMeasure uranusCoverageMeasure = createQualityMeasure("coverage", "Coverage", "76.5 %", 76.5,-1);
-        QualityMeasure uranusLocMeasure = createQualityMeasure("ncloc", "Lines of code", "78.001", 78001D,1);
-        QualityMeasure uranusViolationsMeasure = createQualityMeasure("violations_density", "Violations", "32", 32D,-1);
+        QualityMeasure uranusCoverageMeasure = createQualityMeasure("coverage", "Coverage", "76.5 %", 76.5, -1);
+        QualityMeasure uranusLocMeasure = createQualityMeasure("ncloc", "Lines of code", "78.001", 78001D, 1);
+        QualityMeasure uranusViolationsMeasure = createQualityMeasure("violations_density", "Violations", "32", 32D, -1);
         QualityResult uranusQualityResult = new QualityResult();
         uranusQualityResult.add("coverage", uranusCoverageMeasure);
         uranusQualityResult.add("ncloc", uranusLocMeasure);
         uranusQualityResult.add("violations_density", uranusViolationsMeasure);
 
         QualityResult mercuryQualityResult = new QualityResult();
-        QualityMeasure mercuryLocMeasure = createQualityMeasure("ncloc", "Lines of code", "121.988", 121988D,1);
+        QualityMeasure mercuryLocMeasure = createQualityMeasure("ncloc", "Lines of code", "121.988", 121988D, 1);
         mercuryQualityResult.add("ncloc", mercuryLocMeasure);
 
         qualityResults.put(uranus, uranusQualityResult);

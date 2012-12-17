@@ -16,30 +16,31 @@
 
 package com.visuwall;
 
-import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+
 public aspect Chrono {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Chrono.class);
+  private static final Logger LOG = LoggerFactory.getLogger(Chrono.class);
 
-    Object around() : execution(public * com.visuwall.*.* (..)) {
-        long start = System.currentTimeMillis();
-        try {
-            return proceed();
-        } finally {
-        	String prefix = "";
-            long end = System.currentTimeMillis();
-            long duration = end - start;
-            Object method = thisJoinPointStaticPart.getSignature();
+  Object around(): execution(public * com.visuwall.*.* (..)) {
+    long start = System.currentTimeMillis();
+    try {
+      return proceed();
+    } finally {
+      String prefix = "";
+      long end = System.currentTimeMillis();
+      long duration = end - start;
+      Object method = thisJoinPointStaticPart.getSignature();
 
-            if (duration > 10) {
-            	prefix = "[SLOW] ";
-            	Object[] args = thisJoinPoint.getArgs();
-                LOG.warn("Chronometer "+prefix+" "+method+" "+Arrays.toString(args)+", "+duration+" ms");
-            }
-        }
+      if (duration > 10) {
+        prefix = "[SLOW] ";
+        Object[] args = thisJoinPoint.getArgs();
+        LOG.warn("Chronometer " + prefix + " " + method + " " + Arrays.toString(args) + ", " + duration + " ms");
+      }
     }
-    
+  }
+
 }

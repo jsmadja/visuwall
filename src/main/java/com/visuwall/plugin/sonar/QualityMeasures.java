@@ -16,8 +16,8 @@
 
 package com.visuwall.plugin.sonar;
 
-import org.sonar.wsclient.services.Measure;
 import com.google.common.base.Preconditions;
+import org.sonar.wsclient.services.Measure;
 
 class QualityMeasures {
 

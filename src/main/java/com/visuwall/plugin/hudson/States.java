@@ -16,12 +16,13 @@
 
 package com.visuwall.plugin.hudson;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.google.common.base.Preconditions;
 import com.visuwall.api.domain.BuildState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.google.common.base.Preconditions;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class States {
 

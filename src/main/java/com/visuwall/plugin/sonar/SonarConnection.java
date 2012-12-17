@@ -16,7 +16,6 @@
 
 package com.visuwall.plugin.sonar;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
@@ -46,7 +45,7 @@ public class SonarConnection implements MetricCapability {
     private Sonar sonarClient;
 
     private Map<String, QualityMetric> metricsMap;
-    private String[] metricKeys = new String[] {};
+    private String[] metricKeys = new String[]{};
 
     private boolean connected;
 

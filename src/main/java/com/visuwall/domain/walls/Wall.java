@@ -5,19 +5,18 @@ import com.visuwall.api.plugin.capability.BasicCapability;
 import com.visuwall.api.plugin.capability.BuildCapability;
 import com.visuwall.api.plugin.capability.MetricCapability;
 import com.visuwall.api.plugin.capability.TrackCapability;
-import com.visuwall.domain.connections.Configuration;
-import com.visuwall.domain.connections.Connection;
-import com.visuwall.domain.connections.Connections;
-import com.visuwall.domain.tracks.Track;
-import com.visuwall.domain.tracks.Tracks;
-import com.visuwall.plugin.pivotaltracker.PivotalTrackerState;
-import com.visuwall.web.ResourceNotFoundException;
 import com.visuwall.domain.analyses.Analyses;
 import com.visuwall.domain.analyses.Analysis;
 import com.visuwall.domain.builds.Build;
 import com.visuwall.domain.builds.Builds;
+import com.visuwall.domain.connections.Configuration;
+import com.visuwall.domain.connections.Connection;
+import com.visuwall.domain.connections.Connections;
 import com.visuwall.domain.plugins.PluginConfiguration;
 import com.visuwall.domain.plugins.PluginDiscover;
+import com.visuwall.domain.tracks.Track;
+import com.visuwall.domain.tracks.Tracks;
+import com.visuwall.web.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +44,7 @@ public class Wall implements Runnable {
         } else {
             LOG.info(plugin.getName() + " is compatible with url:" + url);
             addNewValidConnection(connection, plugin);
-            LOG.info("New connection established for "+url);
+            LOG.info("New connection established for " + url);
         }
     }
 
@@ -60,7 +59,7 @@ public class Wall implements Runnable {
         if (visuwallConnection instanceof BuildCapability) {
             builds.addConnection(connection);
         }
-        if(visuwallConnection instanceof TrackCapability) {
+        if (visuwallConnection instanceof TrackCapability) {
             tracks.addConnection(connection);
         }
         configuration.addUrl(connection);
@@ -104,7 +103,7 @@ public class Wall implements Runnable {
                 builds.refreshAll();
                 analyses.refreshAll();
                 tracks.refreshAll();
-                LOG.info("Wall has been fully refreshed in "+duration(start)+" ms");
+                LOG.info("Wall has been fully refreshed in " + duration(start) + " ms");
                 waitForNextIteration();
             } catch (InterruptedException e) {
                 LOG.error("Error in main loop", e);
@@ -117,7 +116,7 @@ public class Wall implements Runnable {
     }
 
     private void waitForNextIteration() throws InterruptedException {
-        if(builds.count() == 0 && analyses.count() == 0) {
+        if (builds.count() == 0 && analyses.count() == 0) {
             TimeUnit.SECONDS.sleep(20);
         } else {
             TimeUnit.MINUTES.sleep(1);

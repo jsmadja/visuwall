@@ -16,13 +16,9 @@
 
 package com.visuwall.client.hudson.resource;
 
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "listView")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -32,7 +28,7 @@ public class ListView {
 
     private String url;
 
-    @XmlElements({ @XmlElement(name = "job") })
+    @XmlElements({@XmlElement(name = "job")})
     private List<Job> jobs = new ArrayList<Job>();
 
     public String getName() {

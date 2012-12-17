@@ -1,10 +1,9 @@
 package com.visuwall.plugin.pivotaltracker;
 
-import static com.visuwall.api.domain.BuildState.FAILURE;
-import static com.visuwall.api.domain.BuildState.SUCCESS;
-import static com.visuwall.api.domain.BuildState.UNSTABLE;
-import com.visuwall.client.pivotaltracker.resource.Project;
 import com.visuwall.api.domain.BuildState;
+import com.visuwall.client.pivotaltracker.resource.Project;
+
+import static com.visuwall.api.domain.BuildState.*;
 
 public class PivotalTrackerState {
 

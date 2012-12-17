@@ -16,8 +16,8 @@
 
 package com.visuwall.plugin.hudson;
 
-import com.visuwall.client.hudson.domain.HudsonTestResult;
 import com.visuwall.api.domain.TestResult;
+import com.visuwall.client.hudson.domain.HudsonTestResult;
 
 public class TestResults {
 

@@ -278,7 +278,6 @@ public final class JenkinsConnection implements BuildCapability, ViewCapability,
             throw new BuildNotFoundException("Can't find build with software project id: " + softwareProjectId
                     + " and buildId: " + buildId, e);
         }
-
         return commiters;
     }
 

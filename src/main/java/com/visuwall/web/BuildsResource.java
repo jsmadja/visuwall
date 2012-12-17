@@ -12,7 +12,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
-
 import java.util.Set;
 
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
@@ -30,25 +29,25 @@ public class BuildsResource {
     @Path("/{name}")
     public Response builds(@PathParam("name") String name) {
         Wall wall = Walls.get(WALL_ID);
-        if(wall == null) {
+        if (wall == null) {
             return status(NOT_FOUND).build();
         }
         Builds builds = wall.getBuilds();
-        if(!builds.contains(name)) {
+        if (!builds.contains(name)) {
             return status(NOT_FOUND).build();
         }
-        LOG.debug("new build request from client for build "+name);
+        LOG.debug("new build request from client for build " + name);
         return ok().entity(builds.get(name)).build();
     }
 
     @GET
     public Response builds() {
         Wall wall = Walls.get(WALL_ID);
-        if(wall == null) {
+        if (wall == null) {
             return status(NOT_FOUND).build();
         }
         Builds builds = wall.getBuilds();
-        LOG.debug("new builds request from client for "+WALL_ID+" wall ("+builds.count()+" builds)");
+        LOG.debug("new builds request from client for " + WALL_ID + " wall (" + builds.count() + " builds)");
         Set<Build> allBuilds = builds.all();
         return ok().entity(allBuilds).build();
     }

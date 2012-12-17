@@ -1,16 +1,10 @@
 package com.visuwall.client.deployit.resource;
 
+import com.visuwall.client.deployit.State;
+
+import javax.xml.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlElements;
-import javax.xml.bind.annotation.XmlRootElement;
-
-import com.visuwall.client.deployit.State;
 
 @XmlRootElement(name = "task")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -38,7 +32,7 @@ public class Task {
     private Integer version;
 
     @XmlElementWrapper(name = "steps")
-    @XmlElements({ @XmlElement(name = "step") })
+    @XmlElements({@XmlElement(name = "step")})
     private List<Step> steps;
 
     public void setApplication(String application) {

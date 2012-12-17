@@ -16,12 +16,12 @@
 
 package com.visuwall.api.plugin.capability;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 import com.visuwall.api.domain.SoftwareProjectId;
 import com.visuwall.api.domain.quality.QualityMetric;
 import com.visuwall.api.domain.quality.QualityResult;
+
+import java.util.List;
+import java.util.Map;
 
 public interface MetricCapability extends BasicCapability {
 
@@ -32,10 +32,9 @@ public interface MetricCapability extends BasicCapability {
 
     /**
      * Generate a complete quality reporting for a project defined by <code>projectId</code>
-     * 
+     *
      * @param projectId
-     * @param metrics
-     *            You can specify the metrics you only want to analyze.
+     * @param metrics   You can specify the metrics you only want to analyze.
      * @return
      */
     QualityResult analyzeQuality(SoftwareProjectId projectId, String... metrics);

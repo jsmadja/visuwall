@@ -1,18 +1,13 @@
 package com.visuwall.client.deployit.resource;
 
+import javax.xml.bind.annotation.*;
 import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "repository-object-ids")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RepositoryObjectIds {
 
-    @XmlElements({ @XmlElement(name = "repository-object-id") })
+    @XmlElements({@XmlElement(name = "repository-object-id")})
     private List<String> repositoryObjectIds;
 
     public void setRepositoryObjectIds(List<String> repositoryObjectIds) {

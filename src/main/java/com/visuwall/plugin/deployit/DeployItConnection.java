@@ -1,7 +1,10 @@
 package com.visuwall.plugin.deployit;
 
 import com.visuwall.api.domain.*;
-import com.visuwall.api.exception.*;
+import com.visuwall.api.exception.BuildIdNotFoundException;
+import com.visuwall.api.exception.BuildNotFoundException;
+import com.visuwall.api.exception.ProjectNotFoundException;
+import com.visuwall.api.exception.ViewNotFoundException;
 import com.visuwall.api.plugin.capability.BuildCapability;
 import com.visuwall.api.plugin.capability.TestCapability;
 import com.visuwall.api.plugin.capability.ViewCapability;
@@ -209,16 +212,16 @@ public class DeployItConnection implements BuildCapability, TestCapability, View
             List<Step> steps = task.getSteps();
             for (Step step : steps) {
                 switch (step.getState()) {
-                case SKIPPED:
-                    testResult.setSkipCount(testResult.getSkipCount() + 1);
-                    break;
-                case DONE:
-                    if (step.getFailureCount() == 0) {
-                        testResult.setPassCount(testResult.getPassCount() + 1);
-                    } else {
-                        testResult.setFailCount(testResult.getFailCount() + 1);
-                    }
-                    break;
+                    case SKIPPED:
+                        testResult.setSkipCount(testResult.getSkipCount() + 1);
+                        break;
+                    case DONE:
+                        if (step.getFailureCount() == 0) {
+                            testResult.setPassCount(testResult.getPassCount() + 1);
+                        } else {
+                            testResult.setFailCount(testResult.getFailCount() + 1);
+                        }
+                        break;
                 }
             }
         } catch (ResourceNotFoundException e) {

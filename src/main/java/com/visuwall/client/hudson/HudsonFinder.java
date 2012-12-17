@@ -16,20 +16,7 @@
 
 package com.visuwall.client.hudson;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
-import com.visuwall.client.common.GenericSoftwareClient;
-import com.visuwall.client.common.ResourceNotFoundException;
-import com.visuwall.client.hudson.domain.HudsonBuild;
-import com.visuwall.client.hudson.domain.HudsonCommiter;
-import com.visuwall.client.hudson.exception.HudsonBuildNotFoundException;
-import com.visuwall.client.hudson.helper.HudsonXmlHelper;
-import com.visuwall.client.hudson.resource.Build;
-import com.visuwall.client.hudson.resource.SurefireAggregatedReport;
+import com.google.common.annotations.VisibleForTesting;
 import com.visuwall.client.common.GenericSoftwareClient;
 import com.visuwall.client.common.ResourceNotFoundException;
 import com.visuwall.client.hudson.domain.HudsonBuild;
@@ -40,26 +27,12 @@ import com.visuwall.client.hudson.exception.HudsonBuildNotFoundException;
 import com.visuwall.client.hudson.exception.HudsonJobNotFoundException;
 import com.visuwall.client.hudson.exception.HudsonViewNotFoundException;
 import com.visuwall.client.hudson.helper.HudsonXmlHelper;
-import com.visuwall.client.hudson.resource.Build;
-import com.visuwall.client.hudson.resource.Color;
-import com.visuwall.client.hudson.resource.ExternalJob;
-import com.visuwall.client.hudson.resource.FreeStyleBuild;
-import com.visuwall.client.hudson.resource.FreeStyleProject;
+import com.visuwall.client.hudson.resource.*;
 import com.visuwall.client.hudson.resource.Hudson;
-import com.visuwall.client.hudson.resource.HudsonUser;
-import com.visuwall.client.hudson.resource.Job;
-import com.visuwall.client.hudson.resource.ListView;
-import com.visuwall.client.hudson.resource.MatrixProject;
-import com.visuwall.client.hudson.resource.MavenModuleSet;
-import com.visuwall.client.hudson.resource.MavenModuleSetBuild;
-import com.visuwall.client.hudson.resource.Project;
-import com.visuwall.client.hudson.resource.SurefireAggregatedReport;
-import com.visuwall.client.hudson.resource.View;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.annotations.VisibleForTesting;
+import java.util.*;
 
 class HudsonFinder {
 

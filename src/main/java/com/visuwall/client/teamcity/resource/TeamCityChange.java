@@ -16,39 +16,34 @@
 
 package com.visuwall.client.teamcity.resource;
 
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
 
 @XmlRootElement(name = "change")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TeamCityChange {
 
     private String comment;
-    
-    @XmlElements({@XmlElement(name="file")})
+
+    @XmlElements({@XmlElement(name = "file")})
     private List<TeamCityFile> files = new ArrayList<TeamCityFile>();
-    
+
     @XmlAttribute
     private String username;
-    
+
     @XmlAttribute
     private String date;
-    
+
     @XmlAttribute
     private String webLink;
-    
+
     @XmlAttribute
     private String version;
-    
+
     @XmlAttribute
     private String id;
-    
+
     @XmlAttribute
     private String href;
 
@@ -115,5 +110,5 @@ public class TeamCityChange {
     public void setDate(String date) {
         this.date = date;
     }
-    
+
 }

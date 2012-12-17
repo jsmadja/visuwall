@@ -1,16 +1,15 @@
 package com.visuwall.client.deployit;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import com.visuwall.client.common.GenericSoftwareClient;
 import com.visuwall.client.common.ResourceNotFoundException;
 import com.visuwall.client.deployit.resource.ArchivedTasks;
 import com.visuwall.client.deployit.resource.RepositoryObjectIds;
-
 import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class DeployIt {
 

@@ -16,12 +16,12 @@
 
 package com.visuwall.client.hudson.resource;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
+import java.util.ArrayList;
+import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Project {
@@ -36,7 +36,7 @@ public class Project {
 
     protected boolean buildable;
 
-    @XmlElements({ @XmlElement(name = "build") })
+    @XmlElements({@XmlElement(name = "build")})
     protected List<Build> builds = new ArrayList<Build>();
 
     protected String color;

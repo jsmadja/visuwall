@@ -16,8 +16,9 @@
 
 package com.visuwall.api.domain;
 
-import java.util.Date;
 import com.google.common.base.Objects;
+
+import java.util.Date;
 
 public class BuildTime {
 

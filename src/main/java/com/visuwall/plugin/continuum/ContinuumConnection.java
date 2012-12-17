@@ -1,32 +1,15 @@
 package com.visuwall.plugin.continuum;
 
-import static com.visuwall.plugin.continuum.States.asVisuwallState;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
 import com.visuwall.api.domain.BuildState;
 import com.visuwall.api.domain.BuildTime;
 import com.visuwall.api.domain.Commiter;
-import com.visuwall.api.domain.ProjectKey;
 import com.visuwall.api.domain.SoftwareProjectId;
 import com.visuwall.api.exception.BuildIdNotFoundException;
 import com.visuwall.api.exception.BuildNotFoundException;
-import com.visuwall.api.exception.ConnectionException;
-import com.visuwall.api.exception.MavenIdNotFoundException;
 import com.visuwall.api.exception.ProjectNotFoundException;
 import com.visuwall.api.exception.ViewNotFoundException;
 import com.visuwall.api.plugin.capability.BuildCapability;
 import com.visuwall.api.plugin.capability.ViewCapability;
-
 import org.apache.maven.continuum.xmlrpc.client.ContinuumXmlRpcClient;
 import org.apache.maven.continuum.xmlrpc.project.BuildResult;
 import org.apache.maven.continuum.xmlrpc.project.ProjectGroupSummary;
@@ -35,6 +18,12 @@ import org.apache.maven.continuum.xmlrpc.scm.ChangeSet;
 import org.apache.maven.continuum.xmlrpc.scm.ScmResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
+
+import static com.visuwall.plugin.continuum.States.asVisuwallState;
 
 public class ContinuumConnection implements BuildCapability, ViewCapability {
 

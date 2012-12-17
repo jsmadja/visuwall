@@ -16,13 +16,9 @@
 
 package com.visuwall.client.hudson.resource;
 
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "surefireAggregatedReport")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -36,7 +32,7 @@ public class SurefireAggregatedReport {
 
     private String urlName;
 
-    @XmlElements({ @XmlElement(name = "childReport") })
+    @XmlElements({@XmlElement(name = "childReport")})
     private List<ChildReport> childReports = new ArrayList<ChildReport>();
 
     public int getFailCount() {

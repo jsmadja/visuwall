@@ -16,15 +16,12 @@
 
 package com.visuwall.client.hudson;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.visuwall.client.hudson.domain.HudsonTest;
 import com.visuwall.client.hudson.domain.HudsonTestResult;
-import com.visuwall.client.hudson.resource.Case;
-import com.visuwall.client.hudson.resource.ChildReport;
-import com.visuwall.client.hudson.resource.Result;
-import com.visuwall.client.hudson.resource.Suite;
-import com.visuwall.client.hudson.resource.SurefireAggregatedReport;
+import com.visuwall.client.hudson.resource.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * TestResultBuilder is used to manipulate Hudson Test data

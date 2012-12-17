@@ -16,12 +16,12 @@
 
 package com.visuwall.plugin.sonar;
 
+import com.google.common.io.ByteStreams;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.google.common.io.ByteStreams;
 
 public class SonarVersionExtractor {
 

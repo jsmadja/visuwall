@@ -1,25 +1,18 @@
 package com.visuwall.client.pivotaltracker.resource;
 
-import static com.google.common.base.Predicates.and;
-import static com.google.common.collect.Collections2.filter;
-import static com.visuwall.client.pivotaltracker.resource.CustomPredicates.isEstimated;
-import static com.visuwall.client.pivotaltracker.resource.CustomPredicates.isFeature;
-import static com.visuwall.client.pivotaltracker.resource.CustomPredicates.isReady;
+import org.joda.time.DateMidnight;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.xml.bind.annotation.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
-import org.joda.time.DateMidnight;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static com.google.common.base.Predicates.and;
+import static com.google.common.collect.Collections2.filter;
+import static com.visuwall.client.pivotaltracker.resource.CustomPredicates.*;
 
 @XmlRootElement(name = "project")
 @XmlAccessorType(XmlAccessType.FIELD)
