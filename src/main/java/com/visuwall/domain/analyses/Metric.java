@@ -111,4 +111,8 @@ public class Metric implements Comparable<Metric> {
     public boolean isSelected() {
         return selected;
     }
+
+    public boolean tendencyIsNotEqualTo(int tendency) {
+        return this.tendency != tendency;
+    }
 }

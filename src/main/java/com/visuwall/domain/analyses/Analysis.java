@@ -82,7 +82,7 @@ public class Analysis implements Comparable<Analysis>, Refreshable {
         return filterSet(all, new Predicate<Metric>() {
             @Override
             public boolean apply(Metric metric) {
-                return metric.isQualitative() && !metric.isEqualToZero();
+                return metric.isQualitative() && !metric.isEqualToZero() && metric.tendencyIsNotEqualTo(0);
             }
         });
     }
