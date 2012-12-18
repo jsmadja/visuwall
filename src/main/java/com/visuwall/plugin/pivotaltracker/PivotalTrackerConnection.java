@@ -1,5 +1,6 @@
 package com.visuwall.plugin.pivotaltracker;
 
+import com.visuwall.api.domain.Backlog;
 import com.visuwall.api.domain.SoftwareProjectId;
 import com.visuwall.api.exception.ProjectNotFoundException;
 import com.visuwall.api.plugin.capability.BasicCapability;
@@ -15,6 +16,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.visuwall.plugin.pivotaltracker.VisuwallApiConverter.asVisuwallStories;
 
 public class PivotalTrackerConnection implements BasicCapability, TrackCapability {
 
@@ -43,12 +46,6 @@ public class PivotalTrackerConnection implements BasicCapability, TrackCapabilit
     }
 
     @Override
-    public int getRemainingPointsInCurrentIteration(SoftwareProjectId projectId) throws ProjectNotFoundException {
-        Iteration currentIteration = currentIteration(projectId);
-        return currentIteration.getRemainingPoints();
-    }
-
-    @Override
     public int getVelocity(SoftwareProjectId projectId) throws ProjectNotFoundException {
         try {
             Project project = client.getProject(id(projectId));
@@ -59,19 +56,23 @@ public class PivotalTrackerConnection implements BasicCapability, TrackCapabilit
     }
 
     @Override
-    public int getEstimatedPointsInFuture(SoftwareProjectId projectId) throws ProjectNotFoundException {
+    public com.visuwall.api.domain.Iteration getCurrentIteration(SoftwareProjectId projectId) throws ProjectNotFoundException {
+        Iteration currentIteration = currentIteration(projectId);
+        DateMidnight end = new DateMidnight(currentIteration.getFinish());
+        Stories stories = currentIteration.getStories();
+        return new com.visuwall.api.domain.Iteration(asVisuwallStories(stories), end);
+    }
+
+
+
+    @Override
+    public Backlog getBackLog(SoftwareProjectId projectId) throws ProjectNotFoundException {
         try {
             Stories stories = client.getStoriesInNextIterations(id(projectId));
-            return stories.getEstimatedPoints();
+            return new Backlog(asVisuwallStories(stories));
         } catch (ResourceNotFoundException e) {
             throw new ProjectNotFoundException("Cannot find project with id: " + projectId, e);
         }
-    }
-
-    @Override
-    public DateMidnight getEndOfCurrentIteration(SoftwareProjectId projectId) throws ProjectNotFoundException {
-        Iteration currentIteration = currentIteration(projectId);
-        return new DateMidnight(currentIteration.getFinish());
     }
 
     private Iteration currentIteration(SoftwareProjectId projectId) throws ProjectNotFoundException {

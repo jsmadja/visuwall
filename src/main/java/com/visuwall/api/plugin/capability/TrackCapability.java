@@ -1,16 +1,15 @@
 package com.visuwall.api.plugin.capability;
 
+import com.visuwall.api.domain.Backlog;
+import com.visuwall.api.domain.Iteration;
 import com.visuwall.api.domain.SoftwareProjectId;
 import com.visuwall.api.exception.ProjectNotFoundException;
-import org.joda.time.DateMidnight;
 
 public interface TrackCapability {
 
-    int getRemainingPointsInCurrentIteration(SoftwareProjectId projectId) throws ProjectNotFoundException;
-
     int getVelocity(SoftwareProjectId projectId) throws ProjectNotFoundException;
 
-    int getEstimatedPointsInFuture(SoftwareProjectId projectId) throws ProjectNotFoundException;
+    Iteration getCurrentIteration(SoftwareProjectId projectId) throws ProjectNotFoundException;
 
-    DateMidnight getEndOfCurrentIteration(SoftwareProjectId projectId) throws ProjectNotFoundException;
+    Backlog getBackLog(SoftwareProjectId projectId) throws ProjectNotFoundException;
 }

@@ -1,6 +1,9 @@
 package com.visuwall.domain.tracks;
 
+import com.visuwall.api.domain.Backlog;
+import com.visuwall.api.domain.Iteration;
 import com.visuwall.api.domain.SoftwareProjectId;
+import com.visuwall.api.domain.Stories;
 import com.visuwall.api.exception.ProjectNotFoundException;
 import com.visuwall.api.plugin.capability.BasicCapability;
 import com.visuwall.api.plugin.capability.TrackCapability;
@@ -24,10 +27,16 @@ public class Track implements Comparable<Track>, Refreshable {
     @JsonIgnore
     private boolean removable;
 
-    private int estimatedPointsInFuture;
-    private int velocity;
-    private int remainingPointsInCurrentIteration;
-    private int remainingDays;
+    private int actualVelocity;
+    private int daysToGo;
+    private int acceptedStories;
+    private int storiesInProgress;
+    private int availableStories;
+    private int numberOfSprints;
+    private int remainingStories;
+    private int storiesInValidation;
+    private int scheduledStories;
+    private int waitingForEstimationStories;
 
     public Track(BasicCapability connection, SoftwareProjectId projectId) {
         this.connection = connection;
@@ -59,11 +68,23 @@ public class Track implements Comparable<Track>, Refreshable {
     }
 
     private void refreshInfos() throws ProjectNotFoundException {
+        Iteration currentIteration = trackCapability.getCurrentIteration(projectId);
+
         this.name = connection.getName(projectId);
-        this.estimatedPointsInFuture = trackCapability.getEstimatedPointsInFuture(projectId);
-        this.velocity = trackCapability.getVelocity(projectId);
-        this.remainingPointsInCurrentIteration = trackCapability.getRemainingPointsInCurrentIteration(projectId);
-        this.remainingDays = trackCapability.getEndOfCurrentIteration(projectId).minus(DateMidnight.now().getMillis()).getDayOfYear();
+        this.daysToGo = currentIteration.getEnd().minus(DateMidnight.now().getMillis()).getDayOfYear();
+        Stories stories = currentIteration.getStories();
+        this.scheduledStories = stories.scheduledOnly().count();
+        this.acceptedStories = stories.acceptedOnly().count();
+        this.storiesInProgress = stories.startedOnly().count();
+        this.remainingStories = stories.remainingOnly().count();
+        this.storiesInValidation = stories.inValidationOnly().count();
+        this.waitingForEstimationStories = stories.waitingForEstimationOnly().count();
+
+        Backlog backlog = trackCapability.getBackLog(projectId);
+        this.availableStories = backlog.getStories().count();
+        this.actualVelocity = trackCapability.getVelocity(projectId);
+        this.waitingForEstimationStories = backlog.getStories().waitingForEstimationOnly().count();
+        this.numberOfSprints = this.availableStories / actualVelocity;
     }
 
     @JsonIgnore
@@ -108,19 +129,43 @@ public class Track implements Comparable<Track>, Refreshable {
         return false;
     }
 
-    public int getEstimatedPointsInFuture() {
-        return estimatedPointsInFuture;
+    public int getActualVelocity() {
+        return actualVelocity;
     }
 
-    public int getVelocity() {
-        return velocity;
+    public int getDaysToGo() {
+        return daysToGo;
     }
 
-    public int getRemainingPointsInCurrentIteration() {
-        return remainingPointsInCurrentIteration;
+    public int getAcceptedStories() {
+        return acceptedStories;
     }
 
-    public int getRemainingDays() {
-        return remainingDays;
+    public int getStoriesInProgress() {
+        return storiesInProgress;
+    }
+
+    public int getStoriesInValidation() {
+        return storiesInValidation;
+    }
+
+    public int getAvailableStories() {
+        return availableStories;
+    }
+
+    public int getNumberOfSprints() {
+        return numberOfSprints;
+    }
+
+    public int getRemainingStories() {
+        return remainingStories;
+    }
+
+    public int getScheduledStories() {
+        return scheduledStories;
+    }
+
+    public int getWaitingForEstimationStories() {
+        return waitingForEstimationStories;
     }
 }

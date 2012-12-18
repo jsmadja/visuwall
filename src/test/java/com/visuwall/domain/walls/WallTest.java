@@ -6,6 +6,8 @@ import com.visuwall.domain.connections.Connection;
 import com.visuwall.domain.analyses.Analyses;
 import com.visuwall.domain.analyses.Analysis;
 import com.visuwall.domain.analyses.Metric;
+import com.visuwall.domain.tracks.Track;
+import com.visuwall.domain.tracks.Tracks;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -41,7 +43,6 @@ public class WallTest {
 
     }
 
-    @Ignore
     @Test
     public void test_pivotal_tracker() throws InterruptedException {
         Wall wall = Walls.get("wall");
@@ -53,10 +54,21 @@ public class WallTest {
         wall.addConnection(connection);
         while(true) {
             System.err.println("Tick");
-            Builds builds = wall.getBuilds();
-            for (Build build : builds) {
-                String name = build.getName();
-                System.err.println(name);
+            Tracks tracks = wall.getTracks();
+            for (Track track : tracks) {
+                System.err.println(track.getName());
+                System.err.println("days to go:"+track.getDaysToGo());
+                System.err.println("scheduled:"+track.getScheduledStories());
+                System.err.println("accepted:"+track.getAcceptedStories());
+                System.err.println("in progress:"+track.getStoriesInProgress());
+                System.err.println("remaining:"+track.getRemainingStories());
+                System.err.println("in validation:"+track.getStoriesInValidation());
+
+                System.err.println("---");
+                System.err.println("available:"+track.getAvailableStories());
+                System.err.println("velocity:"+track.getActualVelocity());
+                System.err.println("# sprints:"+track.getNumberOfSprints());
+                System.err.println("to estimate:"+track.getWaitingForEstimationStories());
             }
             TimeUnit.SECONDS.sleep(5);
         }

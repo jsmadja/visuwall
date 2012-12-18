@@ -100,10 +100,16 @@ angular.module('visuwallDirectives', ['ngResource'])
             Tracks.get({name:name}, function (remoteTrack) {
               var trackToUpdate = tracks[i];
               trackToUpdate.name = remoteTrack.name;
-              trackToUpdate.velocity = remoteTrack.velocity;
-              trackToUpdate.remainingPointsInCurrentIteration = remoteTrack.remainingPointsInCurrentIteration;
-              trackToUpdate.estimatedPointsInFuture = remoteTrack.estimatedPointsInFuture;
-              trackToUpdate.remainingDays = remoteTrack.remainingDays;
+              trackToUpdate.actualVelocity = remoteTrack.actualVelocity;
+              trackToUpdate.daysToGo = remoteTrack.daysToGo;
+              trackToUpdate.acceptedStories = remoteTrack.acceptedStories;
+              trackToUpdate.storiesInProgress = remoteTrack.storiesInProgress;
+              trackToUpdate.availableStories = remoteTrack.availableStories;
+              trackToUpdate.numberOfSprints = remoteTrack.numberOfSprints;
+              trackToUpdate.remainingStories = remoteTrack.remainingStories;
+              trackToUpdate.storiesInValidation = remoteTrack.storiesInValidation;
+              trackToUpdate.scheduledStories = remoteTrack.scheduledStories;
+              trackToUpdate.waitingForEstimationStories = remoteTrack.waitingForEstimationStories;
             });
             return;
           }
