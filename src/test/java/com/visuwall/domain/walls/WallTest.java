@@ -1,11 +1,9 @@
 package com.visuwall.domain.walls;
 
-import com.visuwall.domain.builds.Build;
-import com.visuwall.domain.builds.Builds;
-import com.visuwall.domain.connections.Connection;
 import com.visuwall.domain.analyses.Analyses;
 import com.visuwall.domain.analyses.Analysis;
 import com.visuwall.domain.analyses.Metric;
+import com.visuwall.domain.connections.Connection;
 import com.visuwall.domain.tracks.Track;
 import com.visuwall.domain.tracks.Tracks;
 import org.junit.Ignore;
@@ -43,6 +41,7 @@ public class WallTest {
 
     }
 
+    @Ignore
     @Test
     public void test_pivotal_tracker() throws InterruptedException {
         Wall wall = Walls.get("wall");
