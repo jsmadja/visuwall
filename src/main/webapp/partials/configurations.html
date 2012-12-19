@@ -43,7 +43,7 @@
             </tr>
         </table>
         <p ng-show="connections.length == 0" style="color: black;">
-            <img src="img/7.gif" alt="loading"/> Fetching configuration from server. Please wait ...
+            <img src="img/loading.gif" alt="loading"/> Fetching configuration from server. Please wait ...
         </p>
     </div>
 
@@ -77,9 +77,12 @@
             <input type="text" name="buildFilter" ng-model="connection.buildFilter" ng-change="applyFilter()"
                    placeholder="project-indigo,project-magenta"/>
         </div>
-        <div class="control-group" ng-show="connection.pluginName">
+        <div class="control-group">
             <label>Plugin</label>
             <input type="text" name="pluginName" ng-model="connection.pluginName" disabled/>
+            <span class="label label-important" ng-hide="connection.pluginName || !connection.url">Unrecognized connection</span>
+            <span class="label label-success" ng-show="connection.pluginName || connection.buildNames">Connection OK!</span>
+
         </div>
         <div class="control-group" ng-show="connection.buildNames">
             <label>Builds</label>
