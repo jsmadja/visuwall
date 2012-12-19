@@ -1,77 +1,66 @@
 package com.visuwall.domain.walls;
 
-import com.visuwall.domain.analyses.Analyses;
-import com.visuwall.domain.analyses.Analysis;
-import com.visuwall.domain.analyses.Metric;
+import com.visuwall.api.plugin.VisuwallPlugin;
 import com.visuwall.domain.connections.Connection;
-import com.visuwall.domain.tracks.Track;
-import com.visuwall.domain.tracks.Tracks;
-import org.junit.Ignore;
+import com.visuwall.domain.plugins.PluginDiscover;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 
+import javax.xml.bind.JAXBException;
+import java.io.File;
 import java.util.Arrays;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
+import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+
+@RunWith(MockitoJUnitRunner.class)
 public class WallTest {
 
-    @Ignore
+    @Mock
+    private PluginDiscover pluginDiscover;
+
+    @Mock
+    private VisuwallPlugin plugin;
+
     @Test
-    public void test_sonar() throws InterruptedException {
+    public void should_save_wall_to_filesystem() {
+        Wall wall = new Wall();
+        wall.deleteConfiguration();
 
-        Wall wall = Walls.get("wall");
+        ReflectionTestUtils.setField(wall, "pluginDiscover", pluginDiscover);
+
         Connection connection = new Connection();
+        connection.setLogin("login");
+        connection.setPassword("password");
+        connection.setBuildFilter("buildFilter");
+        connection.setIncludeBuildNames(Arrays.asList("X", "Y"));
+        connection.setIncludeMetricNames(Arrays.asList("W", "Z"));
+        connection.setName("Sonar");
         connection.setUrl("http://nemo.sonarsource.org");
-        connection.setName("sonar");
-        connection.setIncludeBuildNames(Arrays.asList("Devpad"));
+
+        when(pluginDiscover.findPluginCompatibleWith(connection)).thenReturn(plugin);
+
+
         wall.addConnection(connection);
-
-        while(true) {
-            System.err.println("Tick");
-            Analyses analyses = wall.getAnalyses();
-            for (Analysis analyse : analyses) {
-                System.err.println(analyse);
-                Set<Metric> metrics = analyse.getMetrics();
-                for (Metric metric : metrics) {
-                    System.err.println(metric);
-                }
-            }
-            TimeUnit.SECONDS.sleep(5);
-        }
-
+        wall.save();
+        assertThat(new File(wall.getName() + ".xml").exists()).isTrue();
     }
 
-    @Ignore
     @Test
-    public void test_pivotal_tracker() throws InterruptedException {
-        Wall wall = Walls.get("wall");
-        Connection connection = new Connection();
-        connection.setUrl("https://www.pivotaltracker.com");
-        connection.setName("pivotal");
-        connection.setLogin("jsmadja@financeactive.com");
-        connection.setPassword("xedy4bsa");
-        wall.addConnection(connection);
-        while(true) {
-            System.err.println("Tick");
-            Tracks tracks = wall.getTracks();
-            for (Track track : tracks) {
-                System.err.println(track.getName());
-                System.err.println("days to go:"+track.getDaysToGo());
-                System.err.println("scheduled:"+track.getScheduledStories());
-                System.err.println("accepted:"+track.getAcceptedStories());
-                System.err.println("in progress:"+track.getStoriesInProgress());
-                System.err.println("remaining:"+track.getRemainingStories());
-                System.err.println("in validation:"+track.getStoriesInValidation());
-
-                System.err.println("---");
-                System.err.println("available:"+track.getAvailableStories());
-                System.err.println("velocity:"+track.getActualVelocity());
-                System.err.println("# sprints:"+track.getNumberOfSprints());
-                System.err.println("to estimate:"+track.getWaitingForEstimationStories());
-            }
-            TimeUnit.SECONDS.sleep(5);
-        }
-
+    public void should_load_wall_from_filesystem() throws JAXBException {
+        Wall wall = new Wall("configured-wall");
+        wall.loadExistingConfiguration();
+        Connection connection = wall.getConnections().getConnection("Sonar");
+        assertThat(connection.getLogin()).isEqualTo("login");
+        assertThat(connection.getBuildFilter()).isEqualTo("buildFilter");
+        assertThat(connection.getIncludeBuildNames()).isEqualTo(Arrays.asList("X", "Y"));
+        assertThat(connection.getIncludeMetricNames()).isEqualTo(Arrays.asList("W", "Z"));
+        assertThat(connection.getName()).isEqualTo("Sonar");
+        assertThat(connection.getUrl()).isEqualTo("http://nemo.sonarsource.org");
     }
 
 }

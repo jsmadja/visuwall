@@ -17,7 +17,7 @@ public class ContinuumPlugin implements VisuwallPlugin<ContinuumConnection> {
     private static final Logger LOG = LoggerFactory.getLogger(ContinuumPlugin.class);
 
     public ContinuumPlugin() {
-        LOG.info("Continuum plugin loaded.");
+        LOG.debug("Continuum plugin loaded.");
     }
 
     @Override

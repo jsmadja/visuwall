@@ -1,5 +1,6 @@
 package com.visuwall.web;
 
+import com.visuwall.domain.RefreshableNotFoundException;
 import com.visuwall.domain.tracks.Track;
 import com.visuwall.domain.tracks.Tracks;
 import com.visuwall.domain.walls.Wall;
@@ -42,8 +43,12 @@ public class TracksResource {
     public Response getTrack(@PathParam("name") String name) {
         LOG.debug("new track request from client for " + WALL_ID + " wall (" + name + " track)");
         Wall wall = Walls.get("wall");
-        Track track = wall.getTrack(name);
-        return ok().entity(track).build();
+        try {
+            Track track = wall.getTrack(name);
+            return ok().entity(track).build();
+        } catch (RefreshableNotFoundException e) {
+            return Response.status(NOT_FOUND).build();
+        }
     }
 
 }

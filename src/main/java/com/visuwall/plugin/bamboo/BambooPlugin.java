@@ -32,7 +32,7 @@ public class BambooPlugin implements VisuwallPlugin<BambooConnection> {
     private static final Logger LOG = LoggerFactory.getLogger(BambooPlugin.class);
 
     public BambooPlugin() {
-        LOG.info("Bamboo plugin loaded.");
+        LOG.debug("Bamboo plugin loaded.");
     }
 
     @Override

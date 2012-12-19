@@ -1,10 +1,12 @@
 package com.visuwall.domain.walls;
 
+import com.google.common.io.Closeables;
 import com.visuwall.api.plugin.VisuwallPlugin;
 import com.visuwall.api.plugin.capability.BasicCapability;
 import com.visuwall.api.plugin.capability.BuildCapability;
 import com.visuwall.api.plugin.capability.MetricCapability;
 import com.visuwall.api.plugin.capability.TrackCapability;
+import com.visuwall.domain.RefreshableNotFoundException;
 import com.visuwall.domain.analyses.Analyses;
 import com.visuwall.domain.analyses.Analysis;
 import com.visuwall.domain.builds.Build;
@@ -20,20 +22,54 @@ import com.visuwall.web.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
+import static org.apache.commons.lang.RandomStringUtils.randomNumeric;
+import static org.fest.util.Files.delete;
+
+@XmlRootElement(name = "wall")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Wall implements Runnable {
 
+    private String name;
+
+    @XmlTransient
     private Builds builds = new Builds();
+
+    @XmlTransient
     private Analyses analyses = new Analyses();
+
+    @XmlTransient
     private Tracks tracks = new Tracks();
 
     private Configuration configuration = new Configuration();
 
-    private Logger LOG = LoggerFactory.getLogger(Wall.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Wall.class);
 
+    @XmlTransient
     private PluginDiscover pluginDiscover = new PluginDiscover();
+
+    public Wall() {
+        this("wall-"+ randomNumeric(5));
+    }
+
+    public Wall(String name) {
+        this.name = name;
+    }
 
     public void addConnection(Connection connection) {
         String url = connection.getUrl();
@@ -66,7 +102,7 @@ public class Wall implements Runnable {
     }
 
     void start() {
-        LOG.info("Starting thread of wall");
+        LOG.info("Starting thread of wall "+name);
         new Thread(this).start();
     }
 
@@ -82,20 +118,27 @@ public class Wall implements Runnable {
         return tracks;
     }
 
-    public Build getBuild(String name) {
+    public Build getBuild(String name) throws RefreshableNotFoundException {
         return builds.get(name);
     }
 
-    public Analysis getAnalysis(String name) {
+    public Analysis getAnalysis(String name) throws RefreshableNotFoundException {
         return analyses.get(name);
     }
 
-    public Track getTrack(String name) {
+    public Track getTrack(String name) throws RefreshableNotFoundException {
         return tracks.get(name);
     }
 
     @Override
     public void run() {
+        if(configurationFileExists()) {
+            try {
+                loadExistingConfiguration();
+            } catch (JAXBException e) {
+                LOG.warn("Unable to load existing configuration from ("+configurationFile().getAbsolutePath()+")", e);
+            }
+        }
         while (true) {
             try {
                 long start = System.currentTimeMillis();
@@ -104,10 +147,54 @@ public class Wall implements Runnable {
                 analyses.refreshAll();
                 tracks.refreshAll();
                 LOG.info("Wall has been fully refreshed in " + duration(start) + " ms");
+                save();
                 waitForNextIteration();
             } catch (InterruptedException e) {
                 LOG.error("Error in main loop", e);
             }
+        }
+    }
+
+    private boolean configurationFileExists() {
+        return configurationFile().exists();
+    }
+
+    public void loadExistingConfiguration() throws JAXBException {
+        JAXBContext jaxbContext = JAXBContext.newInstance(Wall.class);
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+        Wall configuredWall = (Wall) unmarshaller.unmarshal(configurationFile());
+        for (Connection connection : configuredWall.getConnections()) {
+            addConfiguredConnection(connection);
+        }
+        LOG.info("Wall "+name+" has been successfully configured from file "+configurationFile().getAbsolutePath());
+    }
+
+    private void addConfiguredConnection(Connection connection) {
+        VisuwallPlugin visuwallPlugin = pluginDiscover.findPluginCompatibleWith(connection);
+        if(visuwallPlugin == null) {
+            LOG.info("Cannot find compatible plugin with connection to "+connection.getUrl());
+        } else {
+            addNewValidConnection(connection, visuwallPlugin);
+        }
+    }
+
+    private File configurationFile() {
+        return new File(name + ".xml");
+    }
+
+    public void save() {
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(configurationFile());
+            JAXBContext jaxbContext = JAXBContext.newInstance(Wall.class);
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.marshal(this, fileOutputStream);
+        } catch (FileNotFoundException e) {
+            LOG.warn("Unable to save wall '"+name+"' configuration to filesystem", e);
+        } catch (JAXBException e) {
+            LOG.warn("Unable to save wall '" + name + "' configuration to filesystem", e);
+        } finally {
+            Closeables.closeQuietly(fileOutputStream);
         }
     }
 
@@ -117,8 +204,10 @@ public class Wall implements Runnable {
 
     private void waitForNextIteration() throws InterruptedException {
         if (builds.count() == 0 && analyses.count() == 0) {
+            LOG.info("Next refresh in 20 seconds");
             TimeUnit.SECONDS.sleep(20);
         } else {
+            LOG.info("Next refresh in 1 minute");
             TimeUnit.MINUTES.sleep(1);
         }
     }
@@ -151,6 +240,13 @@ public class Wall implements Runnable {
         return configuration.getConnections();
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void deleteConfiguration() {
+        delete(configurationFile());
+    }
 }
 
 

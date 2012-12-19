@@ -37,7 +37,7 @@ public class TeamCityPlugin implements VisuwallPlugin<TeamCityConnection> {
     private GenericSoftwareClient genericSoftwareClient = new GenericSoftwareClient("guest", "");
 
     public TeamCityPlugin() {
-        LOG.info("TeamCity plugin loaded.");
+        LOG.debug("TeamCity plugin loaded.");
     }
 
     @Override

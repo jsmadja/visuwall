@@ -1,5 +1,6 @@
 package com.visuwall.web;
 
+import com.visuwall.domain.RefreshableNotFoundException;
 import com.visuwall.domain.builds.Build;
 import com.visuwall.domain.builds.Builds;
 import com.visuwall.domain.walls.Wall;
@@ -37,7 +38,11 @@ public class BuildsResource {
             return status(NOT_FOUND).build();
         }
         LOG.debug("new build request from client for build " + name);
-        return ok().entity(builds.get(name)).build();
+        try {
+            return ok().entity(builds.get(name)).build();
+        } catch (RefreshableNotFoundException e) {
+            return Response.status(NOT_FOUND).build();
+        }
     }
 
     @GET
@@ -57,17 +62,13 @@ public class BuildsResource {
     @Path("/{name}")
     public Response getBuild(@PathParam("name") String name) {
         Wall wall = Walls.get("wall");
-        Build build = wall.getBuild(name);
-        return ok().entity(build).build();
-    }
-
-    @GET
-    @Path("/{name}/last")
-    public Response refreshBuild(@PathParam("name") String name) {
-        Wall wall = Walls.get("wall");
-        Build build = wall.getBuild(name);
-        build.refresh();
-        return ok().entity(build).build();
+        Build build = null;
+        try {
+            build = wall.getBuild(name);
+            return ok().entity(build).build();
+        } catch (RefreshableNotFoundException e) {
+            return Response.status(NOT_FOUND).build();
+        }
     }
 
 }

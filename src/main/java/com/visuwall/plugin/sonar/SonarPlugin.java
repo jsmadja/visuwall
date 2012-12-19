@@ -52,7 +52,7 @@ public class SonarPlugin implements VisuwallPlugin<SonarConnection> {
     public SonarPlugin() {
         client = new GenericSoftwareClient();
         sonarConnectionFactory = new SonarConnectionFactory();
-        LOG.info("Sonar plugin loaded.");
+        LOG.debug("Sonar plugin loaded.");
     }
 
     @Override

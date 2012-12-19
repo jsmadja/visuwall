@@ -1,11 +1,15 @@
 package com.visuwall.domain.connections;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import javax.xml.bind.annotation.*;
+import java.util.*;
 
+import static javax.xml.bind.annotation.XmlAccessType.FIELD;
+
+@XmlRootElement(name = "connections")
+@XmlAccessorType(FIELD)
 public class Connections implements Iterable<Connection> {
 
+    @XmlElements({@XmlElement(name = "connection")})
     private List<Connection> connections = new ArrayList<Connection>();
 
     public void add(Connection connection) {
@@ -14,7 +18,7 @@ public class Connections implements Iterable<Connection> {
 
     @Override
     public Iterator<Connection> iterator() {
-        return connections.iterator();
+        return connections .iterator();
     }
 
     public boolean remove(Connection connection) {
@@ -38,4 +42,5 @@ public class Connections implements Iterable<Connection> {
         }
         throw new IllegalStateException("Cannot find connection '" + name + "'");
     }
+
 }

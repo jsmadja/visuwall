@@ -9,7 +9,7 @@ public class Walls {
     private static final ConcurrentMap<String, Wall> walls = new ConcurrentHashMap<String, Wall>();
 
     static {
-        Wall wall = new Wall();
+        Wall wall = new Wall("wall");
         walls.put("wall", wall);
         wall.start();
     }

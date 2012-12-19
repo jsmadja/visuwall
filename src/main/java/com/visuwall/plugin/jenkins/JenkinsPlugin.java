@@ -38,7 +38,7 @@ public class JenkinsPlugin implements VisuwallPlugin<JenkinsConnection> {
     private GenericSoftwareClientFactory factory;
 
     public JenkinsPlugin() {
-        LOG.info("Jenkins plugin loaded.");
+        LOG.debug("Jenkins plugin loaded.");
         factory = new GenericSoftwareClientFactory();
     }
 

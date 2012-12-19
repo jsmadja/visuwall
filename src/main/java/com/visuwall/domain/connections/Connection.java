@@ -8,17 +8,22 @@ import com.visuwall.domain.analyses.Metric;
 import com.visuwall.domain.plugins.PluginConfiguration;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import javax.xml.bind.annotation.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 
 import static java.util.Collections.sort;
+import static javax.xml.bind.annotation.XmlAccessType.FIELD;
 import static org.apache.commons.lang.StringUtils.isBlank;
 import static org.apache.commons.lang.StringUtils.removeEnd;
 
+@XmlRootElement(name = "connection")
+@XmlAccessorType(FIELD)
 public class Connection {
 
     @JsonIgnore
+    @XmlTransient
     private BasicCapability basicCapability;
 
     private String name;
@@ -28,13 +33,24 @@ public class Connection {
     private String login;
 
     @JsonIgnore
+    @XmlTransient
     private String password;
 
+    @XmlElement(name = "build-filter")
     private String buildFilter;
+
+    @XmlTransient
     private String pluginName;
+
+    @XmlTransient
     private String warning;
 
+    @XmlElementWrapper(name = "include-projects")
+    @XmlElement(name = "project-name")
     private List<String> includeBuildNames = new ArrayList<String>();
+
+    @XmlElementWrapper(name = "include-metrics")
+    @XmlElement(name = "metric-key")
     private List<String> includeMetricNames = new ArrayList<String>();
 
     public Collection<SoftwareProjectId> listSoftwareProjectIds() {

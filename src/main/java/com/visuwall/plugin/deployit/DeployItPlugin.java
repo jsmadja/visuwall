@@ -21,7 +21,7 @@ public class DeployItPlugin implements VisuwallPlugin<DeployItConnection> {
     private GenericSoftwareClientFactory factory;
 
     public DeployItPlugin() {
-        LOG.info("DeployIt plugin loaded.");
+        LOG.debug("DeployIt plugin loaded.");
         factory = new GenericSoftwareClientFactory();
     }
 

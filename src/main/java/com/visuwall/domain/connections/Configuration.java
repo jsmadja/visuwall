@@ -3,6 +3,10 @@ package com.visuwall.domain.connections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.xml.bind.annotation.*;
+
+@XmlRootElement(name = "configuration")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Configuration {
 
     private static final Logger LOG = LoggerFactory.getLogger(Configuration.class);
@@ -30,4 +34,5 @@ public class Configuration {
     public boolean containsConfiguration(String name) {
         return connections.contains(name);
     }
+
 }

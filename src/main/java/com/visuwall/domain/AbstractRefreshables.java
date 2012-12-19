@@ -20,13 +20,14 @@ public abstract class AbstractRefreshables<T extends Refreshable> implements Ref
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractRefreshables.class);
 
-    public T get(String name) {
+    public T get(String name) throws RefreshableNotFoundException {
         for (T refreshable : refreshables) {
             if (refreshable.hasName(name)) {
                 return refreshable;
             }
         }
-        throw new NoSuchElementException(name);
+        LOG.info("Refreshable '"+name+"' has not been found");
+        throw new RefreshableNotFoundException(name);
     }
 
     @Override

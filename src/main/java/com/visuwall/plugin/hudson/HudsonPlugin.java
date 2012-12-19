@@ -38,7 +38,7 @@ public class HudsonPlugin implements VisuwallPlugin<HudsonConnection> {
     private GenericSoftwareClientFactory factory;
 
     public HudsonPlugin() {
-        LOG.info("Hudson plugin loaded.");
+        LOG.debug("Hudson plugin loaded.");
         factory = new GenericSoftwareClientFactory();
     }
 
