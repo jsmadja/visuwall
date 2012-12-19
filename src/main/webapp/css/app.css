@@ -4,6 +4,7 @@ html {
 
 body {
   padding-top: 30px;
+  font-size: 12px;
   color: white;
   background: url("../img/logo-large-back3.png") no-repeat 50%;
 }
@@ -60,6 +61,7 @@ footer {
 label {
     font-weight: bold;
     min-width: 100px;
+    font-size: 12px;
 }
 
 .error {

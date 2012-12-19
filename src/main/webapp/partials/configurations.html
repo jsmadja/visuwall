@@ -43,27 +43,27 @@
       </div>
     </div>
     <div class="control-group">
-      <label>URL <span class="star">*</span></label>
-      <input type="url" name="url" ng-model="connection.url" required placeholder="url"
-             ng-change="checkConnection()"/>
-      <span ng-show="connectionForm.url.$error.required" class="help-inline warning">Required</span>
-      <span ng-show="connectionForm.url.$error.url" class="help-inline error">Not a valid URL</span>
-    </div>
-    <div class="control-group">
       <label>Name <span class="star">*</span></label>
-        <input type="text" name="name" ng-model="connection.name" required placeholder="name"/>
+        <input type="text" name="name" ng-model="connection.name" required placeholder="Connection to jenkins"/>
       <span ng-show="connectionForm.name.$error.required" class="help-inline warning">Required</span>
     </div>
-    <div class="control-group">
+      <div class="control-group">
+          <label>URL <span class="star">*</span></label>
+          <input type="url" name="url" ng-model="connection.url" required placeholder="http://ci.mycompany.com"
+                 ng-change="checkConnection()"/>
+          <span ng-show="connectionForm.url.$error.required" class="help-inline warning">Required</span>
+          <span ng-show="connectionForm.url.$error.url" class="help-inline error">Not a valid URL</span>
+      </div>
+      <div class="control-group">
       <label>Authentication</label>
         <input type="text"     name="login"    ng-change="checkConnection()" ng-model="connection.login" placeholder="login"/>
         <input type="password" name="password" ng-change="checkConnection()" ng-model="connection.password" placeholder="password"/>
     </div>
     <div class="control-group">
       <label>Filter</label>
-      <input type="text" name="buildFilter" ng-model="connection.buildFilter" ng-change="applyFilter()" placeholder="filter"/>
+      <input type="text" name="buildFilter" ng-model="connection.buildFilter" ng-change="applyFilter()" placeholder="project-indigo,project-magenta"/>
     </div>
-    <div class="control-group">
+    <div class="control-group" ng-show="connection.pluginName">
       <label>Plugin</label>
       <input type="text" name="pluginName" ng-model="connection.pluginName" disabled/>
     </div>
