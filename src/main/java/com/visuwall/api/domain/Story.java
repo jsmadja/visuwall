@@ -21,6 +21,14 @@ public class Story {
         return estimation == null;
     }
 
+    public boolean isEstimated() {
+        return estimation != null;
+    }
+
+    public Integer getEstimation() {
+        return estimation;
+    }
+
     public enum State {
         ACCEPTED, READY, STARTED, UNKNOWN, UNSTARTED, DELIVERED, REJECTED;
     }

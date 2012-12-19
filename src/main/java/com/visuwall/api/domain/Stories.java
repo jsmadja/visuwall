@@ -82,4 +82,14 @@ public class Stories {
             }
         }));
     }
+
+    public int getEstimation() {
+        int estimation = 0;
+        for (Story story : stories) {
+            if(story.isEstimated()) {
+                estimation += story.getEstimation();
+            }
+        }
+        return estimation;
+    }
 }

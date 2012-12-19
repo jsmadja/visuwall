@@ -81,10 +81,10 @@ public class Track implements Comparable<Track>, Refreshable {
         this.waitingForEstimationStories = stories.waitingForEstimationOnly().count();
 
         Backlog backlog = trackCapability.getBackLog(projectId);
-        this.availableStories = backlog.getStories().count();
+        this.availableStories = stories1.count();
         this.actualVelocity = trackCapability.getVelocity(projectId);
-        this.waitingForEstimationStories = backlog.getStories().waitingForEstimationOnly().count();
-        this.numberOfSprints = this.availableStories / actualVelocity;
+        this.waitingForEstimationStories = stories1.waitingForEstimationOnly().count();
+        this.numberOfSprints = backlog.getStories().getEstimation() / actualVelocity;
     }
 
     @JsonIgnore
