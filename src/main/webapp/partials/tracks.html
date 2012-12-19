@@ -7,27 +7,30 @@
                         <p class="track-title">
                             {{track.name}} <span class="days-to-go">{{track.daysToGo}} days to go</span>
                         </p>
-                        <div style="display: block">
-                        <div class="report">
-                            <p class="iteration">Current iteration</p>
-                            <p>
-                                <span class="iteration">{{track.scheduledStories}}</span> stories are scheduled and <span class="iteration">{{track.acceptedStories}}</span> stories are already accepted.
-                            </p>
-                            <p>
-                            Developers are currently working on <span class="iteration">{{track.storiesInProgress}}</span> stories and there is still <span class="iteration">{{track.remainingStories}}</span> stories to do.
-                            They must estimate <span class="iteration">{{track.waitingForEstimationStories}}</span> stories.
-                            </p>
-                            <p>
-                                Product Owner must validate <span class="iteration">{{track.storiesInValidation}}</span> stories.
-                            </p>
-                        </div>
-                        <div class="report">
-                            <p class="backlog">Backlog</p>
-                            <p>
-                                <span class="backlog">{{track.availableStories}}</span> stories are already available and given a velocity of <span class="backlog">{{track.actualVelocity}}</span>, developers can work during <span class="backlog">{{track.numberOfSprints}}</span> iterations.
-                            </p>
-                        </div>
-                        </div>
+
+                        <p class="resume">
+                            <span class="project-metric">{{track.scheduledStories}} stories</span> are scheduled and
+                            <span class="project-metric">{{track.acceptedStories}} stories</span> are already accepted.
+                        </p>
+
+                        <p class="resume">
+                            Developers are currently working on <span class="iteration">{{track.storiesInProgress}} stories</span>
+                            and there is still <span class="iteration">{{track.remainingStories}} stories</span> to do.
+                            They must estimate <span
+                                class="iteration">{{track.waitingForEstimationStories}} stories</span>.
+                        </p>
+
+                        <p class="resume">
+                            Product Owner must validate <span
+                                class="iteration">{{track.storiesInValidation}} stories</span>.
+                        </p>
+
+                        <p class="resume">
+                            <span class="backlog">{{track.availableStories}} stories</span>
+                            ({{track.availableStoryPoints}} points) are already available and given a velocity of <span
+                                class="backlog">{{track.actualVelocity}}</span>, developers can work during <span
+                                class="backlog">{{track.numberOfSprints}} iterations</span>.
+                        </p>
                     </div>
                 </li>
             </ul>

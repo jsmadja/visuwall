@@ -39,7 +39,6 @@ public class Connection {
     @XmlElement(name = "build-filter")
     private String buildFilter;
 
-    @XmlTransient
     private String pluginName;
 
     @XmlTransient

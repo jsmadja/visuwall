@@ -37,6 +37,7 @@ public class Track implements Comparable<Track>, Refreshable {
     private int storiesInValidation;
     private int scheduledStories;
     private int waitingForEstimationStories;
+    private int availableStoryPoints;
 
     public Track(BasicCapability connection, SoftwareProjectId projectId) {
         this.connection = connection;
@@ -86,6 +87,7 @@ public class Track implements Comparable<Track>, Refreshable {
         this.actualVelocity = trackCapability.getVelocity(projectId);
         this.waitingForEstimationStories = storiesInBacklog.waitingForEstimationOnly().count();
         this.numberOfSprints = (int) ((double) storiesInBacklog.getEstimation() / (double)actualVelocity);
+        this.availableStoryPoints = storiesInBacklog.getEstimation();
     }
 
     @JsonIgnore

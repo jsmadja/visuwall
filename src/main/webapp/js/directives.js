@@ -110,6 +110,7 @@ angular.module('visuwallDirectives', ['ngResource'])
               trackToUpdate.storiesInValidation = remoteTrack.storiesInValidation;
               trackToUpdate.scheduledStories = remoteTrack.scheduledStories;
               trackToUpdate.waitingForEstimationStories = remoteTrack.waitingForEstimationStories;
+              trackToUpdate.availableStoryPoints = remoteTrack.availableStoryPoints;
             });
             return;
           }

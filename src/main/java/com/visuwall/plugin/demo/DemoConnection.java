@@ -19,13 +19,10 @@ import java.util.*;
 import static com.visuwall.api.domain.BuildState.*;
 import static com.visuwall.plugin.demo.SoftwareProjectIds.*;
 
-public class DemoConnection implements BuildCapability, TestCapability, ViewCapability, MetricCapability {
+public class DemoConnection implements BuildCapability {
 
     private Map<SoftwareProjectId, String> softwareProjectIds = new HashMap<SoftwareProjectId, String>();
     private Map<SoftwareProjectId, BuildState> buildStates = new HashMap<SoftwareProjectId, BuildState>();
-    private Map<SoftwareProjectId, QualityResult> qualityResults = new HashMap<SoftwareProjectId, QualityResult>();
-
-    private List<String> views = new ArrayList<String>();
 
     private ChangeStateProject marsProj = new ChangeStateProject();
 
@@ -51,64 +48,6 @@ public class DemoConnection implements BuildCapability, TestCapability, ViewCapa
         buildStates.put(moon, SUCCESS);
         buildStates.put(earth, SUCCESS);
         buildStates.put(mercury, SUCCESS);
-
-        views.add("Telluriques");
-        views.add("Gazeuses");
-        views.add("Other");
-
-        TestResult saturnTestResults = createTestResult(78, 120, 10, 20);
-        TestResult venusTestResults = createTestResult(25, 457, 3, 16);
-        TestResult neptuneTestResults = createTestResult(90, 872, 0, 0);
-        TestResult mercuryTestResults = createTestResult(78, 439, 0, 0);
-
-        new HashMap<SoftwareProjectId, TestResult>().put(saturn, saturnTestResults);
-        new HashMap<SoftwareProjectId, TestResult>().put(neptune, neptuneTestResults);
-        new HashMap<SoftwareProjectId, TestResult>().put(mercury, mercuryTestResults);
-        new HashMap<SoftwareProjectId, TestResult>().put(venus, venusTestResults);
-
-        TestResult neptuneIntegrationTestResults = createTestResult(78, 163, 0, 0);
-        TestResult mercuryIntegrationTestResults = createTestResult(89, 236, 0, 0);
-        TestResult venusIntegrationTestResults = createTestResult(49, 178, 4, 2);
-
-        new HashMap<SoftwareProjectId, TestResult>().put(neptune, neptuneIntegrationTestResults);
-        new HashMap<SoftwareProjectId, TestResult>().put(mercury, mercuryIntegrationTestResults);
-        new HashMap<SoftwareProjectId, TestResult>().put(venus, venusIntegrationTestResults);
-
-        QualityMeasure uranusCoverageMeasure = createQualityMeasure("coverage", "Coverage", "76.5 %", 76.5, -1);
-        QualityMeasure uranusLocMeasure = createQualityMeasure("ncloc", "Lines of code", "78.001", 78001D, 1);
-        QualityMeasure uranusViolationsMeasure = createQualityMeasure("violations_density", "Violations", "32", 32D, -1);
-        QualityResult uranusQualityResult = new QualityResult();
-        uranusQualityResult.add("coverage", uranusCoverageMeasure);
-        uranusQualityResult.add("ncloc", uranusLocMeasure);
-        uranusQualityResult.add("violations_density", uranusViolationsMeasure);
-
-        QualityResult mercuryQualityResult = new QualityResult();
-        QualityMeasure mercuryLocMeasure = createQualityMeasure("ncloc", "Lines of code", "121.988", 121988D, 1);
-        mercuryQualityResult.add("ncloc", mercuryLocMeasure);
-
-        qualityResults.put(uranus, uranusQualityResult);
-        qualityResults.put(mercury, mercuryQualityResult);
-
-        new ArrayList<String>().add("1");
-    }
-
-    private QualityMeasure createQualityMeasure(String key, String name, String formattedValue, double value, int tendency) {
-        QualityMeasure coverageMeasure = new QualityMeasure();
-        coverageMeasure.setKey(key);
-        coverageMeasure.setName(name);
-        coverageMeasure.setFormattedValue(formattedValue);
-        coverageMeasure.setValue(value);
-        coverageMeasure.setTendency(tendency);
-        return coverageMeasure;
-    }
-
-    private TestResult createTestResult(int coverage, int passCount, int failCount, int skipCount) {
-        TestResult saturnTestResults = new TestResult();
-        saturnTestResults.setCoverage(coverage);
-        saturnTestResults.setFailCount(failCount);
-        saturnTestResults.setSkipCount(skipCount);
-        saturnTestResults.setPassCount(passCount);
-        return saturnTestResults;
     }
 
     @Override
@@ -140,48 +79,6 @@ public class DemoConnection implements BuildCapability, TestCapability, ViewCapa
     @Override
     public String getUrl() {
         return url;
-    }
-
-    @Override
-    public Map<String, List<QualityMetric>> getMetricsByCategory() {
-        return new HashMap<String, List<QualityMetric>>();
-    }
-
-    @Override
-    public QualityResult analyzeQuality(SoftwareProjectId projectId, String... metrics) {
-        return qualityResults.get(projectId);
-    }
-
-    @Override
-    public List<SoftwareProjectId> findSoftwareProjectIdsByViews(List<String> views) {
-        List<SoftwareProjectId> softwareProjectIds = new ArrayList<SoftwareProjectId>();
-        if (views.contains("Telluriques")) {
-            softwareProjectIds.add(earth);
-        }
-        return softwareProjectIds;
-    }
-
-    @Override
-    public List<String> findViews() {
-        return views;
-    }
-
-    @Override
-    public List<String> findProjectNamesByView(String viewName) throws ViewNotFoundException {
-        List<String> projectNames = new ArrayList<String>();
-        if ("Telluriques".equals(viewName)) {
-            projectNames.add("Earth");
-        }
-        return projectNames;
-    }
-
-    @Override
-    public TestResult analyzeUnitTests(SoftwareProjectId projectId) {
-        TestResult testResult = new HashMap<SoftwareProjectId, TestResult>().get(projectId);
-        if (testResult == null) {
-            testResult = new TestResult();
-        }
-        return testResult;
     }
 
     @Override

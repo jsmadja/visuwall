@@ -174,7 +174,9 @@ public class Wall implements Runnable {
         if(visuwallPlugin == null) {
             LOG.info("Cannot find compatible plugin with connection to "+connection.getUrl());
         } else {
-            addNewValidConnection(connection, visuwallPlugin);
+            if(!visuwallPlugin.requiresPassword()) {
+                addNewValidConnection(connection, visuwallPlugin);
+            }
         }
     }
 
