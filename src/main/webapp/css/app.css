@@ -8,6 +8,14 @@ body {
   background: url("../img/logo-large-back3.png") no-repeat 50%;
 }
 
+footer {
+  position: fixed;
+  bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+  height: 20px;
+}
+
 .projects {
   list-style: none;
   margin: 0px 0px 0px 0px;
