@@ -7,19 +7,28 @@ body {
   font-size: 12px;
   color: white;
   background: url("../img/logo-large-back3.png") no-repeat 50%;
+  position:relative;
+  height:100%;
 }
 
-footer {
+#footer {
+  margin:0;
+  padding:0;
   position: fixed;
   bottom: 0;
+  display:block;
+
+}
+#footer div {
   margin-left: auto;
   margin-right: auto;
   height: 20px;
+  width:600px;
 }
 
 .projects {
   list-style: none;
-  margin: 0px 0px 0px 0px;
+  margin: 0 0 0 0;
 }
 
 .projects li {
@@ -43,14 +52,14 @@ footer {
 
 .project-title {
     font-size: 30pt;
-    text-shadow: 0px 0px 9px #777;
+    text-shadow: 0 0 9px #777;
 
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     padding-top: 8px;
     height: 32px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .star {

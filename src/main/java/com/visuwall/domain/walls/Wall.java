@@ -63,9 +63,7 @@ public class Wall implements Runnable {
     @XmlTransient
     private PluginDiscover pluginDiscover = new PluginDiscover();
 
-    public Wall() {
-        this("wall-"+ randomNumeric(5));
-    }
+    Wall() {}
 
     public Wall(String name) {
         this.name = name;
@@ -142,11 +140,11 @@ public class Wall implements Runnable {
         while (true) {
             try {
                 long start = System.currentTimeMillis();
-                LOG.info("Wall is full refreshing ...");
+                LOG.info("Wall "+name+" is full refreshing ...");
                 builds.refreshAll();
                 analyses.refreshAll();
                 tracks.refreshAll();
-                LOG.info("Wall has been fully refreshed in " + duration(start) + " ms");
+                LOG.info("Wall "+name+" has been fully refreshed in " + duration(start) + " ms");
                 save();
                 waitForNextIteration();
             } catch (InterruptedException e) {
@@ -181,7 +179,7 @@ public class Wall implements Runnable {
     }
 
     private File configurationFile() {
-        return new File(name + ".xml");
+        return new File("wall-"+name+".xml");
     }
 
     public void save() {

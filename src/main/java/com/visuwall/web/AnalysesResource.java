@@ -19,21 +19,20 @@ import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.ok;
 import static javax.ws.rs.core.Response.status;
 
-@Path("/walls/analyses")
+@Path("/walls/{wallName}/analyses")
 @Produces("application/json")
 public class AnalysesResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(AnalysesResource.class);
-    private static final String WALL_ID = "wall";
+
+    @PathParam("wallName")
+    private String wallName;
 
     @GET
     public Response analyses() {
-        Wall wall = Walls.get(WALL_ID);
-        if (wall == null) {
-            return status(NOT_FOUND).build();
-        }
+        Wall wall = Walls.get(wallName);
         Analyses analyses = wall.getAnalyses();
-        LOG.debug("new analyses request from client for " + WALL_ID + " wall (" + analyses.count() + " analyses)");
+        LOG.debug("new analyses request from client for " + wall.getName() + " wall (" + analyses.count() + " analyses)");
         Set<Analysis> allAnalyses = analyses.all();
         return ok().entity(allAnalyses).build();
     }
@@ -42,8 +41,8 @@ public class AnalysesResource {
     @GET
     @Path("/{name}")
     public Response getAnalysis(@PathParam("name") String name) {
-        LOG.debug("new analysis request from client for " + WALL_ID + " wall (" + name + " analysis)");
-        Wall wall = Walls.get("wall");
+        Wall wall = Walls.get(wallName);
+        LOG.debug("new analysis request from client for " + wall.getName() + " wall (" + name + " analysis)");
         try {
             Analysis analysis = wall.getAnalysis(name);
             return ok().entity(analysis).build();

@@ -19,20 +19,19 @@ import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.ok;
 import static javax.ws.rs.core.Response.status;
 
-@Path("/walls/builds")
+@Path("/walls/{wallName}/builds")
 @Produces("application/json")
 public class BuildsResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(BuildsResource.class);
-    private static final String WALL_ID = "wall";
+
+    @PathParam("wallName")
+    private String wallName;
 
     @GET
     @Path("/{name}")
     public Response builds(@PathParam("name") String name) {
-        Wall wall = Walls.get(WALL_ID);
-        if (wall == null) {
-            return status(NOT_FOUND).build();
-        }
+        Wall wall = Walls.get(wallName);
         Builds builds = wall.getBuilds();
         if (!builds.contains(name)) {
             return status(NOT_FOUND).build();
@@ -47,12 +46,9 @@ public class BuildsResource {
 
     @GET
     public Response builds() {
-        Wall wall = Walls.get(WALL_ID);
-        if (wall == null) {
-            return status(NOT_FOUND).build();
-        }
+        Wall wall = Walls.get(wallName);
         Builds builds = wall.getBuilds();
-        LOG.debug("new builds request from client for " + WALL_ID + " wall (" + builds.count() + " builds)");
+        LOG.debug("new builds request from client for " + wall.getName() + " wall (" + builds.count() + " builds)");
         Set<Build> allBuilds = builds.all();
         return ok().entity(allBuilds).build();
     }
@@ -61,10 +57,9 @@ public class BuildsResource {
     @GET
     @Path("/{name}")
     public Response getBuild(@PathParam("name") String name) {
-        Wall wall = Walls.get("wall");
-        Build build = null;
+        Wall wall = Walls.get(wallName);
         try {
-            build = wall.getBuild(name);
+            Build build = wall.getBuild(name);
             return ok().entity(build).build();
         } catch (RefreshableNotFoundException e) {
             return Response.status(NOT_FOUND).build();

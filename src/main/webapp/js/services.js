@@ -3,21 +3,21 @@
 angular.module('visuwallServices', ['ngResource']).
   factory('Builds',
   function ($resource) {
-    return $resource('rest/walls/builds/:name', {}, {
+    return $resource('rest/walls/:wallName/builds/:name', {}, {
       list:{ method:'GET', isArray:true},
       get:{ method:'GET'}
     });
   }).
   factory('Analyses',
   function ($resource) {
-    return $resource('rest/walls/analyses/:name', {}, {
+    return $resource('rest/walls/:wallName/analyses/:name', {}, {
       list:{ method:'GET', isArray:true},
       get:{ method:'GET'}
     });
   }).
   factory('Tracks',
   function ($resource) {
-    return $resource('rest/walls/tracks/:name', {}, {
+    return $resource('rest/walls/:wallName/tracks/:name', {}, {
       list:{ method:'GET', isArray:true},
       get:{ method:'GET'}
     });
@@ -30,9 +30,9 @@ angular.module('visuwallServices', ['ngResource']).
   }).
   factory('Connections',
   function ($resource) {
-    return $resource('rest/walls/connections/:name', {}, {
+    return $resource('rest/walls/:wallName/connections/:name', {}, {
       list:{ method:'GET', isArray:true},
-      update:{ method:'PUT', isArray:true}
+      update:{ method:'PUT', isArray:false}
     });
   }).
   factory('Connection', function ($resource) {

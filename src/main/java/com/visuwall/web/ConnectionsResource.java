@@ -11,14 +11,17 @@ import javax.ws.rs.core.Response;
 import static javax.ws.rs.core.Response.notModified;
 import static javax.ws.rs.core.Response.ok;
 
-@Path("/walls/connections")
+@Path("/walls/{wallName}/connections")
 @Produces("application/json")
 @Consumes({"application/json", "text/plain"})
 public class ConnectionsResource {
 
+    @PathParam("wallName")
+    private String wallName;
+
     @GET
     public Response getConnections() {
-        Wall wall = Walls.get("wall");
+        Wall wall = Walls.get(wallName);
         return ok().entity(wall.getConnections()).build();
     }
 
@@ -27,7 +30,7 @@ public class ConnectionsResource {
         if (StringUtils.isBlank(connection.getName())) {
             return notModified().build();
         }
-        Wall wall = Walls.get("wall");
+        Wall wall = Walls.get(wallName);
         wall.updateConnection(connection);
         return ok().entity(connection).build();
     }
@@ -37,7 +40,7 @@ public class ConnectionsResource {
     @Consumes("*/*")
     public Response removeConnection(@PathParam("name") String name) {
         try {
-            Wall wall = Walls.get("wall");
+            Wall wall = Walls.get(wallName);
             wall.removeConnection(name);
             return ok().build();
         } catch (ResourceNotFoundException e) {

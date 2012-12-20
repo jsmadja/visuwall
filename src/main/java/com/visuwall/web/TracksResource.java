@@ -19,21 +19,20 @@ import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.ok;
 import static javax.ws.rs.core.Response.status;
 
-@Path("/walls/tracks")
+@Path("/walls/{wallName}/tracks")
 @Produces("application/json")
 public class TracksResource {
 
     private static final Logger LOG = LoggerFactory.getLogger(TracksResource.class);
-    private static final String WALL_ID = "wall";
+
+    @PathParam("wallName")
+    private String wallName;
 
     @GET
     public Response tracks() {
-        Wall wall = Walls.get(WALL_ID);
-        if (wall == null) {
-            return status(NOT_FOUND).build();
-        }
+        Wall wall = Walls.get(wallName);
         Tracks tracks = wall.getTracks();
-        LOG.debug("new tracks request from client for " + WALL_ID + " wall (" + tracks.count() + " tracks)");
+        LOG.debug("new tracks request from client for " + wall.getName() + " wall (" + tracks.count() + " tracks)");
         Set<Track> allTracks = tracks.all();
         return ok().entity(allTracks).build();
     }
@@ -41,8 +40,8 @@ public class TracksResource {
     @GET
     @Path("/{name}")
     public Response getTrack(@PathParam("name") String name) {
-        LOG.debug("new track request from client for " + WALL_ID + " wall (" + name + " track)");
         Wall wall = Walls.get("wall");
+        LOG.debug("new track request from client for " + wall.getName() + " wall (" + name + " track)");
         try {
             Track track = wall.getTrack(name);
             return ok().entity(track).build();

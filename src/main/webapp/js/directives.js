@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('visuwallDirectives', ['ngResource'])
-  .directive('refreshBuild', function ($timeout, Builds) {
+  .directive('refreshBuild', function ($timeout, Builds, $rootScope) {
     return function ($scope, element, attrs) {
 
       var build, timeoutId;
@@ -11,8 +11,8 @@ angular.module('visuwallDirectives', ['ngResource'])
         var name = $scope.build.name;
         for (var i = 0; i < builds.length; i++) {
           if (builds[i].name == name) {
-            console.log(new Date()+"Time to update build "+name);
-            Builds.get({name:name}, function (remoteBuild) {
+            console.log(new Date()+" Time to update build "+name);
+            Builds.get({"wallName": $rootScope.wall, "name": name}, function (remoteBuild) {
               var buildToUpdate = builds[i];
               buildToUpdate.name = remoteBuild.name;
               buildToUpdate.status = remoteBuild.status;
@@ -27,21 +27,12 @@ angular.module('visuwallDirectives', ['ngResource'])
         }
       }
 
-      $scope.$watch(attrs.build, function (value) {
-        build = value;
-        updateTime();
-      });
-
       function updateLater() {
         timeoutId = $timeout(function () {
           updateTime();
           updateLater();
         }, 10 * 1000);
       }
-
-      element.bind('$destroy', function () {
-        $timeout.cancel(timeoutId);
-      });
 
       updateLater();
     }
@@ -67,21 +58,12 @@ angular.module('visuwallDirectives', ['ngResource'])
         }
       }
 
-      $scope.$watch(attrs.build, function (value) {
-        analysis = value;
-        updateTime();
-      });
-
       function updateLater() {
         timeoutId = $timeout(function () {
           updateTime();
           updateLater();
         }, 10 * 1000);
       }
-
-      element.bind('$destroy', function () {
-        $timeout.cancel(timeoutId);
-      });
 
       updateLater();
     }
@@ -117,21 +99,12 @@ angular.module('visuwallDirectives', ['ngResource'])
         }
       }
 
-      $scope.$watch(attrs.build, function (value) {
-        track = value;
-        updateTime();
-      });
-
       function updateLater() {
         timeoutId = $timeout(function () {
           updateTime();
           updateLater();
         }, 10 * 1000);
       }
-
-      element.bind('$destroy', function () {
-        $timeout.cancel(timeoutId);
-      });
 
       updateLater();
     }
