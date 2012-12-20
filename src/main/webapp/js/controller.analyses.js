@@ -1,4 +1,10 @@
-function AnalysesCtrl($scope, Analyses, $timeout, $rootScope) {
+function AnalysesCtrl($scope, Analyses, $timeout, $rootScope, $routeParams) {
+
+  if($routeParams.wall) {
+    $rootScope.wall = $routeParams.wall;
+  } else {
+    $rootScope.wall = "default";
+  }
 
   var timeout = 1;
 

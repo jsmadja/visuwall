@@ -52,6 +52,8 @@ public class Analysis implements Comparable<Analysis>, Refreshable {
     @JsonIgnore
     private DateTime lastAnalysis = DateTime.now();
 
+    Analysis() {}
+
     public Analysis(BasicCapability connection, SoftwareProjectId projectId, List<String> selectedMetrics) {
         this.connection = connection;
         this.projectId = projectId;

@@ -39,6 +39,8 @@ public class Track implements Comparable<Track>, Refreshable {
     private int waitingForEstimationStories;
     private int availableStoryPoints;
 
+    Track() {}
+
     public Track(BasicCapability connection, SoftwareProjectId projectId) {
         this.connection = connection;
         this.trackCapability = (TrackCapability) connection;

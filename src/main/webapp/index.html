@@ -34,12 +34,15 @@
     <div class="navbar-inner" ng-controller="WallsCtrl">
         <div>
             <a class="btn dropdown-toggle pull-right" data-toggle="dropdown" href="#">
-                Walls
+                {{wall}}
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
                 <li ng-repeat="wall in walls">
                     <a href="/#/{{wall.name}}/builds" ng-click="setCurrentWall(wall.name)">{{wall.name}}</a>
+                </li>
+                <li>
+                    <a ng-click="deleteWall(wall)">Delete {{wall}}</a>
                 </li>
             </ul>
         </div>

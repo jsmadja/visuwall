@@ -11,9 +11,7 @@ public class Metric implements Comparable<Metric> {
     private boolean qualitative;
     private boolean selected;
 
-    Metric() {
-
-    }
+    Metric() {}
 
     public Metric(String name, String value, String key, int tendency, boolean qualitative) {
         this.name = name;

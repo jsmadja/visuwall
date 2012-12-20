@@ -63,6 +63,9 @@ public class Wall implements Runnable {
     @XmlTransient
     private PluginDiscover pluginDiscover = new PluginDiscover();
 
+    @XmlTransient
+    private Thread thread;
+
     Wall() {}
 
     public Wall(String name) {
@@ -101,7 +104,8 @@ public class Wall implements Runnable {
 
     void start() {
         LOG.info("Starting thread of wall "+name);
-        new Thread(this).start();
+        thread = new Thread(this);
+        thread.start();
     }
 
     public Builds getBuilds() {
@@ -145,7 +149,6 @@ public class Wall implements Runnable {
                 analyses.refreshAll();
                 tracks.refreshAll();
                 LOG.info("Wall "+name+" has been fully refreshed in " + duration(start) + " ms");
-                save();
                 waitForNextIteration();
             } catch (InterruptedException e) {
                 LOG.error("Error in main loop", e);
@@ -227,6 +230,7 @@ public class Wall implements Runnable {
     public void updateConnection(Connection connection) {
         removeConnection(connection);
         addConnection(connection);
+        save();
     }
 
     private void removeConnection(Connection connection) {
@@ -234,6 +238,7 @@ public class Wall implements Runnable {
         builds.removeAllFrom(connection);
         analyses.removeAllFrom(connection);
         tracks.removeAllFrom(connection);
+        save();
     }
 
     public Connections getConnections() {
@@ -246,6 +251,10 @@ public class Wall implements Runnable {
 
     public void deleteConfiguration() {
         delete(configurationFile());
+    }
+
+    public void stop() {
+        thread.interrupt();
     }
 }
 

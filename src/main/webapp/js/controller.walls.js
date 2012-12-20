@@ -1,4 +1,4 @@
-function WallsCtrl($scope, $rootScope, Walls) {
+function WallsCtrl($scope, $rootScope, Walls, $location) {
 
   $scope.walls = Walls.list();
 
@@ -12,5 +12,12 @@ function WallsCtrl($scope, $rootScope, Walls) {
   $scope.setCurrentWall = function (name) {
     $rootScope.wall = name;
   }
+
+  $scope.deleteWall = function (wall) {
+    Walls.delete({"wallName": wall}, function () {
+      $scope.walls = Walls.list();
+      $location.path('/');
+    });
+  };
 
 }

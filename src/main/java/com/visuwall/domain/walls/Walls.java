@@ -1,7 +1,9 @@
 package com.visuwall.domain.walls;
 
-import org.apache.commons.lang.StringUtils;
 import org.fest.util.Files;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sun.util.LocaleServiceProviderPool;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -15,6 +17,8 @@ import static org.apache.commons.lang.StringUtils.remove;
 public class Walls {
 
     private static final ConcurrentMap<String, Wall> walls = new ConcurrentHashMap<String, Wall>();
+
+    private static final Logger LOG = LoggerFactory.getLogger(Walls.class);
 
     static {
         createWallsFromConfigurationFiles();
@@ -60,5 +64,15 @@ public class Walls {
 
     public static Collection<Wall> all() {
         return walls.values();
+    }
+
+    public static void delete(String name) {
+        Wall wall = get(name);
+        if(wall != null) {
+            wall.deleteConfiguration();
+            walls.remove(name);
+            wall.stop();
+            LOG.info("Wall "+name+" has been deleted");
+        }
     }
 }

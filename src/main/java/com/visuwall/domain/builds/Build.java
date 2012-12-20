@@ -44,6 +44,8 @@ public class Build implements Comparable<Build>, Refreshable {
     @JsonIgnore
     private boolean removable;
 
+    Build() {}
+
     public Build(BasicCapability connection, SoftwareProjectId projectId) {
         this.connection = connection;
         this.projectId = projectId;

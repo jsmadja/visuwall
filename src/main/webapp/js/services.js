@@ -24,7 +24,7 @@ angular.module('visuwallServices', ['ngResource']).
   }).
   factory('Walls',
   function ($resource) {
-    return $resource('rest/walls', {}, {
+    return $resource('rest/walls/:wallName', {}, {
       list:{ method:'GET', isArray:true }
     });
   }).
