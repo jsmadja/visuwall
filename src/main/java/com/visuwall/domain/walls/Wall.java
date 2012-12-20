@@ -43,7 +43,7 @@ import static org.fest.util.Files.delete;
 
 @XmlRootElement(name = "wall")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Wall implements Runnable {
+public class Wall implements Runnable, Comparable<Wall> {
 
     private String name;
 
@@ -144,11 +144,11 @@ public class Wall implements Runnable {
         while (true) {
             try {
                 long start = System.currentTimeMillis();
-                LOG.info("Wall "+name+" is full refreshing ...");
+                LOG.info("Wall " + name + " is full refreshing ...");
                 builds.refreshAll();
                 analyses.refreshAll();
                 tracks.refreshAll();
-                LOG.info("Wall "+name+" has been fully refreshed in " + duration(start) + " ms");
+                LOG.info("Wall " + name + " has been fully refreshed in " + duration(start) + " ms");
                 waitForNextIteration();
             } catch (InterruptedException e) {
                 LOG.error("Error in main loop", e);
@@ -255,6 +255,11 @@ public class Wall implements Runnable {
 
     public void stop() {
         thread.interrupt();
+    }
+
+    @Override
+    public int compareTo(Wall wall) {
+        return name.compareToIgnoreCase(wall.name);
     }
 }
 

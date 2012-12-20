@@ -37,7 +37,7 @@ angular.module('visuwallDirectives', ['ngResource'])
       updateLater();
     }
   })
-  .directive('refreshAnalysis', function ($timeout, Analyses) {
+  .directive('refreshAnalysis', function ($timeout, Analyses, $rootScope) {
     return function ($scope, element, attrs) {
 
       var analysis, timeoutId;
@@ -48,7 +48,7 @@ angular.module('visuwallDirectives', ['ngResource'])
         for (var i = 0; i < analyses.length; i++) {
           if (analyses[i].name == name) {
             console.log(new Date()+"Time to update analysis "+name);
-            Analyses.get({name:name}, function (remoteAnalysis) {
+            Analyses.get({"wallName": $rootScope.wall, "name": name}, function (remoteAnalysis) {
               var analysisToUpdate = analyses[i];
               analysisToUpdate.name = remoteAnalysis.name;
               analysisToUpdate.metrics = remoteAnalysis.metrics;
@@ -68,7 +68,7 @@ angular.module('visuwallDirectives', ['ngResource'])
       updateLater();
     }
   })
-  .directive('refreshTrack', function ($timeout, Tracks) {
+  .directive('refreshTrack', function ($timeout, Tracks, $rootScope) {
     return function ($scope, element, attrs) {
 
       var track, timeoutId;
@@ -79,7 +79,7 @@ angular.module('visuwallDirectives', ['ngResource'])
         for (var i = 0; i < tracks.length; i++) {
           if (tracks[i].name == name) {
             console.log(new Date()+"Time to update track "+name);
-            Tracks.get({name:name}, function (remoteTrack) {
+            Tracks.get({"wallName": $rootScope.wall, "name": name}, function (remoteTrack) {
               var trackToUpdate = tracks[i];
               trackToUpdate.name = remoteTrack.name;
               trackToUpdate.actualVelocity = remoteTrack.actualVelocity;

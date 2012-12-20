@@ -6,6 +6,11 @@ import com.visuwall.domain.walls.Walls;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 import static javax.ws.rs.core.Response.ok;
 
 @Path("/walls")
@@ -15,7 +20,9 @@ public class WallsResource {
 
     @GET
     public Response getBuilds() {
-        return ok().entity(Walls.all()).build();
+        List<Wall> walls = new ArrayList<Wall>(Walls.all());
+        Collections.sort(walls);
+        return ok().entity(walls).build();
     }
 
     @DELETE
