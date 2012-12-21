@@ -303,6 +303,7 @@
                         <exclude>**/*.ico</exclude>
                         <exclude>**/*.js</exclude>
                         <exclude>**/*.css</exclude>
+                        <exclude>.repository</exclude>
                         <exclude>.gitignore</exclude>
                         <exclude>.idea/**</exclude>
                         <exclude>.git/**</exclude>
