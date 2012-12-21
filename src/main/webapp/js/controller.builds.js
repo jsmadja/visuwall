@@ -17,8 +17,11 @@ function BuildsCtrl($scope, Builds, $timeout, $rootScope, $routeParams) {
   var timeout = 1;
 
   function updateTime() {
-    console.log(new Date()+" Time to update all builds");
     Builds.list({"wallName":$rootScope.wall}, function(remoteBuilds) {
+
+      $rootScope.buildCount = builds.length;
+
+
       var remoteBuildsCount = 0;
       var currentBuildsCount = 0;
       if(remoteBuilds) {

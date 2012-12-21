@@ -11,7 +11,6 @@ angular.module('visuwallDirectives', ['ngResource'])
         var name = $scope.build.name;
         for (var i = 0; i < builds.length; i++) {
           if (builds[i].name == name) {
-            console.log(new Date()+" Time to update build "+name);
             Builds.get({"wallName": $rootScope.wall, "name": name}, function (remoteBuild) {
               var buildToUpdate = builds[i];
               buildToUpdate.name = remoteBuild.name;
@@ -47,7 +46,6 @@ angular.module('visuwallDirectives', ['ngResource'])
         var name = $scope.analysis.name;
         for (var i = 0; i < analyses.length; i++) {
           if (analyses[i].name == name) {
-            console.log(new Date()+"Time to update analysis "+name);
             Analyses.get({"wallName": $rootScope.wall, "name": name}, function (remoteAnalysis) {
               var analysisToUpdate = analyses[i];
               analysisToUpdate.name = remoteAnalysis.name;
@@ -78,7 +76,6 @@ angular.module('visuwallDirectives', ['ngResource'])
         var name = $scope.track.name;
         for (var i = 0; i < tracks.length; i++) {
           if (tracks[i].name == name) {
-            console.log(new Date()+"Time to update track "+name);
             Tracks.get({"wallName": $rootScope.wall, "name": name}, function (remoteTrack) {
               var trackToUpdate = tracks[i];
               trackToUpdate.name = remoteTrack.name;
