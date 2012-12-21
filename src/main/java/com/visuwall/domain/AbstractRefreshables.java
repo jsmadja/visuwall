@@ -30,44 +30,20 @@ public abstract class AbstractRefreshables<T extends Refreshable> implements Ref
         throw new RefreshableNotFoundException(name);
     }
 
-    @Override
-    public void refreshAll() {
-        refresh();
-        discoverNewRefreshables();
-    }
-
-    private void refresh() {
-        ExecutorService pool = Executors.newFixedThreadPool(20);
-        List<Future<T>> futures = new ArrayList<Future<T>>();
-        for (T refreshable : refreshables) {
-            futures.add(pool.submit(refresh(refreshable)));
-        }
-        for (Future<T> future : futures) {
-            removeRefreshableIfNecessary(future);
-        }
-        pool.shutdown();
-    }
-
-    private void removeRefreshableIfNecessary(Future<T> future) {
-        try {
-            T refreshable = future.get();
-            if (refreshable.isRemovable()) {
-                refreshables.remove(refreshable);
-            }
-        } catch (ExecutionException e) {
-            LOG.error("Error when getting future: " + future, e);
-        } catch (InterruptedException e) {
-            LOG.error("Error when getting future: " + future, e);
+    private void removeRefreshableIfNecessary(T refreshable) {
+        if (refreshable.isRemovable()) {
+            refreshables.remove(refreshable);
         }
     }
 
-    private Callable<T> refresh(final T refreshable) {
+    public Callable<T> refresh(final T refreshable) {
         return new Callable<T>() {
             @Override
             public T call() throws Exception {
                 if (refreshable.isRefreshable()) {
                     LOG.info(refreshable + " is refreshing ...");
                     refreshable.refresh();
+                    removeRefreshableIfNecessary(refreshable);
                     LOG.info(refreshable + " is now up-to-date");
                 }
                 return refreshable;
@@ -75,37 +51,17 @@ public abstract class AbstractRefreshables<T extends Refreshable> implements Ref
         };
     }
 
-    private void discoverNewRefreshables() {
-        ExecutorService pool = Executors.newFixedThreadPool(20);
-        List<Future<ConnectionConfiguration>> futures = new ArrayList<Future<ConnectionConfiguration>>();
-        for (final Connection connection : connections) {
-            Collection<SoftwareProjectId> projectIds = connection.listSoftwareProjectIds();
-            for (final SoftwareProjectId projectId : projectIds) {
-                futures.add(pool.submit(new Callable<ConnectionConfiguration>() {
-                    @Override
-                    public ConnectionConfiguration call() throws Exception {
-                        return new ConnectionConfiguration(projectId, connection);
-                    }
-                }));
+    private Callable<ConnectionConfiguration> discover(final Connection connection, final SoftwareProjectId projectId) {
+        return new Callable<ConnectionConfiguration>() {
+            @Override
+            public ConnectionConfiguration call() throws Exception {
+                ConnectionConfiguration connectionConfiguration = new ConnectionConfiguration(projectId, connection);
+                if (isAddable(connectionConfiguration)) {
+                    addNewRefreshableFrom(connectionConfiguration);
+                }
+                return connectionConfiguration;
             }
-        }
-        for (Future<ConnectionConfiguration> future : futures) {
-            addIfNecessary(future);
-        }
-        pool.shutdown();
-    }
-
-    private void addIfNecessary(Future<ConnectionConfiguration> future) {
-        try {
-            ConnectionConfiguration connectionConfiguration = future.get();
-            if (isAddable(connectionConfiguration)) {
-                addNewRefreshableFrom(connectionConfiguration);
-            }
-        } catch (ExecutionException e) {
-            LOG.error("Error when getting future: " + future, e);
-        } catch (InterruptedException e) {
-            LOG.error("Error when getting future: " + future, e);
-        }
+        };
     }
 
     private boolean isAddable(ConnectionConfiguration connectionConfiguration) {
@@ -166,4 +122,22 @@ public abstract class AbstractRefreshables<T extends Refreshable> implements Ref
     }
 
     protected abstract void addNewRefreshableFrom(ConnectionConfiguration connectionConfiguration);
+
+    @Override
+    public void refresh(ExecutorService pool) {
+        for (T refreshable : refreshables) {
+            pool.submit(refresh(refreshable));
+        }
+        discoverNewRefreshables(pool);
+    }
+
+    private void discoverNewRefreshables(ExecutorService pool) {
+        for (final Connection connection : connections) {
+            Collection<SoftwareProjectId> projectIds = connection.listSoftwareProjectIds();
+            for (final SoftwareProjectId projectId : projectIds) {
+                pool.submit(discover(connection, projectId));
+            }
+        }
+    }
+
 }

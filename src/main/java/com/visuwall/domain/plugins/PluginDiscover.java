@@ -19,6 +19,7 @@ public class PluginDiscover {
 
     public VisuwallPlugin findPluginCompatibleWith(Connection connection) {
         String connectionUrl = connection.getUrl();
+        LOG.info("Looking for a compatible plugin with "+connectionUrl);
         if (pluginsByUrl.containsKey(connectionUrl)) {
             return pluginsByUrl.get(connectionUrl);
         }

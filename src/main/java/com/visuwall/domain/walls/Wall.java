@@ -34,11 +34,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import static org.apache.commons.lang.RandomStringUtils.randomNumeric;
 import static org.fest.util.Files.delete;
 
 @XmlRootElement(name = "wall")
@@ -68,20 +67,22 @@ public class Wall implements Runnable, Comparable<Wall> {
 
     Wall() {}
 
+    // TODO: WallConfiguration
+
     public Wall(String name) {
         this.name = name;
     }
 
     public void addConnection(Connection connection) {
         String url = connection.getUrl();
-        LOG.info("Trying to identify a compatible plugin for url:" + url);
+        LOG.info("["+name+"] Trying to identify a compatible plugin for url:" + url);
         VisuwallPlugin plugin = pluginDiscover.findPluginCompatibleWith(connection);
         if (plugin == null) {
-            LOG.info("Visuwall cannot find a compatible plugin for " + url);
+            LOG.info("["+name+"] Visuwall cannot find a compatible plugin for " + url);
         } else {
             LOG.info(plugin.getName() + " is compatible with url:" + url);
             addNewValidConnection(connection, plugin);
-            LOG.info("New connection established for " + url);
+            LOG.info("["+name+"] New connection established for " + url);
         }
     }
 
@@ -103,7 +104,6 @@ public class Wall implements Runnable, Comparable<Wall> {
     }
 
     void start() {
-        LOG.info("Starting thread of wall "+name);
         thread = new Thread(this);
         thread.start();
     }
@@ -138,20 +138,22 @@ public class Wall implements Runnable, Comparable<Wall> {
             try {
                 loadExistingConfiguration();
             } catch (JAXBException e) {
-                LOG.warn("Unable to load existing configuration from ("+configurationFile().getAbsolutePath()+")", e);
+                LOG.warn("["+name+"] Unable to load existing configuration from ("+configurationFile().getAbsolutePath()+")", e);
             }
         }
         while (true) {
             try {
                 long start = System.currentTimeMillis();
-                LOG.info("Wall " + name + " is full refreshing ...");
-                builds.refreshAll();
-                analyses.refreshAll();
-                tracks.refreshAll();
-                LOG.info("Wall " + name + " has been fully refreshed in " + duration(start) + " ms");
+                LOG.info("["+name+"] Wall is full refreshing ...");
+                ExecutorService pool = Executors.newFixedThreadPool(20);
+                builds.refresh(pool);
+                analyses.refresh(pool);
+                tracks.refresh(pool);
+                pool.shutdown();
+                LOG.info("["+name+"] Wall has been fully refreshed in " + duration(start) + " ms");
                 waitForNextIteration();
             } catch (InterruptedException e) {
-                LOG.error("Error in main loop", e);
+                LOG.error("["+name+"] Error in main loop", e);
             }
         }
     }
@@ -167,13 +169,13 @@ public class Wall implements Runnable, Comparable<Wall> {
         for (Connection connection : configuredWall.getConnections()) {
             addConfiguredConnection(connection);
         }
-        LOG.info("Wall "+name+" has been successfully configured from file "+configurationFile().getAbsolutePath());
+        LOG.info("["+name+"] Wall has been successfully configured from file "+configurationFile().getAbsolutePath());
     }
 
     private void addConfiguredConnection(Connection connection) {
         VisuwallPlugin visuwallPlugin = pluginDiscover.findPluginCompatibleWith(connection);
         if(visuwallPlugin == null) {
-            LOG.info("Cannot find compatible plugin with connection to "+connection.getUrl());
+            LOG.info("["+name+"] Cannot find compatible plugin with connection to "+connection.getUrl());
         } else {
             if(!visuwallPlugin.requiresPassword()) {
                 addNewValidConnection(connection, visuwallPlugin);
@@ -193,9 +195,9 @@ public class Wall implements Runnable, Comparable<Wall> {
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.marshal(this, fileOutputStream);
         } catch (FileNotFoundException e) {
-            LOG.warn("Unable to save wall '"+name+"' configuration to filesystem", e);
+            LOG.warn("["+name+"] Unable to save configuration to filesystem", e);
         } catch (JAXBException e) {
-            LOG.warn("Unable to save wall '" + name + "' configuration to filesystem", e);
+            LOG.warn("["+name+"] Unable to save wall '" + name + "' configuration to filesystem", e);
         } finally {
             Closeables.closeQuietly(fileOutputStream);
         }
@@ -206,11 +208,11 @@ public class Wall implements Runnable, Comparable<Wall> {
     }
 
     private void waitForNextIteration() throws InterruptedException {
-        if (builds.count() == 0 && analyses.count() == 0) {
-            LOG.info("Next refresh in 20 seconds");
+        if (builds.count() == 0 && analyses.count() == 0 && tracks.count() == 0) {
+            LOG.info("["+name+"] No refreshables, next refresh in 30 seconds");
             TimeUnit.SECONDS.sleep(20);
         } else {
-            LOG.info("Next refresh in 1 minute");
+            LOG.info("["+name+"] Next refresh in 1 minute");
             TimeUnit.MINUTES.sleep(1);
         }
     }
@@ -221,7 +223,7 @@ public class Wall implements Runnable, Comparable<Wall> {
 
     public void removeConnection(String name) throws ResourceNotFoundException {
         if (!configuration.containsConfiguration(name)) {
-            throw new ResourceNotFoundException("Cannot find connection '" + name + "'");
+            throw new ResourceNotFoundException("["+name+"] Cannot find connection '" + name + "'");
         }
         Connection connection = configuration.getConnectionByName(name);
         removeConnection(connection);

@@ -3,10 +3,9 @@ package com.visuwall.domain;
 import com.visuwall.domain.connections.Connection;
 
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
 
 public interface Refreshables<T extends Refreshable> {
-
-    void refreshAll();
 
     void addConnection(Connection connection);
 
@@ -17,4 +16,7 @@ public interface Refreshables<T extends Refreshable> {
     boolean contains(String name);
 
     Set<T> all();
+
+    void refresh(ExecutorService pool);
+
 }

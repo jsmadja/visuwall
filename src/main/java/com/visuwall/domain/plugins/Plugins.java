@@ -14,10 +14,13 @@ import com.visuwall.plugin.teamcity.TeamCityPlugin;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 public class Plugins implements Iterable<VisuwallPlugin> {
 
-    private static final Collection<VisuwallPlugin> plugins = new ArrayList<VisuwallPlugin>();
+    private static final Collection<VisuwallPlugin> plugins = new ConcurrentLinkedQueue<VisuwallPlugin>();
 
     public Plugins() {
         plugins.add(new JenkinsPlugin());
