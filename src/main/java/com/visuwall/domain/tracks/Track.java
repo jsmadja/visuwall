@@ -189,4 +189,8 @@ public class Track implements Comparable<Track>, Refreshable {
     public int getWaitingForEstimationStories() {
         return waitingForEstimationStories;
     }
+
+    public int getAvailableStoryPoints() {
+        return availableStoryPoints;
+    }
 }

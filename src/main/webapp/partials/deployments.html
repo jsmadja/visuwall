@@ -17,26 +17,26 @@
 -->
 
 <div class="container-fluid">
-    <div class="row-fluid">
-        <div class="span12">
-            <ul class="deployments">
-                <li ng-repeat="deployment in deployments | orderBy:name" class="thumbnail build">
-                    <div style="display: block">
-                        <div style="display:inline-block" class="environment-color-{{deployment.environment}}"></div>
-                        <div style="display:inline-block;" class="deployment-environment-box">
-                            <span>{{deployment.environment}}</span>
-                        </div>
-                        <div style="display:inline-block;" class="deployment-build-box">
+  <div class="row-fluid">
+    <div class="span12">
+      <ul class="deployments">
+        <li ng-repeat="deployment in deployments | orderBy:name" class="thumbnail build">
+          <div style="display: block">
+            <div style="display:inline-block" class="environment-color-{{deployment.environment}}"></div>
+            <div style="display:inline-block;" class="deployment-environment-box">
+              <span>{{deployment.environment}}</span>
+            </div>
+            <div style="display:inline-block;" class="deployment-build-box">
                             <span class="build-title">
                                 {{deployment.name}}
                             </span>
-                        </div>
-                        <div style="display:inline-block;" class="deployment-version-box">
-                            <span>{{deployment.version}}</span>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
+            </div>
+            <div style="display:inline-block;" class="deployment-version-box">
+              <span>{{deployment.version}}</span>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
+  </div>
 </div>

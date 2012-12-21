@@ -17,106 +17,109 @@
 -->
 
 <div style="width: 600px; margin-left: auto; margin-right: auto;" ng-controller="ConfigurationsCtrl">
-    <h2 ng-controller="WallsCtrl">Visuwall configuration - {{wall}}</h2>
+  <h2 ng-controller="WallsCtrl">Visuwall configuration - {{wall}}</h2>
 
-    <style type="text/css">
-        #connections td {
-            vertical-align: middle;
-            color: #000000;
-        }
+  <style type="text/css">
+    #connections td {
+      vertical-align: middle;
+      color: #000000;
+    }
 
-        #connections th {
-            color: #000000;
-        }
+    #connections th {
+      color: #000000;
+    }
 
-        button.btn-small {
-            width: 24px;
-            height: 24px;
-            padding: 0;
-        }
+    button.btn-small {
+      width: 24px;
+      height: 24px;
+      padding: 0;
+    }
 
-    </style>
+  </style>
 
-    <div class="well">
-        <table id="connections" class="table table-condensed" ng-hide="connections.length == 0">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Url</th>
-                <th>Plugin</th>
-                <th style="width: 20px;"></th>
-                <th style="width: 20px;"></th>
-            </tr>
-            </thead>
-            <tr ng-repeat="connection in connections">
-                <td><b>{{connection.name}}</b></td>
-                <td><a href="{{connection.url}}" alt="{{connection.name}}">{{connection.url}}</a></td>
-                <td>{{connection.pluginName}}</td>
-                <td>
-                    <button ng-click="editConnection(connection)" class="btn btn-small btn-success"><i class="icon-edit icon-white"></i></button>
-                </td>
-                <td>
-                    <button ng-click="removeConnection(connection)" class="btn btn-small btn-danger"><i class="icon-trash icon-white"></i></button>
-                </td>
-            </tr>
-        </table>
-        <p ng-show="connections.length == 0" style="color: black;">
-            <img src="img/loading.gif" alt="loading"/> Fetching configuration from server. Please wait ...
-        </p>
+  <div class="well">
+    <table id="connections" class="table table-condensed" ng-hide="connections.length == 0">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Url</th>
+        <th>Plugin</th>
+        <th style="width: 20px;"></th>
+        <th style="width: 20px;"></th>
+      </tr>
+      </thead>
+      <tr ng-repeat="connection in connections">
+        <td><b>{{connection.name}}</b></td>
+        <td><a href="{{connection.url}}" alt="{{connection.name}}">{{connection.url}}</a></td>
+        <td>{{connection.pluginName}}</td>
+        <td>
+          <button ng-click="editConnection(connection)" class="btn btn-small btn-success"><i
+              class="icon-edit icon-white"></i></button>
+        </td>
+        <td>
+          <button ng-click="removeConnection(connection)" class="btn btn-small btn-danger"><i
+              class="icon-trash icon-white"></i></button>
+        </td>
+      </tr>
+    </table>
+    <p ng-show="connections.length == 0" style="color: black;">
+      <img src="img/loading.gif" alt="loading"/> Fetching configuration from server. Please wait ...
+    </p>
+  </div>
+
+  <form name="connectionForm" class="form-inline well" style="width: 560px;">
+    <div class="control-group">
+      <div class="alert alert-info" ng-show="connection.warning != null">
+        {{connection.warning}}
+      </div>
     </div>
+    <div class="control-group">
+      <label>Name <span class="star">*</span></label>
+      <input type="text" name="name" ng-model="connection.name" required placeholder="Connection to jenkins"/>
+      <span ng-show="connectionForm.name.$error.required" class="help-inline warning">Required</span>
+    </div>
+    <div class="control-group">
+      <label>URL <span class="star">*</span></label>
+      <input type="url" name="url" ng-model="connection.url" required placeholder="http://ci.mycompany.com"
+             ng-change="checkConnection()"/>
+      <span ng-show="connectionForm.url.$error.required" class="help-inline warning">Required</span>
+      <span ng-show="connectionForm.url.$error.url" class="help-inline error">Not a valid URL</span>
+    </div>
+    <div class="control-group">
+      <label>Authentication</label>
+      <input type="text" name="login" ng-change="checkConnection()" ng-model="connection.login"
+             placeholder="login"/>
+      <input type="password" name="password" ng-change="checkConnection()" ng-model="connection.password"
+             placeholder="password"/>
+    </div>
+    <div class="control-group">
+      <label>Filter</label>
+      <input type="text" name="buildFilter" ng-model="connection.buildFilter" ng-change="applyFilter()"
+             placeholder="project-indigo,project-magenta"/>
+    </div>
+    <div class="control-group">
+      <label>Plugin</label>
+      <input type="text" name="pluginName" ng-model="connection.pluginName" disabled/>
+      <span class="label label-important"
+            ng-hide="connection.pluginName || !connection.url">Unrecognized connection</span>
+      <span class="label label-success" ng-show="connection.pluginName || connection.buildNames">Connection OK!</span>
 
-    <form name="connectionForm" class="form-inline well" style="width: 560px;">
-        <div class="control-group">
-            <div class="alert alert-info" ng-show="connection.warning != null">
-                {{connection.warning}}
-            </div>
-        </div>
-        <div class="control-group">
-            <label>Name <span class="star">*</span></label>
-            <input type="text" name="name" ng-model="connection.name" required placeholder="Connection to jenkins"/>
-            <span ng-show="connectionForm.name.$error.required" class="help-inline warning">Required</span>
-        </div>
-        <div class="control-group">
-            <label>URL <span class="star">*</span></label>
-            <input type="url" name="url" ng-model="connection.url" required placeholder="http://ci.mycompany.com"
-                   ng-change="checkConnection()"/>
-            <span ng-show="connectionForm.url.$error.required" class="help-inline warning">Required</span>
-            <span ng-show="connectionForm.url.$error.url" class="help-inline error">Not a valid URL</span>
-        </div>
-        <div class="control-group">
-            <label>Authentication</label>
-            <input type="text" name="login" ng-change="checkConnection()" ng-model="connection.login"
-                   placeholder="login"/>
-            <input type="password" name="password" ng-change="checkConnection()" ng-model="connection.password"
-                   placeholder="password"/>
-        </div>
-        <div class="control-group">
-            <label>Filter</label>
-            <input type="text" name="buildFilter" ng-model="connection.buildFilter" ng-change="applyFilter()"
-                   placeholder="project-indigo,project-magenta"/>
-        </div>
-        <div class="control-group">
-            <label>Plugin</label>
-            <input type="text" name="pluginName" ng-model="connection.pluginName" disabled/>
-            <span class="label label-important" ng-hide="connection.pluginName || !connection.url">Unrecognized connection</span>
-            <span class="label label-success" ng-show="connection.pluginName || connection.buildNames">Connection OK!</span>
-
-        </div>
-        <div class="control-group" ng-show="connection.buildNames">
-            <label>Builds</label>
-            <select multiple ng-model="buildNames">
-                <option value="{{buildName}}" ng-repeat="buildName in connection.buildNames">{{buildName}}</option>
-            </select>
-        </div>
-        <div class="control-group" ng-show="connection.metrics">
-            <label>Metrics</label>
-            <select multiple ng-model="metricNames">
-                <option ng-selected="metric.selected" value="{{metric.key}}" ng-repeat="metric in connection.metrics">
-                    {{metric.name}}
-                </option>
-            </select>
-        </div>
-        <button ng-click="addConnection()" class="btn btn-primary">Submit</button>
-    </form>
+    </div>
+    <div class="control-group" ng-show="connection.buildNames">
+      <label>Builds</label>
+      <select multiple ng-model="buildNames">
+        <option value="{{buildName}}" ng-repeat="buildName in connection.buildNames">{{buildName}}</option>
+      </select>
+    </div>
+    <div class="control-group" ng-show="connection.metrics">
+      <label>Metrics</label>
+      <select multiple ng-model="metricNames">
+        <option ng-selected="metric.selected" value="{{metric.key}}" ng-repeat="metric in connection.metrics">
+          {{metric.name}}
+        </option>
+      </select>
+    </div>
+    <button ng-click="addConnection()" class="btn btn-primary">Submit</button>
+  </form>
 
 </div>
