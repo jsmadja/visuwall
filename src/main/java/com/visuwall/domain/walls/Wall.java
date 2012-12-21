@@ -1,6 +1,5 @@
 package com.visuwall.domain.walls;
 
-import com.google.common.io.Closeables;
 import com.visuwall.api.plugin.VisuwallPlugin;
 import com.visuwall.api.plugin.capability.BasicCapability;
 import com.visuwall.api.plugin.capability.BuildCapability;
@@ -22,29 +21,23 @@ import com.visuwall.web.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
-import static org.fest.util.Files.delete;
 
 @XmlRootElement(name = "wall")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Wall implements Runnable, Comparable<Wall> {
 
     private String name;
+
+    private Configuration configuration = new Configuration();
 
     @XmlTransient
     private Builds builds = new Builds();
@@ -55,19 +48,18 @@ public class Wall implements Runnable, Comparable<Wall> {
     @XmlTransient
     private Tracks tracks = new Tracks();
 
-    private Configuration configuration = new Configuration();
-
-    private static final Logger LOG = LoggerFactory.getLogger(Wall.class);
-
     @XmlTransient
     private PluginDiscover pluginDiscover = new PluginDiscover();
 
     @XmlTransient
     private Thread thread;
 
-    Wall() {}
+    @XmlTransient
+    private WallConfigurator wallConfigurator = new WallConfigurator(this);
 
-    // TODO: WallConfiguration
+    private static final Logger LOG = LoggerFactory.getLogger(Wall.class);
+
+    Wall() {}
 
     public Wall(String name) {
         this.name = name;
@@ -134,13 +126,7 @@ public class Wall implements Runnable, Comparable<Wall> {
 
     @Override
     public void run() {
-        if(configurationFileExists()) {
-            try {
-                loadExistingConfiguration();
-            } catch (JAXBException e) {
-                LOG.warn("["+name+"] Unable to load existing configuration from ("+configurationFile().getAbsolutePath()+")", e);
-            }
-        }
+        loadExistingConfiguration();
         while (true) {
             try {
                 long start = System.currentTimeMillis();
@@ -158,18 +144,19 @@ public class Wall implements Runnable, Comparable<Wall> {
         }
     }
 
-    private boolean configurationFileExists() {
-        return configurationFile().exists();
-    }
-
-    public void loadExistingConfiguration() throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(Wall.class);
-        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-        Wall configuredWall = (Wall) unmarshaller.unmarshal(configurationFile());
-        for (Connection connection : configuredWall.getConnections()) {
-            addConfiguredConnection(connection);
+    public void loadExistingConfiguration() {
+        if(!wallConfigurator.configurationFileExists()) {
+            return;
         }
-        LOG.info("["+name+"] Wall has been successfully configured from file "+configurationFile().getAbsolutePath());
+        try {
+            Wall configuredWall = wallConfigurator.loadWall();
+            for (Connection connection : configuredWall.getConnections()) {
+                addConfiguredConnection(connection);
+            }
+            LOG.info("["+name+"] Wall has been successfully configured from file "+wallConfigurator.configurationFile().getAbsolutePath());
+        } catch(JAXBException e) {
+            LOG.warn("["+name+"] Wall has not been successfully configured from file "+wallConfigurator.configurationFile().getAbsolutePath());
+        }
     }
 
     private void addConfiguredConnection(Connection connection) {
@@ -180,26 +167,6 @@ public class Wall implements Runnable, Comparable<Wall> {
             if(!visuwallPlugin.requiresPassword()) {
                 addNewValidConnection(connection, visuwallPlugin);
             }
-        }
-    }
-
-    private File configurationFile() {
-        return new File("wall-"+name+".xml");
-    }
-
-    public void save() {
-        FileOutputStream fileOutputStream = null;
-        try {
-            fileOutputStream = new FileOutputStream(configurationFile());
-            JAXBContext jaxbContext = JAXBContext.newInstance(Wall.class);
-            Marshaller marshaller = jaxbContext.createMarshaller();
-            marshaller.marshal(this, fileOutputStream);
-        } catch (FileNotFoundException e) {
-            LOG.warn("["+name+"] Unable to save configuration to filesystem", e);
-        } catch (JAXBException e) {
-            LOG.warn("["+name+"] Unable to save wall '" + name + "' configuration to filesystem", e);
-        } finally {
-            Closeables.closeQuietly(fileOutputStream);
         }
     }
 
@@ -232,7 +199,7 @@ public class Wall implements Runnable, Comparable<Wall> {
     public void updateConnection(Connection connection) {
         removeConnection(connection);
         addConnection(connection);
-        save();
+        wallConfigurator.save();
     }
 
     private void removeConnection(Connection connection) {
@@ -240,7 +207,7 @@ public class Wall implements Runnable, Comparable<Wall> {
         builds.removeAllFrom(connection);
         analyses.removeAllFrom(connection);
         tracks.removeAllFrom(connection);
-        save();
+        wallConfigurator.save();
     }
 
     public Connections getConnections() {
@@ -252,7 +219,7 @@ public class Wall implements Runnable, Comparable<Wall> {
     }
 
     public void deleteConfiguration() {
-        delete(configurationFile());
+        wallConfigurator.delete();
     }
 
     public void stop() {
