@@ -57,6 +57,8 @@ public class Connection {
 
     private String pluginName;
 
+    private String softwareInfo;
+
     @XmlTransient
     private String warning;
 
@@ -216,6 +218,14 @@ public class Connection {
 
     public String getPluginName() {
         return pluginName;
+    }
+
+    public void setSoftwareInfo(String softwareInfo) {
+        this.softwareInfo = softwareInfo;
+    }
+
+    public String getSoftwareInfo() {
+        return softwareInfo;
     }
 
     public void setWarning(String warning) {

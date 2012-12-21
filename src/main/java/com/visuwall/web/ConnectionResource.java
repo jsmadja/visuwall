@@ -54,6 +54,7 @@ public class ConnectionResource {
             PluginConfiguration pluginConfiguration = Connection.createPluginConfigurationFrom(connection);
             SoftwareId softwareId = plugin.getSoftwareId(url, pluginConfiguration);
             connection.setWarning(softwareId.getWarnings());
+            connection.setSoftwareInfo(softwareId.getName()+" "+softwareId.getVersion());
             if (plugin.requiresPassword() && !pluginConfiguration.hasPassword()) {
                 return status(UNAUTHORIZED).build();
             }
