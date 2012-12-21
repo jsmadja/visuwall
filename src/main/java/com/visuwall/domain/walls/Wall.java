@@ -56,13 +56,13 @@ public class Wall implements Runnable, Comparable<Wall> {
     private Configuration configuration = new Configuration();
 
     @XmlTransient
-    private Builds builds = new Builds();
+    private Builds builds = new Builds(this);
 
     @XmlTransient
-    private Analyses analyses = new Analyses();
+    private Analyses analyses = new Analyses(this);
 
     @XmlTransient
-    private Tracks tracks = new Tracks();
+    private Tracks tracks = new Tracks(this);
 
     @XmlTransient
     private PluginDiscover pluginDiscover = new PluginDiscover();
@@ -146,7 +146,6 @@ public class Wall implements Runnable, Comparable<Wall> {
         while (true) {
             try {
                 long start = System.currentTimeMillis();
-                LOG.info("["+name+"] Wall is full refreshing ...");
                 ExecutorService pool = Executors.newFixedThreadPool(20);
                 builds.refresh(pool);
                 analyses.refresh(pool);
@@ -192,10 +191,8 @@ public class Wall implements Runnable, Comparable<Wall> {
 
     private void waitForNextIteration() throws InterruptedException {
         if (builds.count() == 0 && analyses.count() == 0 && tracks.count() == 0) {
-            LOG.info("["+name+"] No refreshables, next refresh in 30 seconds");
             TimeUnit.SECONDS.sleep(20);
         } else {
-            LOG.info("["+name+"] Next refresh in 1 minute");
             TimeUnit.MINUTES.sleep(1);
         }
     }

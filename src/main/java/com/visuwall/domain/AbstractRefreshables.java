@@ -20,6 +20,7 @@ import com.visuwall.api.domain.SoftwareProjectId;
 import com.visuwall.domain.connections.Connection;
 import com.visuwall.domain.connections.ConnectionConfiguration;
 import com.visuwall.domain.connections.Connections;
+import com.visuwall.domain.walls.Wall;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,13 +37,19 @@ public abstract class AbstractRefreshables<T extends Refreshable> implements Ref
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractRefreshables.class);
 
+    private final Wall wall;
+
+    protected AbstractRefreshables(Wall wall) {
+        this.wall = wall;
+    }
+
     public T get(String name) throws RefreshableNotFoundException {
         for (T refreshable : refreshables) {
             if (refreshable.hasName(name)) {
                 return refreshable;
             }
         }
-        LOG.info("Refreshable '"+name+"' has not been found");
+        LOG.debug("["+wall.getName()+"] "+name+" has not been found");
         throw new RefreshableNotFoundException(name);
     }
 
@@ -57,10 +64,10 @@ public abstract class AbstractRefreshables<T extends Refreshable> implements Ref
             @Override
             public T call() throws Exception {
                 if (refreshable.isRefreshable()) {
-                    LOG.info(refreshable + " is refreshing ...");
+                    LOG.info("["+wall.getName()+"] "+refreshable + " is refreshing ...");
                     refreshable.refresh();
                     removeRefreshableIfNecessary(refreshable);
-                    LOG.info(refreshable + " is now up-to-date");
+                    LOG.info("["+wall.getName()+"] "+refreshable + " is now up-to-date");
                 }
                 return refreshable;
             }

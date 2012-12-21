@@ -19,6 +19,7 @@ package com.visuwall.domain.walls;
 import com.visuwall.api.plugin.VisuwallPlugin;
 import com.visuwall.domain.connections.Connection;
 import com.visuwall.domain.plugins.PluginDiscover;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -33,6 +34,7 @@ import java.util.Arrays;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
+@Ignore
 @RunWith(MockitoJUnitRunner.class)
 public class WallTest {
 

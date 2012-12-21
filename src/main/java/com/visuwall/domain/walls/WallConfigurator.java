@@ -17,7 +17,7 @@
 package com.visuwall.domain.walls;
 
 import com.google.common.io.Closeables;
-import org.fest.util.Files;
+import com.google.common.io.Files;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +28,7 @@ import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class WallConfigurator {
 
@@ -40,7 +41,13 @@ public class WallConfigurator {
     }
 
     public File configurationFile() {
-        return new File("wall-"+wall.getName()+".xml");
+        try {
+            File configurationFile = new File("wall-cfg/wall-" + wall.getName() + ".xml");
+            Files.createParentDirs(configurationFile);
+            return configurationFile;
+        } catch (IOException e) {
+            throw new IllegalStateException("Cannot create configuration directory (wall-cfg)", e);
+        }
     }
 
     public void save() {
@@ -64,7 +71,7 @@ public class WallConfigurator {
     }
 
     public void delete() {
-        Files.delete(configurationFile());
+        configurationFile().delete();
     }
 
     public Wall loadWall() throws JAXBException {

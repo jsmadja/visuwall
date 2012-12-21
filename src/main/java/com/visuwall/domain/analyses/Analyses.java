@@ -20,6 +20,7 @@ import com.visuwall.api.domain.SoftwareProjectId;
 import com.visuwall.api.plugin.capability.BasicCapability;
 import com.visuwall.domain.AbstractRefreshables;
 import com.visuwall.domain.connections.ConnectionConfiguration;
+import com.visuwall.domain.walls.Wall;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +29,10 @@ import java.util.List;
 public class Analyses extends AbstractRefreshables<Analysis> {
 
     private static final Logger LOG = LoggerFactory.getLogger(Analyses.class);
+
+    public Analyses(Wall wall) {
+        super(wall);
+    }
 
     @Override
     protected void addNewRefreshableFrom(ConnectionConfiguration connectionConfiguration) {
