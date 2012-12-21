@@ -19,8 +19,7 @@ function BuildsCtrl($scope, Builds, $timeout, $rootScope, $routeParams) {
   function updateTime() {
     Builds.list({"wallName":$rootScope.wall}, function(remoteBuilds) {
 
-      $rootScope.buildCount = builds.length;
-
+      $rootScope.buildCount = remoteBuilds.length;
 
       var remoteBuildsCount = 0;
       var currentBuildsCount = 0;

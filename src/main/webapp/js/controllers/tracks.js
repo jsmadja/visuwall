@@ -9,7 +9,11 @@ function TracksCtrl($scope, Tracks, $timeout, $rootScope, $routeParams) {
   var timeout = 1;
 
   function updateTime() {
-    $scope.tracks = Tracks.list({"wallName":$rootScope.wall});
+    $scope.tracks = Tracks.list({"wallName":$rootScope.wall}, function (remoteTracks) {
+
+      $rootScope.trackCount = remoteTracks.length;
+
+    });
   }
 
   function updateLater() {

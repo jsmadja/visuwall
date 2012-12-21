@@ -69,10 +69,10 @@
 
             <div class="nav-collapse collapse">
                 <ul class="nav" ng-controller="WallsCtrl">
-                    <li><a href="#/{{wall}}/builds">Build</a></li>
-                    <li><a href="#/{{wall}}/tracks">Track</a></li>
-                    <li><a href="#/{{wall}}/analyses">Analyze</a></li>
-                    <li><a href="#/{{wall}}/deployments">Deploy</a></li>
+                    <li ng-show="buildCount"><a href="#/{{wall}}/builds">Builds ({{buildCount}})</a></li>
+                    <li ng-show="trackCount"><a href="#/{{wall}}/tracks">Tracks ({{trackCount}})</a></li>
+                    <li ng-show="analysisCount"><a href="#/{{wall}}/analyses">Analyses ({{analysisCount}})</a></li>
+                    <li ng-show="deploymentCount"><a href="#/{{wall}}/deployments">Deployments ({{deploymentCount}})</a></li>
                     <li><a href="#/{{wall}}/configurations">Configuration</a></li>
                 </ul>
             </div>
