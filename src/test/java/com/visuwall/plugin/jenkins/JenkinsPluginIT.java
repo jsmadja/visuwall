@@ -5,12 +5,11 @@ import com.visuwall.api.domain.SoftwareProjectId;
 import com.visuwall.domain.plugins.PluginConfiguration;
 import org.junit.Test;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Map;
 
-public class JenkinsPluginTest {
+public class JenkinsPluginIT {
 
     @Test
     public void test_cloudbees() throws Exception {
