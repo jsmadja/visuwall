@@ -17,7 +17,7 @@
 -->
 
 <div style="width: 600px; margin-left: auto; margin-right: auto;" ng-controller="ConfigurationsCtrl">
-  <h2 ng-controller="WallsCtrl">Visuwall configuration - {{wall}}</h2>
+  <h2 ng-controller="WallsCtrl">Configuration of <span style="color: orange">{{wall}}</span> wall</h2>
 
   <style type="text/css">
     #connections td {
@@ -53,11 +53,11 @@
         <td><a href="{{connection.url}}" alt="{{connection.name}}">{{connection.url}}</a></td>
         <td>{{connection.pluginName}}</td>
         <td>
-          <button ng-click="editConnection(connection)" class="btn btn-small btn-success"><i
+          <button title="Edit" ng-click="editConnection(connection)" class="btn btn-small btn-success"><i
               class="icon-edit icon-white"></i></button>
         </td>
         <td>
-          <button ng-click="removeConnection(connection)" class="btn btn-small btn-danger"><i
+          <button title="Remove" ng-click="removeConnection(connection)" class="btn btn-small btn-danger"><i
               class="icon-trash icon-white"></i></button>
         </td>
       </tr>
