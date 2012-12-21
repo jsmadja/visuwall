@@ -27,30 +27,6 @@ public class WallTest {
     private VisuwallPlugin plugin;
 
     @Test
-    public void should_save_wall_to_filesystem() {
-        Wall wall = new Wall();
-        wall.deleteConfiguration();
-
-        ReflectionTestUtils.setField(wall, "pluginDiscover", pluginDiscover);
-
-        Connection connection = new Connection();
-        connection.setLogin("login");
-        connection.setPassword("password");
-        connection.setBuildFilter("buildFilter");
-        connection.setIncludeBuildNames(Arrays.asList("X", "Y"));
-        connection.setIncludeMetricNames(Arrays.asList("W", "Z"));
-        connection.setName("Sonar");
-        connection.setUrl("http://nemo.sonarsource.org");
-
-        when(pluginDiscover.findPluginCompatibleWith(connection)).thenReturn(plugin);
-
-
-        wall.addConnection(connection);
-        wall.save();
-        assertThat(new File(wall.getName() + ".xml").exists()).isTrue();
-    }
-
-    @Test
     public void should_load_wall_from_filesystem() throws JAXBException {
         Wall wall = new Wall("configured-wall");
         wall.loadExistingConfiguration();

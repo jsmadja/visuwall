@@ -33,7 +33,7 @@ public class WallConfigurator {
             fileOutputStream = new FileOutputStream(configurationFile());
             JAXBContext jaxbContext = JAXBContext.newInstance(Wall.class);
             Marshaller marshaller = jaxbContext.createMarshaller();
-            marshaller.marshal(this, fileOutputStream);
+            marshaller.marshal(wall, fileOutputStream);
         } catch (FileNotFoundException e) {
             LOG.warn("["+wall.getName()+"] Unable to save configuration to filesystem", e);
         } catch (JAXBException e) {
