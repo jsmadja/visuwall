@@ -3,6 +3,8 @@ package com.visuwall.domain.walls;
 import com.visuwall.domain.analyses.Analyses;
 import com.visuwall.domain.analyses.Analysis;
 import com.visuwall.domain.analyses.Metric;
+import com.visuwall.domain.builds.Build;
+import com.visuwall.domain.builds.Builds;
 import com.visuwall.domain.connections.Connection;
 import com.visuwall.domain.tracks.Track;
 import com.visuwall.domain.tracks.Tracks;
@@ -68,6 +70,24 @@ public class WallIT {
                 System.err.println("velocity:"+track.getActualVelocity());
                 System.err.println("# sprints:"+track.getNumberOfSprints());
                 System.err.println("to estimate:"+track.getWaitingForEstimationStories());
+            }
+            TimeUnit.SECONDS.sleep(5);
+        }
+
+    }
+
+    @Test
+    public void test_cloudbees() throws Exception {
+        Wall wall = Walls.get("wall");
+        Connection connection = new Connection();
+        connection.setUrl("https://jsmadja.ci.cloudbees.com");
+        connection.setName("cloudbees");
+        wall.addConnection(connection);
+        while(true) {
+            System.err.println("Tick");
+            Builds builds = wall.getBuilds();
+            for (Build build : builds) {
+                System.err.println(build);
             }
             TimeUnit.SECONDS.sleep(5);
         }

@@ -23,8 +23,6 @@ public class SoftwareId {
     private String warnings;
     private boolean compatible = true;
 
-    // ////////////////////////////////
-
     public String getName() {
         return name;
     }
@@ -55,5 +53,14 @@ public class SoftwareId {
 
     public void setCompatible(boolean compatible) {
         this.compatible = compatible;
+    }
+
+    @Override
+    public String toString() {
+        return "SoftwareId{" +
+                "name='" + name + '\'' +
+                ", version='" + version + '\'' +
+                ", warnings='" + warnings + '\'' +
+                '}';
     }
 }
