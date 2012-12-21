@@ -91,4 +91,5 @@ public class Walls {
             LOG.info("Wall "+name+" has been deleted");
         }
     }
+
 }
