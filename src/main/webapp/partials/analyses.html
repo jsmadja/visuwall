@@ -20,7 +20,7 @@
     <div class="row-fluid">
         <div class="span12">
             <ul class="analyses">
-                <li ng-repeat="analysis in analyses" class="span6 thumbnail analysis" style="margin-left:5px;">
+                <li ng-repeat="analysis in analyses" class="thumbnail analysis" style="margin-left:5px;" ng-show="analysis.metrics">
                     <div style="display: block" refresh-analysis ng-controller="AnalysesCtrl">
                         <p class="analysis-title">
                             {{analysis.name}}
