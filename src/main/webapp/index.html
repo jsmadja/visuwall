@@ -19,74 +19,72 @@
 <!doctype html>
 <html lang="en" ng-app="visuwall">
 <head>
-    <meta charset="utf-8">
-    <title>Visuwall</title>
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/app.css">
-    <link rel="stylesheet" href="css/deployment.css">
-    <link rel="stylesheet" href="css/track.css">
-    <link rel="stylesheet" href="css/analysis.css">
-    <link rel="stylesheet" href="css/build.css">
-    <link rel="stylesheet" href="css/configuration.css">
+  <meta charset="utf-8">
+  <title>Visuwall</title>
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/deployment.css">
+  <link rel="stylesheet" href="css/track.css">
+  <link rel="stylesheet" href="css/analysis.css">
+  <link rel="stylesheet" href="css/build.css">
+  <link rel="stylesheet" href="css/configuration.css">
 
-    <script src="lib/angular/angular.js"></script>
-    <script src="lib/angular/angular-resource.js"></script>
+  <script src="lib/angular/angular.js"></script>
+  <script src="lib/angular/angular-resource.js"></script>
 
-    <script src="lib/jquery/jquery.js"></script>
-    <script src="lib/bootstrap/bootstrap.js"></script>
+  <script src="lib/jquery/jquery.js"></script>
+  <script src="lib/bootstrap/bootstrap.js"></script>
 
-    <script src="js/app.js"></script>
+  <script src="js/app.js"></script>
 
-    <script src="js/directives.js"></script>
+  <script src="js/directives.js"></script>
 
-    <script src="js/controllers/builds.js"></script>
-    <script src="js/controllers/analyses.js"></script>
-    <script src="js/controllers/tracks.js"></script>
-    <script src="js/controllers/walls.js"></script>
-    <script src="js/controllers/connections.js"></script>
+  <script src="js/controllers/builds.js"></script>
+  <script src="js/controllers/analyses.js"></script>
+  <script src="js/controllers/tracks.js"></script>
+  <script src="js/controllers/walls.js"></script>
+  <script src="js/controllers/connections.js"></script>
 
-    <script src="js/services.js"></script>
+  <script src="js/services.js"></script>
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-inner" ng-controller="WallsCtrl">
-        <div>
-            <a class="btn dropdown-toggle pull-right" data-toggle="dropdown" href="#">
-                {{wall}}
-                <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <li ng-repeat="wall in walls">
-                    <a href="/#/{{wall.name}}/builds" ng-click="setCurrentWall(wall.name)">{{wall.name}}</a>
-                </li>
-                <li>
-                    <a ng-click="deleteWall(wall)">Delete {{wall}}</a>
-                </li>
-            </ul>
-        </div>
-        <div class="container" style="width:100%;margin-left:20px;">
-            <a class="brand" href="#"><img width="15" src="http://visuwall.awired.net/img/logo-large.png"/> visuwall</a>
-
-            <div class="nav-collapse collapse">
-                <ul class="nav" ng-controller="WallsCtrl">
-                    <li><a href="#/{{wall}}/builds">Builds ({{buildCount}})</a></li>
-                    <li><a href="#/{{wall}}/tracks">Tracks ({{trackCount}})</a></li>
-                    <li><a href="#/{{wall}}/analyses">Analyses ({{analysisCount}})</a></li>
-                    <li><a href="#/{{wall}}/deployments">Deployments ({{deploymentCount}})</a></li>
-                    <li><a href="#/{{wall}}/configurations">Configuration</a></li>
-                </ul>
-            </div>
-        </div>
+  <div class="navbar-inner" ng-controller="WallsCtrl">
+    <div>
+      <a class="btn dropdown-toggle pull-right" data-toggle="dropdown" href="#">
+        {{wall}}
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li ng-repeat="wall in walls">
+          <a href="/#/{{wall.name}}/builds" ng-click="setCurrentWall(wall.name)">{{wall.name}}</a>
+        </li>
+        <li>
+          <a ng-click="deleteWall(wall)">Delete {{wall}}</a>
+        </li>
+      </ul>
     </div>
+    <div class="container" style="width:100%;margin-left:20px;">
+      <a class="brand" href="#"><img width="15" src="http://visuwall.awired.net/img/logo-large.png"/> visuwall</a>
+
+      <div class="nav-collapse collapse">
+        <ul class="nav" ng-controller="WallsCtrl">
+          <li><a href="#/{{wall}}/builds">Builds ({{buildCount}})</a></li>
+          <li><a href="#/{{wall}}/tracks">Tracks ({{trackCount}})</a></li>
+          <li><a href="#/{{wall}}/analyses">Analyses ({{analysisCount}})</a></li>
+          <li><a href="#/{{wall}}/deployments">Deployments ({{deploymentCount}})</a></li>
+          <li><a href="#/{{wall}}/configurations">Configuration</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
 <div ng-view style="min-height: 700px;margin-top:20px;"></div>
 
-<div id="footer">
-    <div>
-        <a href="http://visuwall.awired.net/">Visuwall</a> - version 2.0 by <a
-            href="https://twitter.com/arnaud_lemaire">Arnaud Lemaire</a> and <a href="https://twitter.com/jsmadja">Julien
-        Smadja</a>
-    </div>
-</div>
+<center>
+  <div>
+    <a href="http://visuwall.awired.net/">Visuwall</a> - version 2.0 by <a href="https://twitter.com/arnaud_lemaire">Arnaud Lemaire</a> and <a href="https://twitter.com/jsmadja">Julien Smadja</a>
+  </div>
+</center>
 </body>
 </html>

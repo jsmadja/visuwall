@@ -12,18 +12,12 @@ body {
 }
 
 #footer {
-  margin:0;
-  padding:0;
+  margin-left: auto;
+  margin-right: auto;
   position: fixed;
   bottom: 0;
   display:block;
-
-}
-#footer div {
-  margin-left: auto;
-  margin-right: auto;
   height: 20px;
-  width:600px;
 }
 
 .projects {
