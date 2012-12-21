@@ -47,7 +47,7 @@ public class PluginDiscover {
                 pluginsByUrl.put(connectionUrl, plugin);
                 return plugin;
             }
-            LOG.info("Plugin acceptation - " + plugin.getName() + " ... KO");
+            LOG.debug("Plugin acceptation - " + plugin.getName() + " ... KO");
         }
         return null;
     }

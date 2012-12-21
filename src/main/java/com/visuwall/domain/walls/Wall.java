@@ -83,10 +83,10 @@ public class Wall implements Runnable, Comparable<Wall> {
 
     public void addConnection(Connection connection) {
         String url = connection.getUrl();
-        LOG.info("["+name+"] Trying to identify a compatible plugin for url:" + url);
+        LOG.info("["+name+"] Trying to identify a compatible plugin for url: " + url);
         VisuwallPlugin plugin = pluginDiscover.findPluginCompatibleWith(connection);
         if (plugin == null) {
-            LOG.info("["+name+"] Visuwall cannot find a compatible plugin for " + url);
+            LOG.info("["+name+"] Visuwall cannot find a compatible plugin for url: " + url);
         } else {
             LOG.info(plugin.getName() + " is compatible with url:" + url);
             addNewValidConnection(connection, plugin);
@@ -151,7 +151,7 @@ public class Wall implements Runnable, Comparable<Wall> {
                 analyses.refresh(pool);
                 tracks.refresh(pool);
                 pool.shutdown();
-                LOG.info("["+name+"] Wall has been fully refreshed in " + duration(start) + " ms");
+                LOG.debug("["+name+"] Wall has been fully refreshed in " + duration(start) + " ms");
                 waitForNextIteration();
             } catch (InterruptedException e) {
                 LOG.error("["+name+"] Error in main loop", e);

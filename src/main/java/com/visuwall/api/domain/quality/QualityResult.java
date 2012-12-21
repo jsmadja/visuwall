@@ -51,4 +51,20 @@ public final class QualityResult implements Iterable<QualityMeasure> {
     public Iterator<QualityMeasure> iterator() {
         return measures.values().iterator();
     }
+
+    public static class Builder {
+
+        private Map<String, QualityMeasure> measures = new HashMap<String, QualityMeasure>();
+
+        public Builder add(String key, QualityMeasure measure) {
+            measures.put(key, measure);
+            return this;
+        }
+
+        public QualityResult build() {
+            QualityResult qualityResult = new QualityResult();
+            qualityResult.measures.putAll(measures);
+            return qualityResult;
+        }
+    }
 }

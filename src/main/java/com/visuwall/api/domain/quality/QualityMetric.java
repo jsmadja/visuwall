@@ -129,4 +129,35 @@ public final class QualityMetric {
     public int hashCode() {
         return Objects.hashCode(description, domain, key, name);
     }
+
+    public static class Builder {
+
+        private String key;
+        private String name;
+        private boolean qualitative;
+
+        public Builder withQualitative(boolean qualitative) {
+            this.qualitative = qualitative;
+            return this;
+        }
+
+        public Builder withKey(String key) {
+            this.key = key;
+            return this;
+        }
+
+        public Builder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public QualityMetric build() {
+            QualityMetric qualityMetric = new QualityMetric();
+            qualityMetric.key = key;
+            qualityMetric.name = name;
+            qualityMetric.qualitative = qualitative;
+            return qualityMetric;
+        }
+
+    }
 }

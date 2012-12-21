@@ -49,4 +49,28 @@ public class Story {
         ACCEPTED, READY, STARTED, UNKNOWN, UNSTARTED, DELIVERED, REJECTED;
     }
 
+    public static class Builder {
+
+        private State state;
+        private Integer estimation;
+
+        public Builder withState(State state) {
+            this.state = state;
+            return this;
+        }
+
+        public Builder withEstimation(int estimation) {
+            this.estimation = estimation;
+            return this;
+        }
+
+        public Story build() {
+            Story story = new Story();
+            story.state = state;
+            story.estimation = estimation;
+            return story;
+        }
+
+    }
+
 }

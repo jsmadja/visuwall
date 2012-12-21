@@ -102,4 +102,48 @@ public final class QualityMeasure {
     public int getTendency() {
         return tendency;
     }
+
+    public static class Builder {
+        private String formattedValue;
+        private String key;
+        private String name;
+        private int tendency;
+        private Double value;
+
+        public Builder withFormattedValue(String formattedValue) {
+            this.formattedValue = formattedValue;
+            return this;
+        }
+
+        public Builder withKey(String key) {
+            this.key = key;
+            return this;
+        }
+
+        public Builder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder withTendency(int tendency) {
+            this.tendency = tendency;
+            return this;
+        }
+
+        public Builder withValue(Double value) {
+            this.value = value;
+            return this;
+        }
+
+        public QualityMeasure build() {
+            QualityMeasure qualityMeasure = new QualityMeasure();
+            qualityMeasure.formattedValue = formattedValue;
+            qualityMeasure.key = key;
+            qualityMeasure.name = name;
+            qualityMeasure.tendency = tendency;
+            qualityMeasure.value = value;
+            return qualityMeasure;
+        }
+    }
+
 }

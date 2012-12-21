@@ -14,7 +14,7 @@
  *     limitations under the License.
  */
 
-package com.visuwall.plugin.demo;
+package com.visuwall.plugin.demo.build;
 
 import com.visuwall.api.domain.BuildState;
 import com.visuwall.api.domain.BuildTime;

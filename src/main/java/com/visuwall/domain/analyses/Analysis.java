@@ -130,7 +130,11 @@ public class Analysis implements Comparable<Analysis>, Refreshable {
         for (List<QualityMetric> metrics : metricsByCategory.values()) {
             for (QualityMetric metric : metrics) {
                 if (metric != null && metric.getName().equals(qualityMeasure.getName())) {
-                    return metric.getQualitative();
+                    Boolean qualitative = metric.getQualitative();
+                    if(qualitative == null) {
+                        return false;
+                    }
+                    return qualitative;
                 }
             }
         }
