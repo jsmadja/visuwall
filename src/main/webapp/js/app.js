@@ -10,3 +10,11 @@ angular.module('visuwall', ['visuwallServices', 'visuwallDirectives']).
     when('/:wall/configurations', {templateUrl:'partials/configurations.html', controller:ConfigurationsCtrl}).
     otherwise({redirectTo:'/default/builds'});
 }]);
+
+function updateCurrentWallFromUrl($routeParams, $rootScope) {
+  if ($routeParams.wall) {
+    $rootScope.wall = $routeParams.wall;
+  } else {
+    $rootScope.wall = "default";
+  }
+}

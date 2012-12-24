@@ -8,11 +8,7 @@ Object.prototype.getName = function() {
 
 function BuildsCtrl($scope, Builds, $timeout, $rootScope, $routeParams) {
 
-  if($routeParams.wall) {
-    $rootScope.wall = $routeParams.wall;
-  } else {
-    $rootScope.wall = "default";
-  }
+  updateCurrentWallFromUrl($routeParams, $rootScope);
 
   var timeout = 1;
 

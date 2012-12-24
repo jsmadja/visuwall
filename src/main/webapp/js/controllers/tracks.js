@@ -1,18 +1,12 @@
 function TracksCtrl($scope, Tracks, $timeout, $rootScope, $routeParams) {
 
-  if($routeParams.wall) {
-    $rootScope.wall = $routeParams.wall;
-  } else {
-    $rootScope.wall = "default";
-  }
+  updateCurrentWallFromUrl($routeParams, $rootScope);
 
   var timeout = 1;
 
   function updateTime() {
-    $scope.tracks = Tracks.list({"wallName":$rootScope.wall}, function (remoteTracks) {
-
+    $scope.tracks = Tracks.list({"wallName": $rootScope.wall}, function (remoteTracks) {
       $rootScope.trackCount = remoteTracks.length;
-
     });
   }
 

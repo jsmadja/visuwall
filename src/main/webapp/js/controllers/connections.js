@@ -1,10 +1,6 @@
 function ConfigurationsCtrl($scope, $location, Connection, Connections, $rootScope, $routeParams) {
 
-  if($routeParams.wall) {
-    $rootScope.wall = $routeParams.wall;
-  } else {
-    $rootScope.wall = "default";
-  }
+  updateCurrentWallFromUrl($routeParams, $rootScope);
 
   $scope.connections = Connections.list({"wallName": $rootScope.wall});
 

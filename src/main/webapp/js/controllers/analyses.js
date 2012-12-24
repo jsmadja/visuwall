@@ -1,10 +1,6 @@
 function AnalysesCtrl($scope, Analyses, $timeout, $rootScope, $routeParams) {
 
-  if($routeParams.wall) {
-    $rootScope.wall = $routeParams.wall;
-  } else {
-    $rootScope.wall = "default";
-  }
+  updateCurrentWallFromUrl($routeParams, $rootScope);
 
   var timeout = 1;
 
