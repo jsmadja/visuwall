@@ -62,12 +62,16 @@
         </td>
       </tr>
     </table>
-    <p ng-show="connections.length == 0" style="color: black;">
-      <img src="img/loading.gif" alt="loading"/> Fetching configuration from server. Please wait ...
+    <p ng-show="!connections" style="color: black;">
+      <img src="img/loading.gif" alt="loading"/>Fetching configuration from server. Please wait ...
     </p>
     <hr/>
-
     <form name="connectionForm" class="form-inline" style="width: 560px;">
+      <div class="control-group">
+        <div class="alert alert-success" ng-show="connectionMessage">
+          {{connectionMessage}}
+        </div>
+      </div>
       <div class="control-group">
         <div class="alert alert-info" ng-show="connection.warning != null">
           {{connection.warning}}

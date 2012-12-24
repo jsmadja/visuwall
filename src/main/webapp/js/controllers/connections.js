@@ -15,6 +15,7 @@ function ConfigurationsCtrl($scope, $location, Connection, Connections, $rootSco
       $location.path($rootScope.wall+'/configurations');
       Connections.list({"wallName":$rootScope.wall}, function(connections) {
         $scope.connections = connections;
+        $scope.connectionMessage = "Connection updated successfully!";
       });
     });
   };
@@ -37,6 +38,7 @@ function ConfigurationsCtrl($scope, $location, Connection, Connections, $rootSco
     var name = $scope.connection.name;
 
     setTimeout(function () {
+      $scope.connectionMessage = "";
       var noNewUrl = $scope.connection.url == url;
       var noNewLogin = $scope.connection.login == login;
       var noNewPassword = $scope.connection.password == password;
