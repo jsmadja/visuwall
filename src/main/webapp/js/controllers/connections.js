@@ -13,7 +13,9 @@ function ConfigurationsCtrl($scope, $location, Connection, Connections, $rootSco
     $scope.connection.includeMetricNames = $scope.metricNames;
     Connections.update({wallName: $rootScope.wall}, $scope.connection, function (connection) {
       $location.path($rootScope.wall+'/configurations');
-      $scope.connections = Connections.list({"wallName":$rootScope.wall});
+      Connections.list({"wallName":$rootScope.wall}, function(connections) {
+        $scope.connections = connections;
+      });
     });
   };
 

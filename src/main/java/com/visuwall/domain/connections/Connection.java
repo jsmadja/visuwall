@@ -235,4 +235,24 @@ public class Connection {
     public String getWarning() {
         return warning;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Connection that = (Connection) o;
+
+        if (!name.equals(that.name)) return false;
+        if (!url.equals(that.url)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + url.hashCode();
+        return result;
+    }
 }
