@@ -4,7 +4,7 @@ angular.module('visuwallDirectives', ['ngResource'])
   .directive('refreshBuild', function ($timeout, Builds, $rootScope) {
     return function ($scope, element, attrs) {
 
-      var build, timeoutId;
+      var timeoutId;
 
       function updateTime() {
         var builds = $scope.builds;
@@ -39,7 +39,7 @@ angular.module('visuwallDirectives', ['ngResource'])
   .directive('refreshAnalysis', function ($timeout, Analyses, $rootScope) {
     return function ($scope, element, attrs) {
 
-      var analysis, timeoutId;
+      var timeoutId;
 
       function updateTime() {
         var analyses = $scope.analyses;
