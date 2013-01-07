@@ -41,13 +41,13 @@
                  ng-show="build.duration != '0s' && (build.successfulTestCount != 0 || build.failedTestCount != 0 || build.skippedTestCount != 0)">
               <ul style="margin-left: 10px;">
                 <li ng-hide="build.successfulTestCount == 0" class="test successful-test">
-                  {{build.successfulTestCount}}
+                  {{build.successfulTestCount}} success
                 </li>
                 <li ng-hide="build.failedTestCount == 0" class="test failed-test">
-                  {{build.failedTestCount}}
+                  {{build.failedTestCount}} failures
                 </li>
                 <li ng-hide="build.skippedTestCount == 0" class="test skipped-test">
-                  {{build.skippedTestCount}}
+                  {{build.skippedTestCount}} ignored
                 </li>
               </ul>
             </div>

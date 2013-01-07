@@ -22,9 +22,9 @@
       <ul class="analyses">
         <li ng-repeat="analysis in analyses" class="thumbnail analysis" style="margin-left:5px;"
             ng-show="analysis.metrics">
-          <div style="display: block" refresh-analysis ng-controller="AnalysesCtrl">
+          <div style="display: block; padding-bottom: 10px;" refresh-analysis ng-controller="AnalysesCtrl">
             <p class="analysis-title">
-              {{analysis.name}}
+              {{analysis.name}} <span class="last-analysis-date">last analysis date {{analysis.lastAnalysisDate}}</span>
             </p>
             <table id="metrics" style="width: 100%;">
               <tr ng-repeat="metric in analysis.metrics">

@@ -94,3 +94,8 @@
 .tendency--2-false {
   background-image: url(http://nemo.sonarsource.org/images/tendency/2-black.png);
 }
+
+.last-analysis-date {
+  color: #4682b4;
+  font-size: 20pt;
+}

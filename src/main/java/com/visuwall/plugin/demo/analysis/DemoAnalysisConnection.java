@@ -19,7 +19,7 @@ package com.visuwall.plugin.demo.analysis;
 import com.visuwall.api.domain.SoftwareProjectId;
 import com.visuwall.api.domain.quality.QualityMeasure;
 import com.visuwall.api.domain.quality.QualityMetric;
-import com.visuwall.api.domain.quality.QualityResult;
+import com.visuwall.api.domain.quality.QualityAnalysis;
 import com.visuwall.api.plugin.capability.MetricCapability;
 import com.visuwall.plugin.demo.DemoConnection;
 import com.visuwall.plugin.demo.SoftwareProjectIds;
@@ -29,35 +29,45 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.visuwall.plugin.demo.SoftwareProjectIds.earth;
+
 public class DemoAnalysisConnection extends DemoConnection implements MetricCapability {
 
     private Map<String, List<QualityMetric>> metricsByCategory = new HashMap<String, List<QualityMetric>>();
-    private Map<SoftwareProjectId, QualityResult> analyses = new HashMap<SoftwareProjectId, QualityResult>();
+    private Map<SoftwareProjectId, QualityAnalysis> analyses = new HashMap<SoftwareProjectId, QualityAnalysis>();
 
     public DemoAnalysisConnection() {
-        final QualityMetric locMetric = new QualityMetric.Builder().
-                withKey("loc").
-                withQualitative(true).
-                withName("Lines of code").
-                build();
-
         metricsByCategory.put("Category A", new ArrayList<QualityMetric>() {{
-            add(locMetric);
+            add(new QualityMetric.Builder().
+                    withKey("loc").
+                    withQualitative(true).
+                    withName("Lines of code").
+                    build());
+            add(new QualityMetric.Builder().
+                    withKey("complexity").
+                    withQualitative(true).
+                    withName("Complexity").
+                    build());
         }});
 
-        QualityMeasure loc = new QualityMeasure.Builder().
-                withFormattedValue("1.000").
-                withKey("loc").
-                withName("Lines of code").
-                withTendency(1).
-                withValue(1000D).
+        QualityAnalysis earthAnalysis = new QualityAnalysis.Builder().
+                add("loc", new QualityMeasure.Builder().
+                        withFormattedValue("1.000").
+                        withKey("loc").
+                        withName("Lines of code").
+                        withTendency(1).
+                        withValue(1000D).
+                        build()).
+                add("complexity", new QualityMeasure.Builder().
+                        withFormattedValue("1.6").
+                        withKey("complexity").
+                        withName("Complexity").
+                        withTendency(1).
+                        withValue(1.6).
+                        build()).
                 build();
 
-        QualityResult qualityResult = new QualityResult.Builder().
-                add("loc", loc).
-                build();
-
-        analyses.put(SoftwareProjectIds.earth, qualityResult);
+        analyses.put(earth, earthAnalysis);
     }
 
     @Override
@@ -66,7 +76,7 @@ public class DemoAnalysisConnection extends DemoConnection implements MetricCapa
     }
 
     @Override
-    public QualityResult analyzeQuality(SoftwareProjectId projectId, String... metrics) {
+    public QualityAnalysis analyzeQuality(SoftwareProjectId projectId, String... metrics) {
         return analyses.get(projectId);
     }
 

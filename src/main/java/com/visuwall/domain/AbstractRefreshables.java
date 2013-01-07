@@ -64,10 +64,10 @@ public abstract class AbstractRefreshables<T extends Refreshable> implements Ref
             @Override
             public T call() throws Exception {
                 if (refreshable.isRefreshable()) {
-                    LOG.info("["+wall.getName()+"] "+refreshable + " is refreshing ...");
+                    LOG.debug("["+wall.getName()+"] "+refreshable + " is refreshing ...");
                     refreshable.refresh();
                     removeRefreshableIfNecessary(refreshable);
-                    LOG.info("["+wall.getName()+"] "+refreshable + " is now up-to-date");
+                    LOG.debug("["+wall.getName()+"] "+refreshable + " is now up-to-date");
                 }
                 return refreshable;
             }

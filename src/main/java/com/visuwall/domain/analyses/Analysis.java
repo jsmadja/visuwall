@@ -17,10 +17,11 @@
 package com.visuwall.domain.analyses;
 
 import com.google.common.base.Predicate;
+import com.ocpsoft.pretty.time.PrettyTime;
 import com.visuwall.api.domain.SoftwareProjectId;
 import com.visuwall.api.domain.quality.QualityMeasure;
 import com.visuwall.api.domain.quality.QualityMetric;
-import com.visuwall.api.domain.quality.QualityResult;
+import com.visuwall.api.domain.quality.QualityAnalysis;
 import com.visuwall.api.exception.ProjectNotFoundException;
 import com.visuwall.api.plugin.capability.BasicCapability;
 import com.visuwall.api.plugin.capability.MetricCapability;
@@ -30,10 +31,7 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import static com.google.common.collect.Collections2.filter;
 
@@ -111,9 +109,9 @@ public class Analysis implements Comparable<Analysis>, Refreshable {
 
     private void refreshMetrics() {
         String[] metrics = selectedMetrics.toArray(new String[selectedMetrics.size()]);
-        QualityResult qualityResult = metricCapability.analyzeQuality(projectId, metrics);
-        if (qualityResult != null) {
-            for (QualityMeasure qualityMeasure : qualityResult) {
+        QualityAnalysis qualityAnalysis = metricCapability.analyzeQuality(projectId, metrics);
+        if (qualityAnalysis != null) {
+            for (QualityMeasure qualityMeasure : qualityAnalysis) {
                 if (accept(qualityMeasure)) {
                     insertMetric(qualityMeasure);
                 }
@@ -198,5 +196,10 @@ public class Analysis implements Comparable<Analysis>, Refreshable {
     @Override
     public boolean isLinkedTo(String url) {
         return this.connection.getUrl().equalsIgnoreCase(url);
+    }
+
+    public String getLastAnalysisDate() {
+        Locale.setDefault(Locale.ROOT);
+        return new PrettyTime().format(lastAnalysis.toDate());
     }
 }

@@ -20,10 +20,12 @@ import com.visuwall.api.domain.*;
 import com.visuwall.api.domain.build.BuildState;
 import com.visuwall.api.domain.build.BuildTime;
 import com.visuwall.api.domain.build.Commiter;
+import com.visuwall.api.domain.build.TestResult;
 import com.visuwall.api.exception.BuildIdNotFoundException;
 import com.visuwall.api.exception.BuildNotFoundException;
 import com.visuwall.api.exception.ProjectNotFoundException;
 import com.visuwall.api.plugin.capability.BuildCapability;
+import com.visuwall.api.plugin.capability.TestCapability;
 import com.visuwall.plugin.demo.DemoConnection;
 import org.joda.time.DateTime;
 
@@ -32,7 +34,7 @@ import java.util.*;
 import static com.visuwall.api.domain.build.BuildState.*;
 import static com.visuwall.plugin.demo.SoftwareProjectIds.*;
 
-public class DemoBuildConnection extends DemoConnection implements BuildCapability {
+public class DemoBuildConnection extends DemoConnection implements BuildCapability, TestCapability {
 
     private Map<SoftwareProjectId, BuildState> buildStates = new HashMap<SoftwareProjectId, BuildState>();
 
@@ -123,4 +125,14 @@ public class DemoBuildConnection extends DemoConnection implements BuildCapabili
         return "Demo Build Connection";
     }
 
+    @Override
+    public TestResult analyzeUnitTests(SoftwareProjectId projectId) {
+        TestResult testResult = new TestResult();
+        if(projectId.equals(earth)) {
+            testResult.setFailCount(3454);
+            testResult.setPassCount(1245);
+            testResult.setSkipCount(765);
+        }
+        return testResult;
+    }
 }

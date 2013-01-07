@@ -50,6 +50,7 @@ angular.module('visuwallDirectives', ['ngResource'])
               var analysisToUpdate = analyses[i];
               analysisToUpdate.name = remoteAnalysis.name;
               analysisToUpdate.metrics = remoteAnalysis.metrics;
+              analysisToUpdate.lastAnalysisDate = remoteAnalysis.lastAnalysisDate;
             });
             return;
           }

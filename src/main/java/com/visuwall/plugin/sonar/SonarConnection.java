@@ -22,7 +22,7 @@ import com.google.common.base.Strings;
 import com.visuwall.api.domain.SoftwareProjectId;
 import com.visuwall.api.domain.quality.QualityMeasure;
 import com.visuwall.api.domain.quality.QualityMetric;
-import com.visuwall.api.domain.quality.QualityResult;
+import com.visuwall.api.domain.quality.QualityAnalysis;
 import com.visuwall.api.exception.ProjectNotFoundException;
 import com.visuwall.api.plugin.capability.MetricCapability;
 import com.visuwall.client.sonar.Sonar;
@@ -129,7 +129,7 @@ public class SonarConnection implements MetricCapability {
     }
 
     @Override
-    public QualityResult analyzeQuality(SoftwareProjectId projectId, String... metrics) {
+    public QualityAnalysis analyzeQuality(SoftwareProjectId projectId, String... metrics) {
         checkConnected();
         checkSoftwareProjectId(projectId);
         if (metricsMap == null) {
@@ -138,23 +138,23 @@ public class SonarConnection implements MetricCapability {
         if (metrics.length == 0) {
             metrics = metricKeys;
         }
-        QualityResult qualityResult = new QualityResult();
+        QualityAnalysis qualityAnalysis = new QualityAnalysis();
         String artifactId = projectId.getProjectId();
         if (!Strings.isNullOrEmpty(artifactId)) {
             for (String key : metrics) {
-                addQualityMeasure(qualityResult, artifactId, key);
+                addQualityMeasure(qualityAnalysis, artifactId, key);
             }
         }
-        return qualityResult;
+        return qualityAnalysis;
     }
 
-    private void addQualityMeasure(QualityResult qualityResult, String artifactId, String key) {
+    private void addQualityMeasure(QualityAnalysis qualityAnalysis, String artifactId, String key) {
         try {
             Measure measure = sonarClient.findMeasure(artifactId, key);
             if (measure != null && measure.getValue() != null) {
                 SonarQualityMeasure qualityMeasure = QualityMeasures.asQualityMeasure(measure, key);
                 qualityMeasure.setName(metricsMap.get(key).getName());
-                qualityResult.add(key, asQualityMeasure(qualityMeasure));
+                qualityAnalysis.add(key, asQualityMeasure(qualityMeasure));
             }
         } catch (SonarMeasureNotFoundException e) {
             if (LOG.isDebugEnabled()) {

@@ -18,7 +18,7 @@ package com.visuwall.api.plugin.capability;
 
 import com.visuwall.api.domain.SoftwareProjectId;
 import com.visuwall.api.domain.quality.QualityMetric;
-import com.visuwall.api.domain.quality.QualityResult;
+import com.visuwall.api.domain.quality.QualityAnalysis;
 
 import java.util.List;
 import java.util.Map;
@@ -37,6 +37,6 @@ public interface MetricCapability extends BasicCapability {
      * @param metrics   You can specify the metrics you only want to analyze.
      * @return
      */
-    QualityResult analyzeQuality(SoftwareProjectId projectId, String... metrics);
+    QualityAnalysis analyzeQuality(SoftwareProjectId projectId, String... metrics);
 
 }

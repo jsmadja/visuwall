@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public final class QualityResult implements Iterable<QualityMeasure> {
+public final class QualityAnalysis implements Iterable<QualityMeasure> {
 
     private Map<String, QualityMeasure> measures = new HashMap<String, QualityMeasure>();
 
@@ -61,10 +61,10 @@ public final class QualityResult implements Iterable<QualityMeasure> {
             return this;
         }
 
-        public QualityResult build() {
-            QualityResult qualityResult = new QualityResult();
-            qualityResult.measures.putAll(measures);
-            return qualityResult;
+        public QualityAnalysis build() {
+            QualityAnalysis qualityAnalysis = new QualityAnalysis();
+            qualityAnalysis.measures.putAll(measures);
+            return qualityAnalysis;
         }
     }
 }
