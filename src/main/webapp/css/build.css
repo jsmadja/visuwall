@@ -20,7 +20,7 @@
 }
 
 .build-title {
-    font-size: 56pt;
+    font-size: 50pt;
     text-shadow: 0px 0px 9px #777;
     white-space: nowrap;
     overflow: hidden;
@@ -30,12 +30,12 @@
     margin-bottom: 0px;
 }
 
-.tests-box li {
+.tests-box td {
     height: 40px;
-    font-size: 32pt;
+    font-size: 28pt;
 }
 
-.tests-box ul {
+.tests-box tr {
     list-style-type: none;
     padding-top: 15px;
 }
@@ -61,9 +61,9 @@
     border-left: solid;
     float: right;
     line-height:26px;
-    padding-right: 10px;
+    padding-left: 10px;
     margin: 0px 0px 0px 0px;
-    width: 300px;
+    width: 270px;
 }
 
 .tests {
@@ -181,29 +181,13 @@
     100% { background: rgba(255,255,255,1); }
 }
 
-.status-label {
-    font-weight: bold;
-    font-size: 18pt;
-}
-
-.status-label-SUCCESS {
-    color: #18C418;
-}
-
-.status-label-FAILURE {
-    color: red;
-}
-
-.status-label-UNSTABLE {
-    color: #FFAC1F;
-}
-
-.status-label-BUILDING {
-    color: white;
-}
-
 .build-times {
     font-style: italic;
-    margin: 5px 0px 5px 0px;
-    font-size: 15pt;
+    margin: 15px 0px 5px 0px;
+    font-size: 20pt;
+}
+
+.test-count {
+  padding-left: 15px;
+  text-align: left;
 }

@@ -27,29 +27,24 @@
               <p class="build-title">
                 {{build.name}}
               </p>
-
               <p class="build-times">
                 <span ng-hide="build.duration == '0s'">{{build.duration}}</span> ~
                 {{build.lastBuildDate}}
               </p>
-
-              <p style="margin-top:8px;">
-                <span class="status status-label status-label-{{build.status}}">{{build.status}}</span>
-              </p>
             </div>
             <div class="tests-box"
                  ng-show="build.duration != '0s' && (build.successfulTestCount != 0 || build.failedTestCount != 0 || build.skippedTestCount != 0)">
-              <ul style="margin-left: 10px;">
-                <li ng-hide="build.successfulTestCount == 0" class="test successful-test">
-                  {{build.successfulTestCount}} success
-                </li>
-                <li ng-hide="build.failedTestCount == 0" class="test failed-test">
-                  {{build.failedTestCount}} failures
-                </li>
-                <li ng-hide="build.skippedTestCount == 0" class="test skipped-test">
-                  {{build.skippedTestCount}} ignored
-                </li>
-              </ul>
+              <table>
+                <tr ng-hide="build.successfulTestCount == 0" class="test successful-test">
+                  <td>{{build.successfulTestCount}}</td><td class="test-count">success</td>
+                </tr>
+                <tr ng-hide="build.failedTestCount == 0" class="test failed-test">
+                  <td>{{build.failedTestCount}}</td><td class="test-count">failures</td>
+                </tr>
+                <tr ng-hide="build.skippedTestCount == 0" class="test skipped-test">
+                  <td>{{build.skippedTestCount}}</td><td class="test-count">ignored</td>
+                </tr>
+              </table>
             </div>
           </div>
         </li>
