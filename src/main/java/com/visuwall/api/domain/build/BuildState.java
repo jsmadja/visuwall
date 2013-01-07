@@ -14,7 +14,7 @@
  *     limitations under the License.
  */
 
-package com.visuwall.api.domain;
+package com.visuwall.api.domain.build;
 
 public enum BuildState {
     BUILDING, UNKNOWN, SUCCESS, UNSTABLE, FAILURE, ABORTED

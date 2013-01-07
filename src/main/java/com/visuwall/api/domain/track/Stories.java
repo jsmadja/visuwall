@@ -14,7 +14,7 @@
  *     limitations under the License.
  */
 
-package com.visuwall.api.domain;
+package com.visuwall.api.domain.track;
 
 import com.google.common.base.Predicate;
 
@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static com.google.common.collect.Collections2.filter;
-import static com.visuwall.api.domain.Story.State.*;
+import static com.visuwall.api.domain.track.Story.State.*;
 
 public class Stories {
 

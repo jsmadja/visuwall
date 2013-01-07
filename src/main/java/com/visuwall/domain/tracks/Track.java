@@ -16,10 +16,10 @@
 
 package com.visuwall.domain.tracks;
 
-import com.visuwall.api.domain.Backlog;
-import com.visuwall.api.domain.Iteration;
+import com.visuwall.api.domain.track.Backlog;
+import com.visuwall.api.domain.track.Iteration;
 import com.visuwall.api.domain.SoftwareProjectId;
-import com.visuwall.api.domain.Stories;
+import com.visuwall.api.domain.track.Stories;
 import com.visuwall.api.exception.ProjectNotFoundException;
 import com.visuwall.api.plugin.capability.BasicCapability;
 import com.visuwall.api.plugin.capability.TrackCapability;

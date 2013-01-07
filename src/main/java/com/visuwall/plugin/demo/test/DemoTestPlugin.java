@@ -14,25 +14,25 @@
  *     limitations under the License.
  */
 
-package com.visuwall.plugin.teamcity;
+package com.visuwall.plugin.demo.test;
 
-import com.visuwall.api.domain.build.BuildTime;
-import com.visuwall.client.teamcity.resource.TeamCityBuild;
+import com.visuwall.plugin.demo.DemoPlugin;
 
-import java.util.Date;
+public class DemoTestPlugin extends DemoPlugin<DemoTestConnection> {
 
-class BuildTimes {
-
-    private BuildTimes() {
+    @Override
+    protected DemoTestConnection getConnection() {
+        return new DemoTestConnection();
     }
 
-    static BuildTime createFrom(TeamCityBuild teamcityBuild) {
-        BuildTime buildTime = new BuildTime();
-        Date finishDate = DateAdapter.parseDate(teamcityBuild.getFinishDate());
-        Date startDate = DateAdapter.parseDate(teamcityBuild.getStartDate());
-        long duration = finishDate.getTime() - startDate.getTime();
-        buildTime.setDuration(duration);
-        buildTime.setStartTime(startDate);
-        return buildTime;
+    @Override
+    public String getName() {
+        return "Demo Test Plugin";
     }
+
+    @Override
+    protected String getExpectedUrl() {
+        return "http://test.visuwall.ci";
+    }
+
 }

@@ -14,26 +14,39 @@
  *     limitations under the License.
  */
 
-package com.visuwall.api.domain;
+package com.visuwall.api.domain.build;
 
-import org.joda.time.DateMidnight;
+import com.google.common.base.Objects;
 
-public class Iteration {
+import java.util.Date;
 
-    private DateMidnight end;
+public class BuildTime {
 
-    private Stories stories = new Stories();
+    private Date startTime;
 
-    public Iteration(Stories stories, DateMidnight end) {
-        this.stories = stories;
-        this.end = end;
+    private long duration;
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public DateMidnight getEnd() {
-        return end;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public Stories getStories() {
-        return stories;
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this) //
+                .add("start time", startTime) //
+                .add("duration", duration) //
+                .toString();
     }
 }

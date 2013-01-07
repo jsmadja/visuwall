@@ -16,7 +16,7 @@
 
 package com.visuwall.plugin.pivotaltracker;
 
-import com.visuwall.api.domain.Backlog;
+import com.visuwall.api.domain.track.Backlog;
 import com.visuwall.api.domain.SoftwareProjectId;
 import com.visuwall.api.exception.ProjectNotFoundException;
 import com.visuwall.api.plugin.capability.BasicCapability;
@@ -72,11 +72,11 @@ public class PivotalTrackerConnection implements BasicCapability, TrackCapabilit
     }
 
     @Override
-    public com.visuwall.api.domain.Iteration getCurrentIteration(SoftwareProjectId projectId) throws ProjectNotFoundException {
+    public com.visuwall.api.domain.track.Iteration getCurrentIteration(SoftwareProjectId projectId) throws ProjectNotFoundException {
         Iteration currentIteration = currentIteration(projectId);
         DateMidnight end = new DateMidnight(currentIteration.getFinish());
         Stories stories = currentIteration.getStories();
-        return new com.visuwall.api.domain.Iteration(asVisuwallStories(stories), end);
+        return new com.visuwall.api.domain.track.Iteration(asVisuwallStories(stories), end);
     }
 
 

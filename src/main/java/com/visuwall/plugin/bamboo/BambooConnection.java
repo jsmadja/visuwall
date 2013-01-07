@@ -18,6 +18,10 @@ package com.visuwall.plugin.bamboo;
 
 import com.google.common.base.Preconditions;
 import com.visuwall.api.domain.*;
+import com.visuwall.api.domain.build.BuildState;
+import com.visuwall.api.domain.build.BuildTime;
+import com.visuwall.api.domain.build.Commiter;
+import com.visuwall.api.domain.build.TestResult;
 import com.visuwall.api.exception.BuildIdNotFoundException;
 import com.visuwall.api.exception.BuildNotFoundException;
 import com.visuwall.api.exception.ProjectNotFoundException;

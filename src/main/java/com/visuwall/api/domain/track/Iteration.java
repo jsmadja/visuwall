@@ -14,25 +14,26 @@
  *     limitations under the License.
  */
 
-package com.visuwall.plugin.teamcity;
+package com.visuwall.api.domain.track;
 
-import com.visuwall.api.domain.build.BuildTime;
-import com.visuwall.client.teamcity.resource.TeamCityBuild;
+import org.joda.time.DateMidnight;
 
-import java.util.Date;
+public class Iteration {
 
-class BuildTimes {
+    private DateMidnight end;
 
-    private BuildTimes() {
+    private Stories stories = new Stories();
+
+    public Iteration(Stories stories, DateMidnight end) {
+        this.stories = stories;
+        this.end = end;
     }
 
-    static BuildTime createFrom(TeamCityBuild teamcityBuild) {
-        BuildTime buildTime = new BuildTime();
-        Date finishDate = DateAdapter.parseDate(teamcityBuild.getFinishDate());
-        Date startDate = DateAdapter.parseDate(teamcityBuild.getStartDate());
-        long duration = finishDate.getTime() - startDate.getTime();
-        buildTime.setDuration(duration);
-        buildTime.setStartTime(startDate);
-        return buildTime;
+    public DateMidnight getEnd() {
+        return end;
+    }
+
+    public Stories getStories() {
+        return stories;
     }
 }

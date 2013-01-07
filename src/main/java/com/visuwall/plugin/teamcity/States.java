@@ -16,7 +16,7 @@
 
 package com.visuwall.plugin.teamcity;
 
-import com.visuwall.api.domain.BuildState;
+import com.visuwall.api.domain.build.BuildState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -16,10 +16,10 @@
 
 package com.visuwall.plugin.pivotaltracker;
 
-import com.visuwall.api.domain.BuildState;
+import com.visuwall.api.domain.build.BuildState;
 import com.visuwall.client.pivotaltracker.resource.Project;
 
-import static com.visuwall.api.domain.BuildState.*;
+import static com.visuwall.api.domain.build.BuildState.*;
 
 public class PivotalTrackerState {
 

@@ -21,6 +21,7 @@ import com.visuwall.plugin.bamboo.BambooPlugin;
 import com.visuwall.plugin.continuum.ContinuumPlugin;
 import com.visuwall.plugin.demo.analysis.DemoAnalysisPlugin;
 import com.visuwall.plugin.demo.build.DemoBuildPlugin;
+import com.visuwall.plugin.demo.test.DemoTestPlugin;
 import com.visuwall.plugin.demo.track.DemoTrackPlugin;
 import com.visuwall.plugin.deployit.DeployItPlugin;
 import com.visuwall.plugin.hudson.HudsonPlugin;
@@ -38,6 +39,7 @@ public class Plugins implements Iterable<VisuwallPlugin> {
     private static final Collection<VisuwallPlugin> plugins = new ConcurrentLinkedQueue<VisuwallPlugin>();
 
     public Plugins() {
+        plugins.add(new DemoTestPlugin());
         plugins.add(new DemoBuildPlugin());
         plugins.add(new DemoTrackPlugin());
         plugins.add(new DemoAnalysisPlugin());

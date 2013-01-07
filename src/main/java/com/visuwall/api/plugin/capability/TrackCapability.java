@@ -16,8 +16,8 @@
 
 package com.visuwall.api.plugin.capability;
 
-import com.visuwall.api.domain.Backlog;
-import com.visuwall.api.domain.Iteration;
+import com.visuwall.api.domain.track.Backlog;
+import com.visuwall.api.domain.track.Iteration;
 import com.visuwall.api.domain.SoftwareProjectId;
 import com.visuwall.api.exception.ProjectNotFoundException;
 

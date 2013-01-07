@@ -14,7 +14,7 @@
  *     limitations under the License.
  */
 
-package com.visuwall.api.domain;
+package com.visuwall.api.domain.build;
 
 import com.google.common.base.Objects;
 
@@ -23,7 +23,6 @@ public final class TestResult {
     private int failCount;
     private int passCount;
     private int skipCount;
-    private double coverage;
 
     public int getFailCount() {
         return failCount;
@@ -53,38 +52,29 @@ public final class TestResult {
         return passCount + skipCount + failCount;
     }
 
-    public double getCoverage() {
-        return coverage;
-    }
-
-    public void setCoverage(double coverage) {
-        this.coverage = coverage;
-    }
-
     @Override
     public String toString() {
-        return Objects.toStringHelper(this) //
-                .add("passCount", passCount) //
-                .add("skipCount", skipCount) //
-                .add("failCount", failCount) //
-                .add("totalCount", getTotalCount()) //
-                .add("coverage", coverage).toString();
+        return Objects.toStringHelper(this)
+                .add("passCount", passCount)
+                .add("skipCount", skipCount)
+                .add("failCount", failCount)
+                .add("totalCount", getTotalCount())
+                .toString();
     }
 
     @Override
     public boolean equals(Object o) {
         if (o instanceof TestResult) {
             TestResult t = (TestResult) o;
-            return passCount == t.passCount && //
-                    skipCount == t.skipCount && //
-                    failCount == t.failCount && //
-                    coverage == t.coverage;
+            return passCount == t.passCount &&
+                    skipCount == t.skipCount &&
+                    failCount == t.failCount;
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(passCount, skipCount, failCount, coverage);
+        return Objects.hashCode(passCount, skipCount, failCount);
     }
 }

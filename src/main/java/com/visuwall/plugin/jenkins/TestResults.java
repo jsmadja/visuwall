@@ -16,7 +16,7 @@
 
 package com.visuwall.plugin.jenkins;
 
-import com.visuwall.api.domain.TestResult;
+import com.visuwall.api.domain.build.TestResult;
 import com.visuwall.client.hudson.domain.HudsonTestResult;
 
 public class TestResults {

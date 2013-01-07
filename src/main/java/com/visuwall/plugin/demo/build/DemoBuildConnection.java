@@ -17,6 +17,9 @@
 package com.visuwall.plugin.demo.build;
 
 import com.visuwall.api.domain.*;
+import com.visuwall.api.domain.build.BuildState;
+import com.visuwall.api.domain.build.BuildTime;
+import com.visuwall.api.domain.build.Commiter;
 import com.visuwall.api.exception.BuildIdNotFoundException;
 import com.visuwall.api.exception.BuildNotFoundException;
 import com.visuwall.api.exception.ProjectNotFoundException;
@@ -26,7 +29,7 @@ import org.joda.time.DateTime;
 
 import java.util.*;
 
-import static com.visuwall.api.domain.BuildState.*;
+import static com.visuwall.api.domain.build.BuildState.*;
 import static com.visuwall.plugin.demo.SoftwareProjectIds.*;
 
 public class DemoBuildConnection extends DemoConnection implements BuildCapability {

@@ -16,7 +16,7 @@
 
 package com.visuwall.plugin.pivotaltracker;
 
-import com.visuwall.api.domain.BuildTime;
+import com.visuwall.api.domain.build.BuildTime;
 import com.visuwall.client.pivotaltracker.resource.Iteration;
 
 import java.util.Date;

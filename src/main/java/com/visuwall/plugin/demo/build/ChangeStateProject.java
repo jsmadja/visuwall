@@ -16,9 +16,9 @@
 
 package com.visuwall.plugin.demo.build;
 
-import com.visuwall.api.domain.BuildState;
-import com.visuwall.api.domain.BuildTime;
-import com.visuwall.api.domain.Commiter;
+import com.visuwall.api.domain.build.BuildState;
+import com.visuwall.api.domain.build.BuildTime;
+import com.visuwall.api.domain.build.Commiter;
 import com.visuwall.api.domain.SoftwareProjectId;
 
 import java.util.*;

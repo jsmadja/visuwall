@@ -17,6 +17,10 @@
 package com.visuwall.plugin.demo.track;
 
 import com.visuwall.api.domain.*;
+import com.visuwall.api.domain.track.Backlog;
+import com.visuwall.api.domain.track.Iteration;
+import com.visuwall.api.domain.track.Stories;
+import com.visuwall.api.domain.track.Story;
 import com.visuwall.api.exception.ProjectNotFoundException;
 import com.visuwall.api.plugin.capability.TrackCapability;
 import com.visuwall.plugin.demo.DemoConnection;
@@ -26,7 +30,7 @@ import org.joda.time.DateMidnight;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.visuwall.api.domain.Story.State.ACCEPTED;
+import static com.visuwall.api.domain.track.Story.State.ACCEPTED;
 
 public class DemoTrackConnection extends DemoConnection implements TrackCapability {
 

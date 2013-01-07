@@ -18,10 +18,10 @@ package com.visuwall.domain.builds;
 
 
 import com.ocpsoft.pretty.time.PrettyTime;
-import com.visuwall.api.domain.BuildState;
-import com.visuwall.api.domain.BuildTime;
+import com.visuwall.api.domain.build.BuildState;
+import com.visuwall.api.domain.build.BuildTime;
 import com.visuwall.api.domain.SoftwareProjectId;
-import com.visuwall.api.domain.TestResult;
+import com.visuwall.api.domain.build.TestResult;
 import com.visuwall.api.exception.BuildIdNotFoundException;
 import com.visuwall.api.exception.BuildNotFoundException;
 import com.visuwall.api.exception.ProjectNotFoundException;
@@ -35,8 +35,8 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import java.util.Date;
 import java.util.Locale;
 
-import static com.visuwall.api.domain.BuildState.BUILDING;
-import static com.visuwall.api.domain.BuildState.UNKNOWN;
+import static com.visuwall.api.domain.build.BuildState.BUILDING;
+import static com.visuwall.api.domain.build.BuildState.UNKNOWN;
 
 public class Build implements Comparable<Build>, Refreshable {
 

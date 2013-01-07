@@ -17,7 +17,7 @@
 package com.visuwall.api.plugin.capability;
 
 import com.visuwall.api.domain.SoftwareProjectId;
-import com.visuwall.api.domain.TestResult;
+import com.visuwall.api.domain.build.TestResult;
 
 public interface TestCapability extends BasicCapability {
 

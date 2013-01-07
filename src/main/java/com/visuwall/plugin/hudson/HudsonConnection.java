@@ -17,6 +17,10 @@
 package com.visuwall.plugin.hudson;
 
 import com.visuwall.api.domain.*;
+import com.visuwall.api.domain.build.BuildState;
+import com.visuwall.api.domain.build.BuildTime;
+import com.visuwall.api.domain.build.Commiter;
+import com.visuwall.api.domain.build.TestResult;
 import com.visuwall.api.exception.BuildIdNotFoundException;
 import com.visuwall.api.exception.BuildNotFoundException;
 import com.visuwall.api.exception.ProjectNotFoundException;
@@ -40,7 +44,7 @@ import java.util.*;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.visuwall.api.domain.BuildState.UNKNOWN;
+import static com.visuwall.api.domain.build.BuildState.UNKNOWN;
 import static com.visuwall.plugin.hudson.States.asVisuwallState;
 import static java.util.Arrays.asList;
 import static org.apache.commons.lang.StringUtils.isBlank;

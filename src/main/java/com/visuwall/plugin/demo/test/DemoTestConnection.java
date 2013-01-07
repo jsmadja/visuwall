@@ -14,39 +14,30 @@
  *     limitations under the License.
  */
 
-package com.visuwall.api.domain;
+package com.visuwall.plugin.demo.test;
 
-import com.google.common.base.Objects;
+import com.visuwall.api.domain.*;
+import com.visuwall.api.domain.build.TestResult;
+import com.visuwall.api.plugin.capability.TestCapability;
+import com.visuwall.plugin.demo.DemoConnection;
+import com.visuwall.plugin.demo.build.DemoBuildConnection;
 
-import java.util.Date;
+public class DemoTestConnection extends DemoBuildConnection implements TestCapability {
 
-public class BuildTime {
-
-    private Date startTime;
-
-    private long duration;
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setDuration(long duration) {
-        this.duration = duration;
-    }
-
-    public long getDuration() {
-        return duration;
+    public DemoTestConnection() {
     }
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this) //
-                .add("start time", startTime) //
-                .add("duration", duration) //
-                .toString();
+        return "Demo Test Connection";
+    }
+
+    @Override
+    public TestResult analyzeUnitTests(SoftwareProjectId projectId) {
+        TestResult testResult = new TestResult();
+        testResult.setFailCount(9708);
+        testResult.setPassCount(1234);
+        testResult.setSkipCount(6368);
+        return testResult;
     }
 }
