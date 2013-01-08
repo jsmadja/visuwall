@@ -29,6 +29,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
+import java.util.List;
 import java.util.Set;
 
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
@@ -49,7 +50,7 @@ public class AnalysesResource {
         Wall wall = Walls.get(wallName);
         Analyses analyses = wall.getAnalyses();
         LOG.debug("new analyses request from client for " + wall.getName() + " wall (" + analyses.count() + " analyses)");
-        Set<Analysis> allAnalyses = analyses.all();
+        List<Analysis> allAnalyses = analyses.all();
         return ok().entity(allAnalyses).build();
     }
 

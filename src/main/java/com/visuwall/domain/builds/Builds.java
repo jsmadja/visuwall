@@ -24,6 +24,9 @@ import com.visuwall.domain.walls.Wall;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 public class Builds extends AbstractRefreshables<Build> {
 
     private static final Logger LOG = LoggerFactory.getLogger(Builds.class);
@@ -46,4 +49,15 @@ public class Builds extends AbstractRefreshables<Build> {
         }
     }
 
+    public void sortByStatus() {
+        Collections.sort(refreshables, new Comparator<Build>() {
+            @Override
+            public int compare(Build b1, Build b2) {
+                if (b1.getStatus() == b2.getStatus()) {
+                    return b2.getNativeLastBuildDate().compareTo(b1.getNativeLastBuildDate());
+                }
+                return b2.getStatus().compareTo(b1.getStatus());
+            }
+        });
+    }
 }

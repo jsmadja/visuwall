@@ -29,6 +29,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
+import java.util.List;
 import java.util.Set;
 
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
@@ -49,7 +50,7 @@ public class TracksResource {
         Wall wall = Walls.get(wallName);
         Tracks tracks = wall.getTracks();
         LOG.debug("new tracks request from client for " + wall.getName() + " wall (" + tracks.count() + " tracks)");
-        Set<Track> allTracks = tracks.all();
+        List<Track> allTracks = tracks.all();
         return ok().entity(allTracks).build();
     }
 

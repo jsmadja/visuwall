@@ -117,6 +117,11 @@ public class Wall implements Runnable, Comparable<Wall> {
     }
 
     public Builds getBuilds() {
+        if(buildsShouldBeSortedByStatus()) {
+            builds.sortByStatus();
+        } else {
+            builds.sort();
+        }
         return builds;
     }
 
@@ -242,6 +247,10 @@ public class Wall implements Runnable, Comparable<Wall> {
     @Override
     public int compareTo(Wall wall) {
         return name.compareToIgnoreCase(wall.name);
+    }
+
+    public boolean buildsShouldBeSortedByStatus() {
+        return true;
     }
 }
 

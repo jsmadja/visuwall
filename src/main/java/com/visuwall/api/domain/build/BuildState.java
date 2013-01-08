@@ -17,5 +17,5 @@
 package com.visuwall.api.domain.build;
 
 public enum BuildState {
-    BUILDING, UNKNOWN, SUCCESS, UNSTABLE, FAILURE, ABORTED
+    BUILDING, SUCCESS, UNKNOWN, UNSTABLE, FAILURE, ABORTED
 }

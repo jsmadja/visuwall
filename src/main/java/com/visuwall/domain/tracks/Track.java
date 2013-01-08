@@ -27,7 +27,7 @@ import com.visuwall.domain.Refreshable;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.joda.time.DateMidnight;
 
-public class Track implements Comparable<Track>, Refreshable {
+public class Track implements Refreshable<Track> {
 
     private String name;
 

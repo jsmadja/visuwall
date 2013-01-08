@@ -19,7 +19,7 @@ package com.visuwall.domain;
 import com.visuwall.api.domain.SoftwareProjectId;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-public interface Refreshable {
+public interface Refreshable<T> extends Comparable<T> {
 
     String getName();
 

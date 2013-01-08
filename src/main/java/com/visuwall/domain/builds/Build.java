@@ -38,7 +38,7 @@ import java.util.Locale;
 import static com.visuwall.api.domain.build.BuildState.BUILDING;
 import static com.visuwall.api.domain.build.BuildState.UNKNOWN;
 
-public class Build implements Comparable<Build>, Refreshable {
+public class Build implements Refreshable<Build> {
 
     private BuildState status = BuildState.UNKNOWN;
     private String name;

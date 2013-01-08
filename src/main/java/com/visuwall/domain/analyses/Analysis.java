@@ -35,7 +35,7 @@ import java.util.*;
 
 import static com.google.common.collect.Collections2.filter;
 
-public class Analysis implements Comparable<Analysis>, Refreshable {
+public class Analysis implements Refreshable<Analysis> {
 
     private String name;
 

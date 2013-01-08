@@ -27,13 +27,13 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.concurrent.*;
 
-import static java.util.Collections.unmodifiableSet;
+import static java.util.Collections.unmodifiableList;
 
 public abstract class AbstractRefreshables<T extends Refreshable> implements Refreshables, Iterable<T> {
 
     private Connections connections = new Connections();
 
-    private Set<T> refreshables = new TreeSet<T>();
+    protected List<T> refreshables = new ArrayList<T>();
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractRefreshables.class);
 
@@ -108,8 +108,8 @@ public abstract class AbstractRefreshables<T extends Refreshable> implements Ref
     }
 
     @Override
-    public Set<T> all() {
-        return unmodifiableSet(refreshables);
+    public List<T> all() {
+        return unmodifiableList(refreshables);
     }
 
     @Override
@@ -163,4 +163,7 @@ public abstract class AbstractRefreshables<T extends Refreshable> implements Ref
         }
     }
 
+    public void sort() {
+        Collections.sort(refreshables);
+    }
 }
