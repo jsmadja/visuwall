@@ -29,7 +29,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
-import java.util.Set;
+import java.util.*;
 
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.ok;
@@ -65,8 +65,17 @@ public class BuildsResource {
         Wall wall = Walls.get(wallName);
         Builds builds = wall.getBuilds();
         LOG.debug("new builds request from client for " + wall.getName() + " wall (" + builds.count() + " builds)");
-        Set<Build> allBuilds = builds.all();
-        return ok().entity(allBuilds).build();
+        List<Build> sortedBuilds = new ArrayList<Build>(builds.all());
+        Collections.sort(sortedBuilds, new Comparator<Build>() {
+            @Override
+            public int compare(Build b1, Build b2) {
+                if(b1.getStatus() == b2.getStatus()) {
+                    return b2.getNativeLastBuildDate().compareTo(b1.getNativeLastBuildDate());
+                }
+                return b2.getStatus().compareTo(b1.getStatus());
+            }
+        });
+        return ok().entity(sortedBuilds).build();
     }
 
 

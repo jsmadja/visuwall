@@ -113,7 +113,7 @@
         <input type="text" name="softwareInfo" ng-model="connection.softwareInfo" disabled/>
       </div>
 
-        <div class="control-group" ng-show="connection.buildNames">
+      <div class="control-group" ng-show="connection.buildNames">
         <label>Builds</label>
         <select multiple ng-model="buildNames">
           <option value="{{buildName}}" ng-repeat="buildName in connection.buildNames">{{buildName}}</option>

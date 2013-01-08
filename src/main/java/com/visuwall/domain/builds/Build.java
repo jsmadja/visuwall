@@ -217,4 +217,8 @@ public class Build implements Comparable<Build>, Refreshable {
         }
         return false;
     }
+
+    public Date getNativeLastBuildDate() {
+        return lastBuildDate;
+    }
 }
