@@ -17,7 +17,6 @@
 package com.visuwall.domain.analyses;
 
 import com.google.common.base.Predicate;
-import com.ocpsoft.pretty.time.PrettyTime;
 import com.visuwall.api.domain.SoftwareProjectId;
 import com.visuwall.api.domain.quality.QualityMeasure;
 import com.visuwall.api.domain.quality.QualityMetric;
@@ -198,8 +197,4 @@ public class Analysis implements Refreshable<Analysis> {
         return this.connection.getUrl().equalsIgnoreCase(url);
     }
 
-    public String getLastAnalysisDate() {
-        Locale.setDefault(Locale.ROOT);
-        return new PrettyTime().format(lastAnalysis.toDate());
-    }
 }

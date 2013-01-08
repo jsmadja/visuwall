@@ -24,7 +24,7 @@
             ng-show="analysis.metrics">
           <div style="display: block; padding-bottom: 10px;" refresh-analysis ng-controller="AnalysesCtrl">
             <p class="analysis-title">
-              {{analysis.name}} <span class="last-analysis-date">last analysis date {{analysis.lastAnalysisDate}}</span>
+              {{analysis.name}}
             </p>
             <table id="metrics" style="width: 100%;">
               <tr ng-repeat="metric in analysis.metrics">
