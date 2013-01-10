@@ -50,7 +50,7 @@ public class TestResultBuilder {
         if ("SKIPPED".equals(status)) {
             unitTestsResult.setSkipCount(unitTestsResult.getSkipCount() + 1);
         }
-        if ("PASSED".equals(status)) {
+        if ("PASSED".equals(status) || "FIXED".equals(status)) {
             unitTestsResult.setPassCount(unitTestsResult.getPassCount() + 1);
         }
     }

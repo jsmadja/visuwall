@@ -2,6 +2,7 @@
 
 .idea
 target
+wall-cfg
 
 # Package Files #
 *.jar
