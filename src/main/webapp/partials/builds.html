@@ -28,8 +28,8 @@
                 {{build.name}}
               </p>
               <p class="build-times">
-                <span ng-hide="build.duration == '0s'">{{build.duration}}</span> ~
-                {{build.lastBuildDate}}
+                  {{build.lastBuildDate}} <span style="font-size:12pt" ng-hide="build.duration == '0s'">{{build.duration}}</span>
+
               </p>
             </div>
             <div class="tests-box"
